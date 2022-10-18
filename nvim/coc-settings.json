@@ -1,0 +1,40 @@
+{
+  "outline.autoPreview": true,
+  "suggest.noselect": true,
+  "coc.preferences.extensionUpdateCheck": "weekly",
+  "cursors.cancelKey": "<C-c>",
+  "list.insertMappings": {
+    "<C-c>": "do:exit",
+    "<Esc>": "do:exit"
+  },
+  "cursors.nextKey": "",
+  "cursors.previousKey": "",
+
+  "python.formatting.provider": "black",
+  "python.formatting.blackArgs": ["--line-length", "79"],
+  "python.formatting.blackPath": "/home/urayoru/miniconda3/envs/linter/bin/black",
+  "pyright.inlayHints.functionReturnTypes": false,
+  "pyright.inlayHints.variableTypes": false,
+  "python.linting.pydocstylePath": "/home/urayoru/miniconda3/envs/linter/bin/pydocstyle",
+  "python.linting.pydocstyleEnabled": false,
+  "python.linting.pydocstyleArgs": ["--ignore"," D100,D101,D103"],
+  "python.linting.pylamaPath": "/home/urayoru/miniconda3/envs/linter/bin/pylama",
+  "python.linting.pylamaEnabled": false,
+  "python.linting.pylamaArgs": [],
+  "python.linting.banditPath": "/home/urayoru/miniconda3/envs/linter/bin/bandit",
+  "python.linting.banditEnabled": false,
+  "python.linting.banditArgs": [],
+  "python.linting.pytypePath": "",
+  "python.linting.pytypeEnabled": true,
+  "python.linting.pytypeArgs": [],
+  "python.linting.flake8Path": "/home/urayoru/miniconda3/envs/linter/bin/flake8",
+  "python.linting.flake8Enabled": true,
+  "python.linting.flake8Args": [],
+  "python.linting.mypyPath": "",
+  "python.linting.mypyEnabled": true,
+  "python.linting.mypyArgs": [],
+
+  "sumneko-lua.enableNvimLuaDev": true,
+  "Lua.telemetry.enable": false,
+  "Lua.diagnostics.disable": ["missing-parameter"]
+}
