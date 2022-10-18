@@ -84,6 +84,15 @@ local plugins = function(use)
       require("plugins.configs.toggleterm")
     end,
   }
+  use {
+    'lukas-reineke/indent-blankline.nvim',
+    config = function()
+      require("plugins.configs.indentblankline")
+    end,
+  }
+
+  -- colorscheme
+  use 'folke/tokyonight.nvim'
 end
 
 

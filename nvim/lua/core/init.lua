@@ -6,6 +6,13 @@ vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
   end
 })
+vim.api.nvim_create_autocmd("Filetype", {
+  pattern = {"python"},
+  callback = function()
+    vim.opt.shiftwidth = 4
+    vim.opt.tabstop = 4
+  end
+})
 
 
 function ShowDocumentation()
@@ -16,24 +23,6 @@ function ShowDocumentation()
   end
 end
 vim.keymap.set('n', 'K', function() ShowDocumentation() end, { noremap = true, silent = true })
-
-vim.cmd([[
-
-" Get current cursor bypassing unicode"
-function! GetCursorChar()
-  return matchstr(getline("."), '\%'.col(".").'c.')
-endfunction
-
-let c='a'
-while c <= 'z'
-  exec "imap \e".c." <A-".c.">"
-  let c = nr2char(1+char2nr(c))
-endw
-
-highlight Pmenu None
-highlight SplashAuthor ctermfg=66 guifg=#6d8086
-
-]])
 
 local clip = '/mnt/c/Windows/System32/clip.exe'
 local win32yank = '/mnt/c/Windows/System32/win32yank.exe'
@@ -58,3 +47,23 @@ elseif vim.fn.executable(clip) then
     end
   })
 end
+
+vim.cmd([[
+
+" Get current cursor bypassing unicode"
+function! GetCursorChar()
+  return matchstr(getline("."), '\%'.col(".").'c.')
+endfunction
+
+let c='a'
+while c <= 'z'
+  exec "imap \e".c." <A-".c.">"
+  let c = nr2char(1+char2nr(c))
+endw
+
+highlight Pmenu None
+highlight SplashAuthor ctermfg=66 guifg=#6d8086
+
+syntax enable
+
+]])
