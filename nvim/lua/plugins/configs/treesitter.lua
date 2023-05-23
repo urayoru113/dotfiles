@@ -11,12 +11,6 @@ local options = {
   highlight = {
     enable = true,
   },
-  indent = {
-    enable = true
-  },
-  increment_section = {
-    enable = true
-  }
 }
 
 treesitter.setup(options)

@@ -33,6 +33,10 @@ local plugins = function(use)
     config = function()
       require "plugins.configs.treesitter"
     end,
+    run = function()
+      local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+      ts_update()
+    end,
   }
   use {
     'goolord/alpha-nvim',
@@ -77,9 +81,6 @@ local plugins = function(use)
     end
   }
   use { "akinsho/toggleterm.nvim", tag = '*',
-    setup = function()
-      require("core.utils").load_mappings("toggleterm")
-    end,
     config = function()
       require("plugins.configs.toggleterm")
     end,
@@ -90,7 +91,13 @@ local plugins = function(use)
       require("plugins.configs.indentblankline")
     end,
   }
-
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    config = function()
+      require("plugins.configs.lualine")
+    end,
+  }
   -- colorscheme
   use 'folke/tokyonight.nvim'
 end

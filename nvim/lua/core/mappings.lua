@@ -95,7 +95,6 @@ M.nvimtree = {
     {
       lhs = '<F2>',
       rhs = function()
-        _G.M.goto_next_page = true
         return '<CMD>NvimTreeToggle<CR>'
       end,
       opt = { noremap = true, expr = true },
@@ -122,12 +121,29 @@ M.cocnvim = {
       end,
       opt = { noremap = true }
     },
+    {
+      lhs = '[g',
+      rhs = '<Plug>(coc-diagnostic-prev)',
+      opt = { noremap = true, silent = true }
+    },
+    {
+      lhs = ']g',
+      rhs = '<Plug>(coc-diagnostic-next)',
+      opt = { noremap = true, silent = true }
+    },
   },
   x = {
     {
       lhs = '<C-n>',
       rhs = 'y/\\V<C-r>=escape(@", \'/\\\')<CR><CR>Ngn<Plug>(coc-cursors-range)ngn',
       opt = { noremap = true }
+    }
+  },
+  i = {
+    {
+      lhs = '<C-y>',
+      rhs = [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]],
+      opt = { noremap = true, silent = true, expr = true, replace_keycodes = false }
     }
   }
 }
@@ -143,5 +159,35 @@ M.aerial = {
 }
 
 M.toggleterm = {
+}
+
+M.python = {
+  n = {
+    {
+      lhs = '<F9>',
+      rhs = '<CMD>!python %<CR>',
+      opt = { noremap = true }
+    }
+  }
+}
+
+M.c = {
+  n = {
+    {
+      lhs = '<F9>',
+      rhs = '<CMD>!gcc %:p -o %:p:r && %:p:r<CR>',
+      opt = { noremap = true, silent = true }
+    }
+  }
+}
+
+M.cpp = {
+  n = {
+    {
+      lhs = '<F9>',
+      rhs = '<CMD>!g++ %:p -o %:p:r && %:p:r<CR>',
+      opt = { noremap = true, silent = true }
+    }
+  }
 }
 return M

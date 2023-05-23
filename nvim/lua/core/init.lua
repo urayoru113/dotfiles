@@ -1,34 +1,53 @@
 local utils = require("core.utils")
-local mappings = utils.load_config().mappings
+local autocmd = vim.api.nvim_create_autocmd
+
 utils.load_mappings("general")
 
-vim.api.nvim_create_autocmd("VimEnter", {
+autocmd("VimEnter", {
   callback = function()
   end
 })
-vim.api.nvim_create_autocmd("Filetype", {
-  pattern = {"python"},
+autocmd("Filetype", {
+  pattern = { "python" },
   callback = function()
     vim.opt.shiftwidth = 4
     vim.opt.tabstop = 4
+    utils.load_mappings("python")
+  end
+})
+autocmd("Filetype", {
+  pattern = { "c" },
+  callback = function()
+    utils.load_mappings('c')
+  end
+})
+autocmd("Filetype", {
+  pattern = { "cpp" },
+  callback = function()
+    utils.load_mappings('cpp')
   end
 })
 
 
-function ShowDocumentation()
-  if vim.fn.CocAction('hasProvider', 'hover') then
-    vim.fn.CocAction('doHover')
+-- Use K to show documentation in preview window.
+function _G.show_docs()
+  local cw = vim.fn.expand('<cword>')
+  if vim.fn.index({ 'vim', 'help' }, vim.bo.filetype) >= 0 then
+    vim.api.nvim_command('h ' .. cw)
+  elseif vim.api.nvim_eval('coc#rpc#ready()') then
+    vim.fn.CocActionAsync('doHover')
   else
-    vim.fn.feedkeys('K', 'in')
+    vim.api.nvim_command('!' .. vim.o.keywordprg .. ' ' .. cw)
   end
 end
-vim.keymap.set('n', 'K', function() ShowDocumentation() end, { noremap = true, silent = true })
+
+vim.keymap.set("n", "K", '<CMD>lua _G.show_docs()<CR>', { silent = true })
 
 local clip = '/mnt/c/Windows/System32/clip.exe'
 local win32yank = '/mnt/c/Windows/System32/win32yank.exe'
 if vim.fn.executable(win32yank) then
   vim.api.nvim_create_augroup('WSLYank', { clear = true })
-  vim.api.nvim_create_autocmd('TextYankPost', {
+  autocmd('TextYankPost', {
     group = 'WSLYank',
     pattern = '*',
     callback = function()
@@ -39,7 +58,7 @@ if vim.fn.executable(win32yank) then
   vim.keymap.set('x', 'p', '<ESC><ESC>:let @" = system("' .. win32yank .. ' -o --lf")<CR>gvp', { noremap = true })
 elseif vim.fn.executable(clip) then
   vim.api.nvim_create_augroup('WSLYank', { clear = true })
-  vim.api.nvim_create_autocmd('TextYankPost', {
+  autocmd('TextYankPost', {
     group = 'WSLYank',
     pattern = '*',
     callback = function()
@@ -63,6 +82,8 @@ endw
 
 highlight Pmenu None
 highlight SplashAuthor ctermfg=66 guifg=#6d8086
+highlight LineNrAbove ctermfg=Green guifg=#00ff00
+highlight LineNrBelow ctermfg=Red guifg=#ff0000
 
 syntax enable
 

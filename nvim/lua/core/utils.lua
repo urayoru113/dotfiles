@@ -1,12 +1,7 @@
 local M = {}
 
-M.load_config = function()
-  local config = require "core.default_config"
-  return config
-end
-
 M.load_mappings = function(name)
-  local mappings = M.load_config().mappings
+  local mappings = require "core.mappings"
   if mappings[name] == nil then
     error("Keymap '" .. name .. "' not found")
     return
@@ -40,9 +35,6 @@ M.alpha_icon_table = function(icon_name)
     error("Type error: " .. type(icon_name))
   end
   return icon_table
-end
-
-M.alpha_button = function()
 end
 
 return M

@@ -8,10 +8,9 @@ local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.n
 
 if vim.fn.isdirectory(install_path) == 0 then
   print("Cloning packer ..")
-  vim.fn.system({"git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path})
+  vim.fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
 
-  vim.cmd([[ packadd packer.nvim]])
+  vim.cmd([[ packadd packer.nvim ]])
   require("plugins")
   vim.cmd([[ PackerSync ]])
 end
-
