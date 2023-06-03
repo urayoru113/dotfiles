@@ -1,16 +1,21 @@
 _G.M = {}
 
-require("core")
-require("core.options")
-
-
-local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+local install_path = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 if vim.fn.isdirectory(install_path) == 0 then
-  print("Cloning packer ..")
-  vim.fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
-
-  vim.cmd([[ packadd packer.nvim ]])
-  require("plugins")
-  vim.cmd([[ PackerSync ]])
+	print("Cloning lazy ..")
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		install_path,
+	})
 end
+vim.opt.rtp:prepend(install_path)
+
+require("core")
+require("core.options")
+require("plugins")
+require("core.highlight")

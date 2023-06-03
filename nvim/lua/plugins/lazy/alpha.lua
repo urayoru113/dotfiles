@@ -1,8 +1,17 @@
-local present, alpha = pcall(require, "alpha")
-
-if present == nil then
-  return
-end
+local hours = {
+  [" 1"] = "",
+  [" 2"] = "",
+  [" 3"] = "",
+  [" 4"] = "",
+  [" 5"] = "",
+  [" 6"] = "",
+  [" 7"] = "",
+  [" 8"] = "",
+  [" 9"] = "",
+  ["10"] = "",
+  ["11"] = "",
+  ["12"] = "",
+}
 
 local icon_table = {
   "███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗",
@@ -18,42 +27,52 @@ local icon = {
   val = icon_table,
   opts = {
     position = "center",
-    hl = "WarningMsg",
+    hl = "DevIconPyo",
   }
 }
 
 local date = {
   type = "text",
-  val = vim.fn.strftime("  Today is %a %d %b %Y, have a nice day."),
+  val = function()
+    local date = os.date("%a %d %b %Y")
+    local datetime = hours[os.date("%l")] .. os.date(" %H:%M")
+    return {
+      "╭───────────    Today is " .. date .. ". ───────────╮",
+      "│                                                     │",
+      "└────────────────────── " .. datetime .. " ──────────────────────┘",
+    }
+  end,
   opts = {
     position = "center",
 
-    hl = "MoreMsg"
+    hl = "DevIconNix"
   }
 }
+
 
 local top = {
   type = "button",
   val = "  🞂 New file",
   on_press = function()
-    vim.fn.execute("enew | silent NvimTreeOpen")
+    vim.api.nvim_command("enew | silent NvimTreeOpen")
   end,
   opts = {
     position = "center",
-    hl = "tag",
+    hl = "DevIconOpus",
 
     shortcut = "[e]",
+
     cursor = 5,
     width = 50,
     align_shortcut = "right",
-    hl_shortcut = "Type",
+    hl_shortcut = "DevIconBzl",
 
-        keymap = {
-          'n',
-          'e',
-          ':enew | silent! NvimTreeOpen<CR>',
-          { noremap = true, silent = true, nowait = true }
-        }
+    keymap = {
+      'n',
+      'e',
+      ':enew | silent NvimTreeOpen<CR>',
+      { noremap = true, silent = true, nowait = true }
+    }
   }
 }
 
@@ -68,13 +87,13 @@ local body = {
       end,
       opts = {
         position = "center",
-        hl = "tag",
+        hl = "DevIconOpus",
 
         shortcut = "[f]",
         cursor = 5,
         width = 50,
         align_shortcut = "right",
-        hl_shortcut = "Type",
+        hl_shortcut = "DevIconBzl",
 
         keymap = {
           'n',
@@ -89,17 +108,17 @@ local body = {
       type = "button",
       val = "ﭯ  🞂 Recents",
       on_press = function()
-        vim.fn.execute("Telescope oldfiles")
+        vim.api.nvim_command("Telescope oldfiles")
       end,
       opts = {
         position = "center",
-        hl = "tag",
+        hl = "DevIconOpus",
 
         shortcut = "[r]",
         cursor = 5,
         width = 50,
         align_shortcut = "right",
-        hl_shortcut = "Type",
+        hl_shortcut = "DevIconBzl",
 
         keymap = {
           'n',
@@ -113,17 +132,17 @@ local body = {
       type = "button",
       val = "  🞂 Find word",
       on_press = function()
-        vim.fn.execute("Telescope live_grep")
+        vim.api.nvim_command("Telescope live_grep")
       end,
       opts = {
         position = "center",
-        hl = "tag",
+        hl = "DevIconOpus",
 
         shortcut = "[w]",
         cursor = 5,
         width = 50,
         align_shortcut = "right",
-        hl_shortcut = "Type",
+        hl_shortcut = "DevIconBzl",
 
         keymap = {
           'n',
@@ -135,19 +154,75 @@ local body = {
     },
     {
       type = "button",
-      val = "  🞂 Quit",
+      val = "󰦛  🞂 Last session",
       on_press = function()
-        vim.fn.execute("qall")
+        vim.api.nvim_command("SessionRestore")
       end,
       opts = {
         position = "center",
-        hl = "tag",
+        hl = "DevIconOpus",
+
+        shortcut = "[l]",
+        cursor = 5,
+        width = 50,
+        align_shortcut = "right",
+        hl_shortcut = "DevIconBzl",
+
+        keymap = {
+          'n',
+          'l',
+          ':SessionRestore<CR>',
+          { noremap = true, silent = true, nowait = true }
+        }
+      }
+    },
+    {
+      type = "button",
+      val = "  🞂 Colorschemes",
+      on_press = function()
+        local path = vim.fn.stdpath('config') .. '/lua/plugins/colorscheme'
+        for _, v in pairs(vim.fn.readdir(path)) do
+          require(vim.fn.fnamemodify(v, ':r'))
+        end
+        vim.api.nvim_command("Telescope colorscheme")
+      end,
+      opts = {
+        position = "center",
+        hl = "DevIconOpus",
+
+        shortcut = "[c]",
+        cursor = 5,
+        width = 50,
+        align_shortcut = "right",
+        hl_shortcut = "DevIconBzl",
+
+        keymap = {
+          'n',
+          'c',
+          [[:let b:path = stdpath('config') .. '/lua/plugins/colorscheme'
+            :for file in readdir(b:path) |
+              exec "lua require('" . fnamemodify(file, ':r') . "')" |
+            endfor
+            :Telescope colorscheme<CR>]],
+          { noremap = true, silent = true, nowait = true }
+        }
+      }
+    },
+    {
+      type = "button",
+      val = "  🞂 Quit",
+      on_press = function()
+        vim.api.nvim_command("qall")
+      end,
+      opts = {
+        position = "center",
+        hl = "DevIconOpus",
 
         shortcut = "[q]",
         cursor = 5,
         width = 50,
         align_shortcut = "right",
-        hl_shortcut = "Type",
+        hl_shortcut = "DevIconBzl",
 
         keymap = {
           'n',
@@ -165,7 +240,18 @@ local body = {
 
 local foooter = {
   type = "text",
-  val = "-- urayoru -- ",
+  val = function()
+    return "  neovim loaded " .. require("lazy").stats().loaded .. " plugins"
+  end,
+  opts = {
+    position = "center",
+    hl = { { "DevIconPpt", 0, 3 }, { "DevIconSig", 3, -1 } }
+  }
+}
+
+local copyright = {
+  type = "text",
+  val = "-- Copyright © urayoru -- ",
   opts = {
     position = "center",
     hl = "SplashAuthor"
@@ -182,7 +268,7 @@ local options = {
     top,
     { type = "padding", val = 1 },
     body,
-    { type = "padding", val = 3 },
+    { type = "padding", val = 1 },
     foooter,
   },
   opts = {
@@ -190,4 +276,13 @@ local options = {
   }
 }
 
-alpha.setup(options)
+local spec = {
+  'goolord/alpha-nvim',
+  dependencies = {
+    'nvim-telescope/telescope.nvim',
+    'nvim-tree/nvim-web-devicons',
+  },
+  opts = options,
+}
+
+return spec

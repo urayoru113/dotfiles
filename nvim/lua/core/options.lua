@@ -15,12 +15,12 @@ vim.opt.title = true
 vim.opt.ttyfast = true
 vim.opt.wrap = false
 
-vim.opt.backspace = {'indent', 'eol', 'start'}
+vim.opt.backspace = { 'indent', 'eol', 'start' }
 --vim.opt.colorcolumn = {80}
 vim.opt.complete:append('kspell')
 vim.opt.completeopt = "menu"
 vim.opt.encoding = 'utf-8'
-vim.opt.fileformats = {'unix', 'dos', 'mac'}
+vim.opt.fileformats = { 'unix', 'dos', 'mac' }
 vim.opt.laststatus = 2
 vim.opt.matchpairs:append('<:>')
 vim.opt.mouse = 'a'

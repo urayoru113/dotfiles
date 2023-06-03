@@ -1,10 +1,3 @@
-local present, toggleterm = pcall(require, "toggleterm")
-
-if present == nil then
-  return
-end
-
-
 local options = {
   size = function(term)
     if term.direction == "horizontal" then
@@ -21,6 +14,16 @@ local options = {
     border = "curved",
   },
 }
+
+
+local spec = {
+  "akinsho/toggleterm.nvim",
+  opts = options,
+  keys = "<F7>",
+  version = '*',
+}
+
+return spec
 
 --local Terminal = require('toggleterm.terminal').Terminal
 --local custom   = Terminal:new({
@@ -56,4 +59,3 @@ local options = {
 --  end,
 --  { noremap = true, silent = true })
 
-toggleterm.setup(options)
