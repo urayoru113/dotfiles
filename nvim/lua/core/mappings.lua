@@ -2,50 +2,18 @@ M = {}
 
 M.general = {
 	n = {
-		{
-			lhs = "<C-s>",
-			rhs = "<cmd>w<CR>",
-			opt = { noremap = true },
-		},
-		{
-			lhs = "<C-d>",
-			rhs = "yyp",
-		},
-		{
-			lhs = "<C-h>",
-			rhs = "<C-w>h",
-		},
-		{
-			lhs = "<C-j>",
-			rhs = "<C-w>j",
-		},
-		{
-			lhs = "<C-k>",
-			rhs = "<C-w>k",
-		},
-		{
-			lhs = "<C-l>",
-			rhs = "<C-w>l",
-		},
-		{
-			lhs = "<tab>",
-			rhs = "gt",
-		},
-		{
-			lhs = "<s-tab>",
-			rhs = "gT",
-		},
-		{
-			lhs = "/",
-			rhs = "ms/",
-		},
-		{
-			lhs = "?",
-			rhs = "ms?",
-		},
-		{
-			lhs = "Q",
-			rhs = function()
+		["<C-s>"] = { "<cmd>w<CR>", opt = { noremap = true } },
+		["<C-d>"] = { "yyp" },
+		["<C-h>"] = { "<C-w>h" },
+		["<C-j>"] = { "<C-w>j" },
+		["<C-k>"] = { "<C-w>k" },
+		["<C-l>"] = { "<C-w>l" },
+		["<tab>"] = { "gt" },
+		["<s-tab>"] = { "gT" },
+		["/"] = { "ms/" },
+		["?"] = { "ms?" },
+		["Q"] = {
+			function()
 				if vim.fn.tabpagenr("$") > 1 then
 					return "<CMD>tabclose<CR>"
 				else
@@ -57,48 +25,26 @@ M.general = {
 	},
 
 	["!"] = {
-		{
-			lhs = "<C-c>",
-			rhs = "<Esc>",
-		},
-		{
-			lhs = "<C-l>",
-			rhs = "<Delete>",
-		},
+		["<C-c>"] = { "<Esc>" },
+		["<C-l>"] = { "<Delete>" },
 	},
 
 	[""] = {
-		{
-			lhs = "<C-c>",
-			rhs = "<Esc>",
-		},
+		["<C-c>"] = { "<Esc>" },
 	},
 
 	t = {
-		{
-			lhs = "<C-h>",
-			rhs = "<C-w>h",
-		},
-		{
-			lhs = "<C-j>",
-			rhs = "<C-w>j",
-		},
-		{
-			lhs = "<C-k>",
-			rhs = "<C-w>k",
-		},
-		{
-			lhs = "<C-l>",
-			rhs = "<C-w>l",
-		},
+		["<C-h>"] = { "<C-w>h" },
+		["<C-j>"] = { "<C-w>j" },
+		["<C-k>"] = { "<C-w>k" },
+		["<C-l>"] = { "<C-w>l" },
 	},
 }
 
 M["nvim-tree"] = {
 	n = {
-		{
-			lhs = "<F2>",
-			rhs = function()
+		["<F2>"] = {
+			function()
 				return "<CMD>silent NvimTreeToggle<CR>"
 			end,
 			opt = { noremap = true, expr = true },
@@ -108,45 +54,23 @@ M["nvim-tree"] = {
 
 M.cocnvim = {
 	n = {
-		{
-			lhs = "<C-n>",
-			rhs = "<Plug>(coc-cursors-word)g*",
-			opt = { noremap = true },
-		},
-		{
-			lhs = "<leader><leader>",
-			rhs = "<Plug>(coc-cursors-position)",
-			opt = { noremap = true },
-		},
-		{
-			lhs = "<leader>f",
-			rhs = function()
+		["<C-n>"] = { "<Plug>(coc-cursors-word)g*", opt = { noremap = true } },
+		["<leader><leader>"] = { "<Plug>(coc-cursors-position)", opt = { noremap = true } },
+		["<leader>f"] = {
+			function()
 				vim.fn.CocAction("format")
 			end,
 			opt = { noremap = true },
 		},
-		{
-			lhs = "[g",
-			rhs = "<Plug>(coc-diagnostic-prev)",
-			opt = { noremap = true, silent = true },
-		},
-		{
-			lhs = "]g",
-			rhs = "<Plug>(coc-diagnostic-next)",
-			opt = { noremap = true, silent = true },
-		},
+		["[g"] = { "<Plug>(coc-diagnostic-prev)", opt = { noremap = true, silent = true } },
+		["]g"] = { "<Plug>(coc-diagnostic-next)", opt = { noremap = true, silent = true } },
 	},
 	x = {
-		{
-			lhs = "<C-n>",
-			rhs = "y/\\V<C-r>=escape(@\", '/\\')<CR><CR>Ngn<Plug>(coc-cursors-range)ngn",
-			opt = { noremap = true },
-		},
+		["<C-n>"] = { "y/\\V<C-r>=escape(@\", '/\\')<CR><CR>Ngn<Plug>(coc-cursors-range)ngn", opt = { noremap = true } },
 	},
 	i = {
-		{
-			lhs = "<C-y>",
-			rhs = [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]],
+		["<C-y>"] = {
+			[[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]],
 			opt = { noremap = true, silent = true, expr = true, replace_keycodes = false },
 		},
 	},
@@ -154,65 +78,50 @@ M.cocnvim = {
 
 M.aerial = {
 	n = {
-		{
-			lhs = "<F8>",
-			rhs = "<cmd>AerialToggle!<CR>",
-			opt = { noremap = true, silent = true },
-		},
+		["<F8>"] = { "<cmd>AerialToggle!<CR>", opt = { noremap = true, silent = true } },
 	},
 }
 
 M.lsp = {
 	n = {
-		{
-			lhs = "K",
-			rhs = vim.lsp.buf.hover,
-		},
-		{
-			lhs = "<leader>f",
-			rhs = function()
+		["K"] = { vim.lsp.buf.hover },
+		["<leader>f"] = {
+			function()
 				vim.lsp.buf.format({ async = true })
 			end,
 		},
-		{
-			lhs = "gd",
-			rhs = function()
+		["gd"] = {
+			function()
 				vim.lsp.buf.definition()
 			end,
 		},
-		{
-			lhs = "gD",
-			rhs = function()
+		["gD"] = {
+			function()
 				vim.lsp.buf.declaration()
 			end,
 		},
-		{
-			lhs = "gI",
-			rhs = function()
+		["gI"] = {
+			function()
 				vim.lsp.buf.implementation()
 			end,
 		},
-		{
-			lhs = "gr",
-			rhs = function()
+		["gr"] = {
+			function()
 				vim.lsp.buf.references()
 			end,
 		},
-		{
-			lhs = "<leader>rn",
-			rhs = function()
+		["<leader>rn"] = {
+			function()
 				vim.lsp.buf.rename()
 			end,
 		},
-		{
-			lhs = "[g",
-			rhs = function()
+		["[g"] = {
+			function()
 				vim.diagnostic.goto_prev()
 			end,
 		},
-		{
-			lhs = "]g",
-			rhs = function()
+		["]g"] = {
+			function()
 				vim.diagnostic.goto_next()
 			end,
 		},
@@ -221,9 +130,8 @@ M.lsp = {
 
 M["nvim-cmp"] = {
 	i = {
-		{
-			lhs = "<C-n>",
-			rhs = function()
+		["<C-n>"] = {
+			function()
 				local cmp = require("cmp")
 				if cmp.visible() then
 					cmp.select_next_item()
@@ -232,9 +140,8 @@ M["nvim-cmp"] = {
 				end
 			end,
 		},
-		{
-			lhs = "<C-p>",
-			rhs = function()
+		["<C-p>"] = {
+			function()
 				local cmp = require("cmp")
 				if cmp.visible() then
 					cmp.select_prev_item()
@@ -250,31 +157,19 @@ M.toggleterm = {}
 
 M.python = {
 	n = {
-		{
-			lhs = "<F9>",
-			rhs = "<CMD>!python %<CR>",
-			opt = { noremap = true },
-		},
+		["<F9>"] = { "<CMD>!python %<CR>", opt = { noremap = true } },
 	},
 }
 
 M.c = {
 	n = {
-		{
-			lhs = "<F9>",
-			rhs = "<CMD>!gcc %:p -o %:p:r && %:p:r<CR>",
-			opt = { noremap = true, silent = true },
-		},
+		["<F9>"] = { "<CMD>!gcc %:p -o %:p:r && %:p:r<CR>", opt = { noremap = true, silent = true } },
 	},
 }
 
 M.cpp = {
 	n = {
-		{
-			lhs = "<F9>",
-			rhs = "<CMD>!g++ %:p -o %:p:r && %:p:r<CR>",
-			opt = { noremap = true, silent = true },
-		},
+		["<F9>"] = { "<CMD>!g++ %:p -o %:p:r && %:p:r<CR>", opt = { noremap = true, silent = true } },
 	},
 }
 return M

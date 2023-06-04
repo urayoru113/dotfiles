@@ -4,17 +4,18 @@ if type(unpack) == nil then
 end
 
 M.load_mappings = function(name)
-	local mappings = require("core.mappings")
-	if mappings[name] == nil then
-		error("Keymap '" .. name .. "' not found")
-		return
-	end
-	local section_values = mappings[name]
-	for mode, maps in pairs(section_values) do
-		for _, map in pairs(maps) do
-			vim.keymap.set(mode, map.lhs, map.rhs, map.opt or {})
+	vim.schedule(function()
+		local mappings = require("core.mappings")
+		if mappings[name] == nil then
+			error("Keymap '" .. name .. "' not found")
+			return
 		end
-	end
+		for mode, sect in pairs(mappings[name]) do
+			for keybind, info in pairs(sect) do
+				vim.keymap.set(mode, keybind, info[1], info.opt or {})
+			end
+		end
+	end)
 end
 
 M.load_autocmds = function(name)
