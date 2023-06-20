@@ -22,11 +22,11 @@ function _G.show_docs()
 	end
 end
 
-vim.keymap.set("n", "K", "<CMD>lua _G.show_docs()<CR>", { silent = true })
+--vim.keymap.set("n", "K", "<CMD>lua _G.show_docs()<CR>", { silent = true })
 
 local clip = "/mnt/c/Windows/System32/clip.exe"
 local win32yank = "/mnt/c/Windows/System32/win32yank.exe"
-if vim.fn.executable(win32yank) then
+if vim.fn.executable(win32yank) == 1 then
 	vim.api.nvim_create_augroup("WSLYank", { clear = true })
 	autocmd("TextYankPost", {
 		group = "WSLYank",
@@ -35,10 +35,10 @@ if vim.fn.executable(win32yank) then
 			vim.fn.system(win32yank .. " -i --crlf", vim.fn.getreg('"'))
 		end,
 	})
-	vim.keymap.set("n", "p", ':let @" = system("' .. win32yank .. ' -o --lf")<CR>p', { noremap = true })
-	vim.keymap.set("n", "P", ':let @" = system("' .. win32yank .. ' -o --lf")<CR>P', { noremap = true })
+	vim.keymap.set("n", "p", ':let @" = system("' .. win32yank .. ' -o --lf")<CR>p', { noremap = true, silent=true })
+	vim.keymap.set("n", "P", ':let @" = system("' .. win32yank .. ' -o --lf")<CR>P', { noremap = true, silent=true })
 	vim.keymap.set("x", "p", '<ESC><ESC>:let @" = system("' .. win32yank .. ' -o --lf")<CR>gvp', { noremap = true })
-elseif vim.fn.executable(clip) then
+elseif vim.fn.executable(clip) == 1 then
 	vim.api.nvim_create_augroup("WSLYank", { clear = true })
 	autocmd("TextYankPost", {
 		group = "WSLYank",

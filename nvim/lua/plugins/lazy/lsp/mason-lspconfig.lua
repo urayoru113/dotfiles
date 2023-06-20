@@ -9,11 +9,18 @@ local providers = {
 		},
 	},
 	pyright = {
-		python = {
-			analysis = {
-				autoSearchPaths = true,
-				diagnosticMode = "workspace",
-				useLibraryCodeForTypes = true,
+		settings = {
+			python = {
+				analysis = {
+					autoSearchPaths = true,
+					diagnosticMode = "openFilesOnly",
+					useLibraryCodeForTypes = true,
+				},
+				pythonPath = (function()
+					if vim.fn.executable("pyenv") == 1 then
+						return vim.fn.system("pyenv which python"):sub(1, -2)
+					end
+				end)(),
 			},
 		},
 	},

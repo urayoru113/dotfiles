@@ -31,7 +31,7 @@ M.setup = function()
 			focusable = false,
 			max_width = 60,
 			border = "rounded",
-      scope = "cursor"
+			scope = "cursor",
 		},
 	}
 
@@ -39,17 +39,18 @@ M.setup = function()
 
 	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 		border = "rounded",
+		focusable = false,
 	})
 
 	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
 		border = "rounded",
 	})
 
-  vim.api.nvim_create_autocmd("CursorMoved", {
-    callback = function()
-      vim.diagnostic.open_float()
-    end
-  })
+	vim.api.nvim_create_autocmd("CursorMoved", {
+		callback = function()
+			vim.diagnostic.open_float()
+		end,
+	})
 end
 
 local function lsp_keymaps(bufnr)

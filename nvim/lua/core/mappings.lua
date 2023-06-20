@@ -12,7 +12,8 @@ M.general = {
 		["<s-tab>"] = { "gT" },
 		["/"] = { "ms/" },
 		["?"] = { "ms?" },
-		["Q"] = {
+		["Q"] = { "<CMD>q<CR>", opt = { noremap = true } },
+		["<C-q>"] = {
 			function()
 				if vim.fn.tabpagenr("$") > 1 then
 					return "<CMD>tabclose<CR>"
@@ -154,6 +155,12 @@ M["nvim-cmp"] = {
 }
 
 M.toggleterm = {}
+
+M["markdown-preview"] = {
+	n = {
+		["<F9>"] = { "<CMD>MarkdownPreviewToggle<CR>", opt = { noremap = true } },
+	},
+}
 
 M.python = {
 	n = {
