@@ -90,13 +90,6 @@ local options = {
 	view = {
 		width = 24,
 		adaptive_size = true,
-		mappings = {
-			list = {
-				--{ key = "t", action = "tabnew" },
-				--{ key = "<Tab>", action = "" },
-				--{ key = "<2-LeftMouse>", action = "edit" },
-			},
-		},
 	},
 	diagnostics = {
 		enable = true,

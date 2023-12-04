@@ -36,6 +36,15 @@ local providers = {
 			},
 		},
 	},
+	biome = {
+		settings = {},
+	},
+	docker_compose_language_service = {
+		settings = {},
+	},
+	dockerls = {
+		settings = {},
+	},
 }
 
 local options = function()

@@ -8,7 +8,7 @@ utils.load_autocmds("general")
 vim.g.python3_host_prog = vim.fn.system("which python")
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-
+vim.g.ftplugin_sql_omni_key = "<C-j>"
 
 -- Use K to show documentation in preview window.
 function _G.show_docs()

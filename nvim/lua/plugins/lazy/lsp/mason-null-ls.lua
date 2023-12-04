@@ -1,7 +1,10 @@
 local options = function()
 	return {
 		automatic_setup = true,
-		handlers = {},
+		handlers = {
+			sqlfluff = function() end,
+      standardjs = function() end,
+		},
 	}
 end
 
@@ -21,7 +24,12 @@ local spec = {
 		local null_ls = require("null-ls")
 		require("mason-null-ls").setup(opts)
 		null_ls.setup({
-			sources = {},
+			sources = {
+				null_ls.builtins.diagnostics.sqlfluff.with({
+					extra_args = { "--dialect", "mysql", "--exclude-rules", "LT02,LT09" },
+				}),
+        null_ls.builtins.formatting.standardjs
+			},
 		})
 	end,
 }
