@@ -1,9 +1,10 @@
 local spec = {
 	"iamcco/markdown-preview.nvim",
   init = function()
+    vim.g.mkdp_filetypes = { "markdown" }
     require("core.utils").load_mappings("markdown-preview")
   end,
-	build = "cd app && npm install",
+	build = "cd app && yarn install",
 	ft = "markdown",
 }
 

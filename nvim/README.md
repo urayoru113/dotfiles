@@ -1,5 +1,5 @@
 ## requirements
-- npm
+- yarn
 - unzip
 - curl
 - make
