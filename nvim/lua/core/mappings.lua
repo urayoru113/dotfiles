@@ -3,7 +3,6 @@ M = {}
 M.general = {
   n = {
     ["<C-s>"] = { "<cmd>w<CR>", opt = { noremap = true } },
-    ["<C-d>"] = { "yyp" },
     ["<C-h>"] = { "<C-w>h" },
     ["<C-j>"] = { "<C-w>j" },
     ["<C-k>"] = { "<C-w>k" },
