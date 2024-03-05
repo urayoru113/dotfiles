@@ -81,7 +81,7 @@ local body = {
   val = {
     {
       type = "button",
-      val = "  🞂 Find files",
+      val = "󰮗  🞂 Find files",
       on_press = function()
         vim.cmd([[Telescope find_files]])
       end,
@@ -106,7 +106,7 @@ local body = {
     },
     {
       type = "button",
-      val = "ﭯ  🞂 Recents",
+      val = "󰕁  🞂 Recents",
       on_press = function()
         vim.api.nvim_command("Telescope oldfiles")
       end,
@@ -130,7 +130,7 @@ local body = {
     },
     {
       type = "button",
-      val = "  🞂 Find word",
+      val = "󱀾  🞂 Find word",
       on_press = function()
         vim.api.nvim_command("Telescope live_grep")
       end,

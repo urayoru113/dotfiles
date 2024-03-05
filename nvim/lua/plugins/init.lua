@@ -1,17 +1,17 @@
 local plugins = {
-	{ import = "plugins.lazy" },
-	{ import = "plugins.lazy.lsp" },
-	{ import = "plugins.lazy.colorschemes" },
+  { import = "plugins.lazy" },
+  { import = "plugins.lazy.lsp" },
+  { import = "plugins.lazy.colorschemes" },
 }
 
 local options = {
-	install = {
-		colorscheme = { "moonlight", "tokyonight", "slate" },
-	},
-	change_detection = {
-		notify = false,
-		enabled = true,
-	},
+  install = {
+    colorscheme = { "moonlight", "tokyonight", "slate" },
+  },
+  change_detection = {
+    notify = false,
+    enabled = true,
+  },
 }
 
 require("lazy").setup(plugins, options)

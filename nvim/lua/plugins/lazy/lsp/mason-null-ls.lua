@@ -1,10 +1,6 @@
 local options = function()
 	return {
-		automatic_setup = true,
-		handlers = {
-			sqlfluff = function() end,
-      standardjs = function() end,
-		},
+		handlers = { function() end },
 	}
 end
 
@@ -18,7 +14,7 @@ local spec = {
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		"williamboman/mason.nvim",
-		"jose-elias-alvarez/null-ls.nvim",
+		"nvimtools/none-ls.nvim",
 	},
 	config = function(_, opts)
 		local null_ls = require("null-ls")
@@ -28,7 +24,10 @@ local spec = {
 				null_ls.builtins.diagnostics.sqlfluff.with({
 					extra_args = { "--dialect", "mysql", "--exclude-rules", "LT02,LT09" },
 				}),
-        null_ls.builtins.formatting.standardjs
+				-- null_ls.builtins.formatting.standardjs,
+				null_ls.builtins.code_actions.eslint_d,
+				null_ls.builtins.diagnostics.eslint_d,
+				null_ls.builtins.formatting.eslint_d,
 			},
 		})
 	end,

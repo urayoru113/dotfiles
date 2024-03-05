@@ -58,4 +58,3 @@ return spec
 --    custom_toggle()
 --  end,
 --  { noremap = true, silent = true })
-
