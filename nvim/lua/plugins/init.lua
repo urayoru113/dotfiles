@@ -17,4 +17,4 @@ local options = {
 require("lazy").setup(plugins, options)
 require("plugins.lsp").setup()
 
-vim.api.nvim_command("colorscheme tokyonight")
+vim.api.nvim_command("colorscheme onedark")

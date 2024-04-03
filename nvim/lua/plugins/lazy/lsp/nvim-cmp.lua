@@ -90,7 +90,7 @@ local options = function()
 
           local line = context.cursor_line
           local col = context.cursor.col
-          local char_before_cursor = string.sub(line, col - 1, col - 1)
+          local char_before_cursor = string.sub(line, col, col)
 
           if char_before_cursor == "." then
             if
@@ -111,7 +111,7 @@ local options = function()
           return true
         end,
       },
-      { name = "cmp_tabnine" },
+      --{ name = "cmp_tabnine" },
       { name = "buffer" },
       { name = "path" },
       { name = "copilot" },
@@ -159,6 +159,36 @@ local options = function()
         cmp.config.compare.order,
       },
     },
+    mapping = cmp.mapping.preset.insert({
+      ["<C-y>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Insert }),
+      ['<S-CR>'] = cmp.mapping.confirm({
+        behavior = cmp.ConfirmBehavior.Replace,
+        select = true,
+      }),
+      ["<C-e>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.abort()
+        else
+          fallback()
+        end
+      end, { 'i' }),
+      ["<C-n>"] = cmp.mapping(
+        function()
+          if cmp.visible() then
+            cmp.select_next_item()
+          else
+            cmp.complete()
+          end
+        end),
+      ["<C-p>"] = cmp.mapping(
+        function()
+          if cmp.visible() then
+            cmp.select_prev_item()
+          else
+            cmp.complete()
+          end
+        end)
+    })
   }
 end
 
@@ -200,7 +230,6 @@ local spec = {
     },
   },
   init = function()
-    require("core.utils").load_mappings("nvim-cmp")
   end,
   opts = options,
   config = function(_, opts)
@@ -231,7 +260,7 @@ local spec = {
 
     local tabnine = require("cmp_tabnine.config")
     tabnine:setup({
-      max_num_results = 3,
+      max_num_results = 0,
       show_prediction_strength = true,
     })
 
@@ -239,6 +268,9 @@ local spec = {
     copilot.setup({
       suggestion = { enabled = false },
       panel = { enabled = false },
+      filetypes = {
+        markdown = true,
+      }
     })
 
     local copilot_cmp = require("copilot_cmp")

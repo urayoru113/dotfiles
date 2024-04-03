@@ -24,6 +24,9 @@ local spec = {
         null_ls.builtins.diagnostics.sqlfluff.with({
           extra_args = { "--dialect", "mysql", "--exclude-rules", "LT02,LT09" },
         }),
+        null_ls.builtins.diagnostics.djlint.with({
+          filetypes = { "mustache" },
+        }),
       },
     })
   end,
