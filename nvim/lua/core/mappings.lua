@@ -90,14 +90,19 @@ M.lsp = {
         vim.lsp.buf.format({ async = true })
       end,
     },
+    ["<leader>a"] = {
+      function()
+        vim.lsp.buf.code_action()
+      end,
+    },
     ["gd"] = {
       function()
-        vim.lsp.buf.definition({ reuse_win = true })
+        vim.lsp.buf.definition()
       end,
     },
     ["gD"] = {
       function()
-        vim.lsp.buf.declaration({ reuse_win = true })
+        vim.lsp.buf.declaration()
       end,
     },
     ["gI"] = {
@@ -110,6 +115,21 @@ M.lsp = {
         vim.lsp.buf.references()
       end,
     },
+    ["<leader>wa"] = {
+      function()
+        vim.lsp.buf.add_workspace_folder()
+      end,
+    },
+    ["<leader>wr"] = {
+      function()
+        vim.lsp.buf.remove_workspace_folder()
+      end,
+    },
+    ["<leader>wl"] = {
+      function()
+        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+      end,
+    },
     ["<leader>rn"] = {
       function()
         vim.lsp.buf.rename()
@@ -117,37 +137,12 @@ M.lsp = {
     },
     ["gj"] = {
       function()
-        vim.diagnostic.goto_prev()
+        vim.diagnostic.goto_next()
       end,
     },
     ["gk"] = {
       function()
-        vim.diagnostic.goto_next()
-      end,
-    },
-  },
-}
-
-M["nvim-cmp"] = {
-  i = {
-    ["<C-n>"] = {
-      function()
-        local cmp = require("cmp")
-        if cmp.visible() then
-          cmp.select_next_item()
-        else
-          cmp.complete()
-        end
-      end,
-    },
-    ["<C-p>"] = {
-      function()
-        local cmp = require("cmp")
-        if cmp.visible() then
-          cmp.select_prev_item()
-        else
-          cmp.complete()
-        end
+        vim.diagnostic.goto_prev()
       end,
     },
   },
@@ -159,7 +154,10 @@ M.telescope = {
   n = {
     --["<leader>g"] = { "<CMD>Telescope live_grep<CR>", opt = { noremap = true } },
     ["<leader>ff"] = { "<CMD>Telescope find_files<CR>", opt = { noremap = true } },
-    ["<leader>fg"] = { ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>", opt = { noremap = true } },
+    ["<leader>fg"] = {
+      ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>",
+      opt = { noremap = true },
+    },
   },
 }
 

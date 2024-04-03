@@ -2,9 +2,28 @@ local providers = {
   lua_ls = {
     settings = {
       Lua = {
+        runtime = {
+          version = "LuaJIT"
+        },
+        completion = {
+          enable = false,
+          callSnippet = "both"
+        },
         diagnostics = {
           globals = { "vim" },
         },
+        workspace = {
+          checkThirdParty = false,
+          library = {
+            vim.env.VINRUNTIME,
+          }
+        },
+        telemetry = {
+          enable = false
+        },
+        hint = {
+          enable = true,
+        }
       },
     },
   },
@@ -12,15 +31,18 @@ local providers = {
     settings = {
       python = {
         analysis = {
-          autoSearchPaths = true,
-          diagnosticMode = "openFilesOnly",
-          useLibraryCodeForTypes = true,
+          autoImportCompletions = true,
+          disableOrganizeImports = true,
+          diagnosticMode = "workspace",
         },
         pythonPath = (function()
           if vim.fn.executable("pyenv") == 1 then
-            return vim.fn.system("pyenv which python"):sub(1, -2)
+            return vim.fn.system("echo -n `pyenv which python`")
+          else
+            return vim.fn.system("echo -n `which python`")
           end
         end)(),
+        venvPath = "",
       },
     },
   },
@@ -46,8 +68,11 @@ local providers = {
     init_options = {
       settings = {
         lint = {
+          ignore = { "S101" },
           args = {
+            "--fix",
             "--extend-select=B,S",
+            "--extend-per-file-ignores=test*:S101",
           },
         },
       },
@@ -64,7 +89,6 @@ local options = function()
 
   for k, v in pairs(providers) do
     v = vim.tbl_deep_extend("error", v, { capabilities = capabilities })
-    v.capabilities = capabilities
     handlers[k] = function()
       lspconfig[k].setup(v)
     end
