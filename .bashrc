@@ -148,6 +148,7 @@ fi
 # alias bashconfig="mate ~/.bashrc"
 # alias ohmybash="mate ~/.oh-my-bash"
 
+alias sikuli="java -jar ~/.local/share/applications/sikulixide-2.0.5.jar"
 
 export PATH=$PATH:$HOME/.bin
 export PYENV_ROOT="$HOME/.pyenv"
@@ -167,3 +168,5 @@ if command -v oh-my-posh > /dev/null
 then
   eval "$(oh-my-posh init bash --config https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/atomic.omp.json)"
 fi
+
+. "$HOME/.local/bin/env"
