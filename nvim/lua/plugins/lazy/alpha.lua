@@ -132,7 +132,7 @@ local body = {
       type = "button",
       val = "󱀾  🞂 Find word",
       on_press = function()
-        vim.api.nvim_command("Telescope live_grep")
+        vim.api.nvim_command("Telescope live_grep_args")
       end,
       opts = {
         position = "center",
@@ -147,7 +147,7 @@ local body = {
         keymap = {
           'n',
           'w',
-          ':Telescope live_grep<CR>',
+          ':Telescope live_grep_args<CR>',
           { noremap = true, silent = true, nowait = true }
         }
       }

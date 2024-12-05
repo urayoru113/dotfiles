@@ -3,14 +3,14 @@ local function restore_nvim_tree()
   if not ok then
     return
   end
-  api.tree.change_root_to_node(vim.fn.getcwd())
+  api.tree.change_root(vim.fn.getcwd())
   api.tree.toggle()
 end
 
 local options = {
   log_level = "error",
-  auto_restore_enabled = false,
-  auto_session_enable_last_session = true,
+  auto_save = true,
+  auto_restore = false,
   post_restore_cmds = {
     restore_nvim_tree,
   }
