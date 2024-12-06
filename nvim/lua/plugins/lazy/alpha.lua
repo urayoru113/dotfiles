@@ -27,7 +27,7 @@ local icon = {
   val = icon_table,
   opts = {
     position = "center",
-    hl = "DevIconPyo",
+    hl = "DevIconVimrc",
   }
 }
 
@@ -58,7 +58,7 @@ local top = {
   end,
   opts = {
     position = "center",
-    hl = "DevIconOpus",
+    hl = "DevIconFennel",
 
     shortcut = "[e]",
 
@@ -87,7 +87,7 @@ local body = {
       end,
       opts = {
         position = "center",
-        hl = "DevIconOpus",
+        hl = "DevIconFennel",
 
         shortcut = "[f]",
         cursor = 5,
@@ -112,7 +112,7 @@ local body = {
       end,
       opts = {
         position = "center",
-        hl = "DevIconOpus",
+        hl = "DevIconFennel",
 
         shortcut = "[r]",
         cursor = 5,
@@ -136,7 +136,7 @@ local body = {
       end,
       opts = {
         position = "center",
-        hl = "DevIconOpus",
+        hl = "DevIconFennel",
 
         shortcut = "[w]",
         cursor = 5,
@@ -160,7 +160,7 @@ local body = {
       end,
       opts = {
         position = "center",
-        hl = "DevIconOpus",
+        hl = "DevIconFennel",
 
         shortcut = "[l]",
         cursor = 5,
@@ -188,7 +188,7 @@ local body = {
       end,
       opts = {
         position = "center",
-        hl = "DevIconOpus",
+        hl = "DevIconFennel",
 
         shortcut = "[c]",
         cursor = 5,
@@ -216,7 +216,7 @@ local body = {
       end,
       opts = {
         position = "center",
-        hl = "DevIconOpus",
+        hl = "DevIconFennel",
 
         shortcut = "[q]",
         cursor = 5,
