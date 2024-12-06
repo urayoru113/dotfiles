@@ -64,7 +64,7 @@ local providers = {
 	dockerls = {
 		settings = {},
 	},
-	ruff_lsp = {
+	ruff = {
 		init_options = {
 			settings = {
 				lint = {
