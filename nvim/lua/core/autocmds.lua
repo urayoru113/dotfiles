@@ -41,6 +41,11 @@ M.general = {
 			utils.load_mappings("cpp")
 		end,
 	} },
+	{ "CursorMoved", {
+		callback = function()
+			vim.diagnostic.open_float()
+		end,
+	} },
 }
 
 M["nvim-tree"] = {
