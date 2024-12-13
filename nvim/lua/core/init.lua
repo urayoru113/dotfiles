@@ -103,12 +103,6 @@ local function lsp_setup()
 	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
 		border = "rounded",
 	})
-
-	vim.api.nvim_create_autocmd("CursorMoved", {
-		callback = function()
-			vim.diagnostic.open_float()
-		end,
-	})
 end
 
 vim.g.python3_host_prog = vim.fn.system("which python")
@@ -125,5 +119,3 @@ utils.load_autocmds("general")
 
 require("core.options")
 require("core.highlight")
-
---vim.keymap.set("n", "K", "<CMD>lua _G.show_docs()<CR>", { silent = true })

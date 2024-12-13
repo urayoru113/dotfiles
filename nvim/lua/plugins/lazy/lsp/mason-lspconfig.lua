@@ -65,6 +65,9 @@ local providers = {
 		settings = {},
 	},
 	ruff = {
+		on_attach = function(client)
+			client.server_capabilities.hoverProvider = false
+		end,
 		init_options = {
 			settings = {
 				lint = {
@@ -81,6 +84,7 @@ local providers = {
 	biome = {},
 	ts_ls = {},
 	html = {},
+	clangd = {},
 }
 
 local options = function()
