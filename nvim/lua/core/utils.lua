@@ -108,4 +108,28 @@ M.tbl_deep_merge = function(keep, orig, target)
 	return orig_copy
 end
 
+M.get_python_path = function()
+	if vim.fn.isdirectory(".venv") == 1 then
+		return vim.fn.getcwd() .. "/.venv/bin/python"
+	elseif vim.fn.filereadable("poetry.lock") == 1 then
+		return vim.fn.system("echo -n `poetry env info -e`")
+	elseif vim.fn.executable("pyenv") == 1 then
+		return vim.fn.system("echo -n `pyenv which python`")
+	else
+		return ""
+	end
+end
+
+M.get_venv_path = function(type)
+	if type == "python" then
+		if vim.fn.isdirectory(".venv") == 1 then
+			return vim.fn.getcwd() .. "/.venv"
+		elseif vim.fn.filereadable("poetry.lock") == 1 and vim.fn.executable("poetry") == 1 then
+			return vim.fn.system("echo -n `poetry env info -p`")
+		else
+			return vim.fn.getenv("VIRTUAL_ENV")
+		end
+	end
+end
+
 return M
