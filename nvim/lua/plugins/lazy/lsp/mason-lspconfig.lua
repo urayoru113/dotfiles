@@ -1,4 +1,7 @@
+local utils = require("core.utils")
+
 local providers = {
+	-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md
 	lua_ls = {
 		settings = {
 			Lua = {
@@ -35,26 +38,8 @@ local providers = {
 					disableOrganizeImports = true,
 					diagnosticMode = "workspace",
 				},
-				pythonPath = (function()
-					if vim.fn.executable("pyenv") == 1 then
-						return vim.fn.system("echo -n `pyenv which python`")
-					else
-						return vim.fn.system("echo -n `which python`")
-					end
-				end)(),
+				pythonPath = utils.get_python_path(),
 				venvPath = "",
-			},
-		},
-	},
-	pylsp = {
-		settings = {
-			pylsp = {
-				plugins = {
-					pycodestyle = {
-						ignore = { "W391" },
-						maxLineLength = 100,
-					},
-				},
 			},
 		},
 	},
@@ -70,19 +55,27 @@ local providers = {
 		end,
 		init_options = {
 			settings = {
+				--configuration = vim.fn.expand("%:p:h") .. "pyproject.toml",
+				configurationPreference = "filesystemFirst",
+				lineLength = 120,
 				lint = {
-					ignore = { "S101" },
-					args = {
-						"--fix",
-						"--extend-select=B,S",
-						"--extend-per-file-ignores=test*:S101",
+					extendSelect = {
+						"B", -- flake8-bugbear
+						"S", -- flake8-bandit
+						"E", -- Error
+						"W", -- Warning
+						"F", -- pyflakes
+						"PT", -- flake8-pytest-style
 					},
+					ignore = { "S101" }, -- https://docs.astral.sh/ruff/rules/assert/
+					--extendPerFileIgnores = {"test*:S101"}
 				},
 			},
 		},
 	},
 	biome = {},
 	ts_ls = {},
+	taplo = {},
 	html = {},
 	clangd = {},
 }
@@ -109,9 +102,6 @@ local spec = {
 		"williamboman/mason.nvim",
 		"hrsh7th/cmp-nvim-lsp",
 	},
-	init = function()
-		require("core.utils").load_mappings("lsp")
-	end,
 	opts = options,
 	config = function(_, opts)
 		require("mason-lspconfig").setup(opts)
