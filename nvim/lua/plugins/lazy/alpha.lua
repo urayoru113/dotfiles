@@ -27,7 +27,7 @@ local icon = {
   val = icon_table,
   opts = {
     position = "center",
-    hl = "DevIconVimrc",
+    hl = "DevIconMate",
   }
 }
 
@@ -58,7 +58,7 @@ local top = {
   end,
   opts = {
     position = "center",
-    hl = "DevIconFennel",
+    hl = "DevIconGz",
 
     shortcut = "[e]",
 
@@ -87,7 +87,7 @@ local body = {
       end,
       opts = {
         position = "center",
-        hl = "DevIconFennel",
+        hl = "DevIconGz",
 
         shortcut = "[f]",
         cursor = 5,
@@ -112,7 +112,7 @@ local body = {
       end,
       opts = {
         position = "center",
-        hl = "DevIconFennel",
+        hl = "DevIconGz",
 
         shortcut = "[r]",
         cursor = 5,
@@ -132,11 +132,11 @@ local body = {
       type = "button",
       val = "󱀾  🞂 Find word",
       on_press = function()
-        vim.api.nvim_command("Telescope live_grep_args")
+        vim.api.nvim_command("Telescope live_grep")
       end,
       opts = {
         position = "center",
-        hl = "DevIconFennel",
+        hl = "DevIconGz",
 
         shortcut = "[w]",
         cursor = 5,
@@ -147,7 +147,7 @@ local body = {
         keymap = {
           'n',
           'w',
-          ':Telescope live_grep_args<CR>',
+          ':Telescope live_grep<CR>',
           { noremap = true, silent = true, nowait = true }
         }
       }
@@ -160,7 +160,7 @@ local body = {
       end,
       opts = {
         position = "center",
-        hl = "DevIconFennel",
+        hl = "DevIconGz",
 
         shortcut = "[l]",
         cursor = 5,
@@ -188,7 +188,7 @@ local body = {
       end,
       opts = {
         position = "center",
-        hl = "DevIconFennel",
+        hl = "DevIconGz",
 
         shortcut = "[c]",
         cursor = 5,
@@ -216,7 +216,7 @@ local body = {
       end,
       opts = {
         position = "center",
-        hl = "DevIconFennel",
+        hl = "DevIconGz",
 
         shortcut = "[q]",
         cursor = 5,
