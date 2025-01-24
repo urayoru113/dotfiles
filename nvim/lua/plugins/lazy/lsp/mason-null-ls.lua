@@ -1,4 +1,5 @@
 local utils = require("core.utils")
+
 local options = function()
 	local null_ls = require("null-ls")
 	return {
@@ -7,7 +8,7 @@ local options = function()
 			mypy = function()
 				null_ls.register(null_ls.builtins.diagnostics.mypy.with({
 					command = (function()
-						local local_mypy_path = utils.get_venv_path("python") .. "/bin/mypy"
+						local local_mypy_path = utils.get_project_venv_path("python") .. "/bin/mypy"
 						if vim.fn.executable(local_mypy_path) == 1 then
 							return local_mypy_path
 						else

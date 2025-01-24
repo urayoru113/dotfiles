@@ -1,4 +1,7 @@
 local options = {
+  ensure_installed = {
+    "vimdoc",
+  },
   highlight = {
     enable = true,
   },
@@ -10,11 +13,9 @@ local options = {
 local spec = {
   "nvim-treesitter/nvim-treesitter",
   opts = options,
+  build = ":TSUpdate",
   config = function(_, opts)
     require("nvim-treesitter.configs").setup(opts)
-  end,
-  build = function()
-    require('nvim-treesitter.install').update({ with_sync = true })()
   end,
 }
 

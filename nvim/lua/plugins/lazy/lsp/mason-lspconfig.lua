@@ -38,8 +38,8 @@ local providers = {
           disableOrganizeImports = true,
           diagnosticMode = "workspace",
         },
-        pythonPath = utils.get_python_path(),
-        venvPath = "",
+        pythonPath = utils.get_project_python_path(),
+        venvPath = utils.get_project_venv_path("python"),
       },
     },
   },
@@ -113,9 +113,10 @@ local providers = {
             "RET505",  -- Allow unnecessary `elif` after `return` statement
             "D106",    -- Allow undocumented public nested class
             "D205",    -- No blank line required after summary
-            "PLW2901", -- Allow overwriting variables in loops },
+            "PLW2901", -- Allow overwriting variables in loops ,
           },
           unfixable = {
+            "F401",
             "F841", -- Unused local variable
             "F601", -- Dictionary key literal repeated
             "F602", -- Dictionary key repeated
@@ -124,12 +125,21 @@ local providers = {
         },
       },
     },
-    biome = {},
-    ts_ls = {},
-    taplo = {},
-    html = {},
-    clangd = {},
-  }
+  },
+  ts_ls = {
+    init_options = {
+      filetypes = {
+        "javascript",
+        "typescript",
+        "vue",
+      },
+    }
+  },
+  biome = {},
+  taplo = {},
+  html = {},
+  clangd = {},
+  bashls = {},
 }
 
 local options = function()

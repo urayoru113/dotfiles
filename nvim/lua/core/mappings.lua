@@ -2,7 +2,7 @@ M = {}
 
 M.general = {
   n = {
-    ["<C-s>"] = { "<cmd>w<CR>", opt = { noremap = true } },
+    ["<C-s>"] = { "<CMD>w<CR>", opt = { noremap = true } },
     ["<C-h>"] = { "<C-w>h" },
     ["<C-j>"] = { "<C-w>j" },
     ["<C-k>"] = { "<C-w>k" },
@@ -22,6 +22,7 @@ M.general = {
       end,
       opt = { noremap = true, expr = true },
     },
+    ["<F6>"] = { "<CMD>ToggleDebugMode<CR>" },
   },
 
   ["!"] = {
@@ -97,7 +98,7 @@ M.lsp = {
     },
     ["gd"] = {
       function()
-        vim.lsp.buf.definition()
+        vim.lsp.buf.definition({ reuse_win = false })
       end,
     },
     ["gD"] = {
@@ -158,6 +159,18 @@ M.telescope = {
       ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>",
       opt = { noremap = true },
     },
+  },
+}
+
+M.dap = {
+  n = {
+    ["<M-d>b"] = { "<CMD>DapToggleBreakpoint<CR>" },
+    ["<M-d>c"] = { "<CMD>DapContinue<CR>" },
+    ["<M-d>t"] = { "<CMD>DapTerminate<CR>" },
+    ["<M-d>i"] = { "<CMD>DapStepInto<CR>" },
+    ["<M-d>o"] = { "<CMD>DapStepOut<CR>" },
+    ["<M-d>v"] = { "<CMD>DapStepOver<CR>" },
+    ["<M-d>s"] = { "<CMD>DapShowLog<CR>" },
   },
 }
 
