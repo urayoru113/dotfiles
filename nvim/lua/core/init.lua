@@ -1,5 +1,4 @@
 local utils = require("core.utils")
-local config = require("core.config")
 
 local autocmd = vim.api.nvim_create_autocmd
 
@@ -70,11 +69,13 @@ local function vim_cmd()
 end
 
 local function lsp_setup()
-  for _, sign in ipairs(config.diagnostic.signs) do
+  local diagnostic_config = require("core.config.diagnostic")
+  local dap_config = require("core.config.dapconf")
+  for _, sign in ipairs(diagnostic_config.signs) do
     vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
   end
 
-  vim.diagnostic.config(config.diagnostic.config)
+  vim.diagnostic.config(diagnostic_config.config)
 
   vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
     border = "rounded",
@@ -84,12 +85,20 @@ local function lsp_setup()
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
     border = "rounded",
   })
+
+  for _, sign in ipairs(dap_config.signs) do
+    vim.fn.sign_define(sign.name, { texthl = sign.texthl, text = sign.text, numhl = "" })
+  end
 end
 
-vim.g.python3_host_prog = vim.fn.system("which python")
+_G.python_path = vim.fn.exepath("python")
+_G.venv_path = vim.fn.getenv("VIRTUAL_ENV")
+
+vim.g.python3_host_prog = _G.python_path
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.ftplugin_sql_omni_key = "<C-j>"
+
 
 share_clipboard()
 vim_cmd()

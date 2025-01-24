@@ -75,6 +75,7 @@ local options = function()
     cmp_tabnine = "[TN]",
     copilot = "[Co]",
     cmdline = "[CMD]",
+    dap = "[DAP]"
   }
   return {
     snippet = {
@@ -115,6 +116,7 @@ local options = function()
       { name = "buffer" },
       { name = "path" },
       { name = "copilot" },
+      { name = "dap" },
     },
     formatting = {
       fields = { "kind", "abbr", "menu" },
@@ -209,6 +211,7 @@ local spec = {
 
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-path",
+    "rcarriga/cmp-dap",
 
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-nvim-lua",
@@ -229,8 +232,6 @@ local spec = {
       "zbirenbaum/copilot-cmp",
     },
   },
-  init = function()
-  end,
   opts = options,
   config = function(_, opts)
     local cmp = require("cmp")
@@ -256,6 +257,12 @@ local spec = {
       }, {
         { name = "cmdline" },
       }),
+    })
+
+    cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
+      sources = {
+        { name = "dap" },
+      },
     })
 
     local tabnine = require("cmp_tabnine.config")
