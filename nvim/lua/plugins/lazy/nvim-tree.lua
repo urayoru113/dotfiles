@@ -80,7 +80,9 @@ local function on_attach(bufnr)
   vim.keymap.set("n", "<2-LeftMouse>", api.node.open.tab, opts("Open: New Tab"))
 
   api.events.subscribe(api.events.Event.TreeOpen, function()
-    vim.cmd("wincmd p")
+    if vim.o.filetype == "NvimTree" then
+      vim.cmd("wincmd p")
+    end
   end)
 end
 
@@ -88,11 +90,14 @@ local options = {
   sort_by = "case_sensitive",
   on_attach = on_attach,
   view = {
-    width = 24,
+    width = 36,
     adaptive_size = false,
   },
   diagnostics = {
     enable = true,
+    severity = {
+      min = vim.diagnostic.severity.WARN
+    }
   },
   renderer = {
     group_empty = true,

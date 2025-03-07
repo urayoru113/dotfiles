@@ -4,7 +4,7 @@ local spec = {
     vim.g.mkdp_filetypes = { "markdown" }
     require("core.utils").load_mappings("markdown-preview")
   end,
-	build = "cd app && yarn",
+	build = "cd app && npm install",
 	ft = "markdown",
 }
 

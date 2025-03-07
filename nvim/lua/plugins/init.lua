@@ -32,8 +32,6 @@ M.lazy = function()
 
 	require("lazy").setup(plugins, options)
 
-	--require("plugins.lsp").setup()
-
 	vim.api.nvim_command("colorscheme onedark")
 end
 

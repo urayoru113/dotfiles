@@ -37,12 +37,24 @@ end
 M.load_autocmds = function(name)
   local autocmds = require("core.autocmds")
   if autocmds[name] == nil then
-    error("Autocmd '" .. name("' not found"))
+    error("Autocmd '" .. name .. "' not found")
     return
   end
   local autocmd = vim.api.nvim_create_autocmd
   for _, cmd in pairs(autocmds[name]) do
     autocmd(unpack(cmd))
+  end
+end
+
+M.load_highlights = function(name)
+  local highlights = require("core.highlights")
+  if highlights[name] == nil then
+    error("highlight '" .. name .. "' not found")
+    return
+  end
+  local set_hl = vim.api.nvim_set_hl
+  for _, hl in pairs(highlights[name]) do
+    set_hl(unpack(hl))
   end
 end
 
@@ -108,7 +120,7 @@ M.tbl_deep_merge = function(keep, orig, target)
   -- Merge two tables.
   -- If key in target is number, target[key] will insert into orig
   if type(keep) ~= "boolean" then
-    error('invaild "keep" ' .. type(target))
+    error('invaild type "keep" ' .. type(target))
   end
   local orig_copy = M.tbl_deepcopy(orig)
   local target_copy = M.tbl_deepcopy(target)
@@ -135,10 +147,8 @@ M.get_project_python_path = function()
     return vim.fn.getcwd() .. "/.venv/bin/python"
   elseif vim.fn.filereadable("poetry.lock") == 1 then
     return vim.fn.system("echo -n `poetry env info -e`")
-  elseif vim.fn.executable("pyenv") == 1 then
-    return vim.fn.system("echo -n `pyenv which python`")
   else
-    return ""
+    return vim.fn.exepath("python")
   end
 end
 
@@ -150,8 +160,15 @@ M.get_project_venv_path = function(type)
     elseif vim.fn.filereadable("poetry.lock") == 1 and vim.fn.executable("poetry") == 1 then
       return vim.fn.system("echo -n `poetry env info -p`")
     else
-      return vim.fn.getenv("VIRTUAL_ENV")
+      local virtual_env = vim.fn.getenv("VIRTUAL_ENV")
+      if virtual_env ~= vim.NIL then
+        return virtual_env
+      else
+        return ""
+      end
     end
+  else
+    return ""
   end
 end
 

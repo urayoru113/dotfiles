@@ -22,7 +22,9 @@ local spec = {
   config = function(_, opts)
     local telescope = require("telescope")
     telescope.setup(opts)
-    telescope.load_extension("live_grep_args")
+    if vim.fn.executable("rg") == 1 then
+      telescope.load_extension("live_grep_args")
+    end
   end
 }
 

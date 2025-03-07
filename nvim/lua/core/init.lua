@@ -99,13 +99,12 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.ftplugin_sql_omni_key = "<C-j>"
 
-
 share_clipboard()
 vim_cmd()
 lsp_setup()
 
 utils.load_mappings("general")
 utils.load_autocmds("general")
+utils.load_highlights("general")
 
 require("core.options")
-require("core.highlight")
