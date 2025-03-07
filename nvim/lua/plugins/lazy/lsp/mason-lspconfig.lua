@@ -33,16 +33,37 @@ local providers = {
   pyright = {
     settings = {
       python = {
+        disableLanguageServices = true,
         analysis = {
           autoImportCompletions = true,
-          disableOrganizeImports = true,
+          disableOrganizeImports = false,
           diagnosticMode = "workspace",
+          diagnosticSeverityOverrides = {
+          }
         },
         pythonPath = utils.get_project_python_path(),
         venvPath = utils.get_project_venv_path("python"),
       },
     },
   },
+  -- basedpyright = {
+  --   settings = {
+  --     basedpyright = {
+  --       reportAny = false,
+  --       analysis = {
+  --         autoImportCompletions = true,
+  --         diagnosticMode = "workspace",
+  --         logLevel = "Warning",
+  --         diagnosticSeverityOverrides = {
+  --         }
+  --       },
+  --       disableOrganizeImports = false,
+  --       autoSearchPaths = true,
+  --       pythonPath = utils.get_project_python_path(),
+  --       venvPath = utils.get_project_venv_path("python"),
+  --     }
+  --   },
+  -- },
   docker_compose_language_service = {
     settings = {},
   },
@@ -144,11 +165,12 @@ local providers = {
 
 local options = function()
   local handlers = {}
-  local capabilities = require("cmp_nvim_lsp").default_capabilities()
   local lspconfig = require("lspconfig")
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = utils.tbl_deep_merge(true, require("cmp_nvim_lsp").default_capabilities(), capabilities)
 
   for k, v in pairs(providers) do
-    v = vim.tbl_deep_extend("error", v, { capabilities = capabilities })
+    v = vim.tbl_deep_extend("error", v, { capabilities = utils.tbl_deepcopy(capabilities) })
     handlers[k] = function()
       lspconfig[k].setup(v)
     end

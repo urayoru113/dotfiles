@@ -1,5 +1,7 @@
 M = {}
 
+local _, gitsigns = pcall(require, "gitsigns")
+
 M.general = {
   n = {
     ["<C-s>"] = { "<CMD>w<CR>", opt = { noremap = true } },
@@ -83,6 +85,24 @@ M.aerial = {
   },
 }
 
+M.lspsaga = {
+  n = {
+    ["K"] = { "<CMD>Lspsaga hover_doc<CR>" },
+    ["gd"] = { "<CMD>Lspsaga goto_definition<CR>" },
+    ["<leader>lf"] = { "<CMD>Lspsaga finder<CR>" },
+    ["<leader>rn"] = { function() vim.lsp.buf.rename() end },
+    ["gj"] = { "<CMD>Lspsaga diagnostic_jump_next<CR>" },
+    ["gk"] = { "<CMD>Lspsaga diagnostic_jump_prev<CR>" },
+    ["gp"] = { "<CMD>Lspsaga peek_definition<CR>" },
+    ["gi"] = { "<CMD>Lspsaga incoming_calls<CR>" },
+    ["go"] = { "<CMD>Lspsaga outgoing_calls<CR>" },
+    ["<leader>a"] = { "<CMD>Lspsaga code_action<CR>" },
+    ["<leader>o"] = { "<CMD>Lspsaga outline<CR>" },
+    ["<leader>F"] = { function() vim.lsp.buf.format({ async = true }) end
+    },
+  }
+}
+
 M.lsp = {
   n = {
     ["K"] = { vim.lsp.buf.hover },
@@ -153,11 +173,17 @@ M.toggleterm = {}
 
 M.telescope = {
   n = {
-    --["<leader>g"] = { "<CMD>Telescope live_grep<CR>", opt = { noremap = true } },
     ["<leader>ff"] = { "<CMD>Telescope find_files<CR>", opt = { noremap = true } },
     ["<leader>fg"] = {
-      ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>",
-      opt = { noremap = true },
+      function()
+        if vim.fn.executable("rg") == 1 then
+          return "<CMD>Telescope live_grep_args<CR>"
+        else
+          return "<CMD>Telescope live_grep<CR>"
+        end
+      end,
+      --":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>",
+      opt = { noremap = true, expr = true },
     },
   },
 }
@@ -178,6 +204,34 @@ M["markdown-preview"] = {
   n = {
     ["<F9>"] = { "<CMD>MarkdownPreviewToggle<CR>", opt = { noremap = true } },
   },
+}
+
+M.gitsigns = {
+  n = {
+    ["]c"] = {
+      function()
+        if vim.wo.diff then
+          vim.cmd.normal({ ']c', bang = true })
+        else
+          gitsigns.nav_hunk('next')
+        end
+      end,
+      opt = { noremap = true }
+    },
+    ["[c"] = {
+      function()
+        if vim.wo.diff then
+          vim.cmd.normal({ '[c', bang = true })
+        else
+          gitsigns.nav_hunk('prev')
+        end
+      end,
+      opt = { noremap = true }
+    },
+    ["<leader>hd"] = {
+      "<CMD>Gitsigns diffthis HEAD vertical=true<CR>"
+    }
+  }
 }
 
 M.python = {

@@ -1,7 +1,8 @@
+-- https://github.com/akinsho/bufferline.nvim
 local options = {
   options = {
     mode = 'tabs',
-
+    tab_size = 10,
     offsets = {
       {
         filetype = "NvimTree",
@@ -9,7 +10,10 @@ local options = {
         text_align = "center",
         highlight = "Directory",
         separator = true
-      }
+      },
+      indicator = {
+        style = 'underline'
+      },
     },
     separator_style = 'slant',
     show_tab_indicators = false,

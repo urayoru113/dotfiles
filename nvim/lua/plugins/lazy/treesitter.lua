@@ -7,7 +7,7 @@ local options = {
   },
   indent = {
     enable = true,
-  }
+  },
 }
 
 local spec = {

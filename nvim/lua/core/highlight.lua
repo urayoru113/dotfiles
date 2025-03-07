@@ -1,6 +1,0 @@
-vim.api.nvim_set_hl(0, 'SplashAuthor', {fg = '#6d8086'})
-vim.api.nvim_set_hl(0, 'Pmenu', {fg = 'none', bg = 'none'})
-vim.api.nvim_set_hl(0, 'LineNrAbove', {fg = '#00ffff'})
-vim.api.nvim_set_hl(0, 'LineNrBelow', {fg = '#ff0000'})
-vim.api.nvim_set_hl(0, 'LineNr', {fg = '#ffff00'})
-vim.api.nvim_set_hl(0, "CmpItemKindCopilot", {fg ="#6CC644"})
