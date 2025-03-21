@@ -143,10 +143,12 @@ end
 
 M.get_project_python_path = function()
   -- try to get project python path
-  if vim.fn.isdirectory(".venv") == 1 then
-    return vim.fn.getcwd() .. "/.venv/bin/python"
-  elseif vim.fn.filereadable("poetry.lock") == 1 then
-    return vim.fn.system("echo -n `poetry env info -e`")
+  if vim.fn.getenv("VIRTUAL_ENV") ~= vim.NIL then
+    return vim.fn.getenv("VIRTUAL_ENV") .. "/bin/python"
+  elseif vim.fn.filereadable("poetry.lock") == 1 and vim.fn.executable('poetry') == 1 then
+    return vim.trim(vim.fn.system("poetry env info -e"))
+  elseif vim.fn.executable("pyenv") == 1 and vim.fn.filereadable('.python-version') == 1 then
+    return vim.trim(vim.fn.system("pyenv which python"))
   else
     return vim.fn.exepath("python")
   end
@@ -155,17 +157,14 @@ end
 M.get_project_venv_path = function(type)
   -- try to get project venv path
   if type == "python" then
-    if vim.fn.isdirectory(".venv") == 1 then
-      return vim.fn.getcwd() .. "/.venv"
+    if vim.fn.getenv("VIRTUAL_ENV") ~= vim.NIL then
+      return vim.fn.getenv('VIRTUAL_ENV')
     elseif vim.fn.filereadable("poetry.lock") == 1 and vim.fn.executable("poetry") == 1 then
-      return vim.fn.system("echo -n `poetry env info -p`")
+      return vim.trim(vim.fn.system("poetry env info -p"))
+    elseif vim.fn.executable("pyenv") == 1 and vim.fn.filereadable('.python-version') == 1 then
+      return vim.trim(vim.fn.system("pyenv prefix"))
     else
-      local virtual_env = vim.fn.getenv("VIRTUAL_ENV")
-      if virtual_env ~= vim.NIL then
-        return virtual_env
-      else
-        return ""
-      end
+      return ""
     end
   else
     return ""
