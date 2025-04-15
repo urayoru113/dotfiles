@@ -68,6 +68,10 @@ local function vim_cmd()
   ]])
 end
 
+local function basic_setup()
+  vim.loader.enable()
+end
+
 local function lsp_setup()
   local diagnostic_config = require("core.config.diagnostic")
   local dap_config = require("core.config.dapconf")
@@ -99,6 +103,7 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.ftplugin_sql_omni_key = "<C-j>"
 
+basic_setup()
 share_clipboard()
 vim_cmd()
 lsp_setup()

@@ -75,7 +75,9 @@ local options = function()
     cmp_tabnine = "[TN]",
     copilot = "[Co]",
     cmdline = "[CMD]",
-    dap = "[DAP]"
+    dap = "[DAP]",
+    nvim_lsp_signature_help = "[SIG]",
+    tmux = "[TMUX]"
   }
   return {
     snippet = {
@@ -117,6 +119,7 @@ local options = function()
       { name = "path" },
       { name = "copilot" },
       { name = "dap" },
+      { name = 'nvim_lsp_signature_help' }
     },
     formatting = {
       fields = { "kind", "abbr", "menu" },
@@ -216,6 +219,8 @@ local spec = {
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-nvim-lua",
     "hrsh7th/cmp-cmdline",
+    "hrsh7th/cmp-nvim-lsp-signature-help",
+
 
     {
       "L3MON4D3/LuaSnip",
