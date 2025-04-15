@@ -103,6 +103,7 @@ local providers = {
             "RUF",   -- Ruff-specific rules
             "RSE",   -- flake8-raise
             "SIM",   -- flake8-simplify
+            "TC",    -- flake8-type-checking
             "TID",   -- flake8-tidy-imports
             "UP",    -- pyupgrade
             "W",     -- pycodestyle Warning
@@ -160,7 +161,13 @@ local providers = {
   taplo = {},
   html = {},
   clangd = {},
-  bashls = {},
+  bashls = {
+    filetypes = {
+      "bash",
+      "zsh",
+      "sh",
+    }
+  },
 }
 
 local options = function()
