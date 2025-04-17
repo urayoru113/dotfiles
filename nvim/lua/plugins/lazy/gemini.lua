@@ -6,7 +6,7 @@ local spec = {
     }
   },
   config = function(_, opts)
-    require('gemini').setup()
+    require("gemini").setup(opts)
   end
 }
 
