@@ -1,84 +1,9 @@
--- copy from https://github.com/onsails/lspkind.nvim/blob/master/lua/lspkind/init.lua
-local kind_presets = {
-  default = {
-    -- if you change or add symbol here
-    -- replace corresponding line in readme
-    Text = "󰉿",
-    Method = "󰆧",
-    Function = "󰊕",
-    Constructor = "",
-    Field = "󰜢",
-    Variable = "󰀫",
-    Class = "󰠱",
-    Interface = "",
-    Module = "",
-    Property = "󰜢",
-    Unit = "󰑭",
-    Value = "󰎠",
-    Enum = "",
-    Keyword = "󰌋",
-    Snippet = "",
-    Color = "󰏘",
-    File = "󰈙",
-    Reference = "󰈇",
-    Folder = "󰉋",
-    EnumMember = "",
-    Constant = "󰏿",
-    Struct = "󰙅",
-    Event = "",
-    Operator = "󰆕",
-    TypeParameter = "",
-  },
-  codicons = {
-    Text = "",
-    Method = "",
-    Function = "",
-    Constructor = "",
-    Field = "",
-    Variable = "",
-    Class = "",
-    Interface = "",
-    Module = "",
-    Property = "",
-    Unit = "",
-    Value = "",
-    Enum = "",
-    Keyword = "",
-    Snippet = "",
-    Color = "",
-    File = "",
-    Reference = "",
-    Folder = "",
-    EnumMember = "",
-    Constant = "",
-    Struct = "",
-    Event = "",
-    Operator = "",
-    TypeParameter = "",
-  },
-}
--- end copy
-
-local kind_icons = {
-  TabNine = "",
-  Copilot = "",
-}
+local lsp = require("core.config.lsp")
 
 local options = function()
   local cmp = require("cmp")
   local item_kind = require("cmp.types").lsp.CompletionItemKind
-  local kind_menus = {
-    nvim_lsp = "[LSP]",
-    luasnip = "[Snippet]",
-    buffer = "[Buf]",
-    path = "[Path]",
-    cmp_tabnine = "[TN]",
-    copilot = "[Co]",
-    cmdline = "[CMD]",
-    dap = "[DAP]",
-    nvim_lsp_signature_help = "[SIG]",
-    tmux = "[TMUX]"
-  }
+
   return {
     snippet = {
       expand = function(args)
@@ -114,21 +39,22 @@ local options = function()
           return true
         end,
       },
-      --{ name = "cmp_tabnine" },
+      { name = "gemini" },
+      { name = "codecompanion" },
+      { name = "copilot" },
       { name = "buffer" },
       { name = "path" },
-      { name = "copilot" },
       { name = "dap" },
       { name = 'nvim_lsp_signature_help' }
     },
     formatting = {
       fields = { "kind", "abbr", "menu" },
       format = function(entry, vim_item)
-        vim_item.kind = (kind_presets.default[vim_item.kind] or kind_icons[vim_item.kind] or "")
+        vim_item.kind = (lsp.kind_presets.default[vim_item.kind] or lsp.kind_icons[vim_item.kind] or "")
             .. " "
             .. vim_item.kind
             .. ":"
-        vim_item.menu = kind_menus[entry.source.name] or entry.source.name
+        vim_item.menu = lsp.kind_menus[entry.source.name] or entry.source.name
         if entry.source.name == "cmp_tabnine" then
           local detail = (entry.completion_item.labelDetails or {}).detail
           if detail and detail:find(".*%%.*") then
