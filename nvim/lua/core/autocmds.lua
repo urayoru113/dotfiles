@@ -1,7 +1,6 @@
 local M = {}
 
 local utils = require("core.utils")
-local has_lspsaga, _ = pcall(require, "lspsaga")
 
 M.general = {
   {
@@ -47,7 +46,7 @@ M.general = {
     "CursorMoved",
     {
       callback = function()
-        --if has_lspsaga then
+        --if utils.is_plugin_exist["lspsaga"] then
         --  vim.api.nvim_command("Lspsaga show_cursor_diagnostics ++unfocus")
         --else
         vim.diagnostic.open_float()

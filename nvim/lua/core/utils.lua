@@ -1,4 +1,5 @@
 local M = {}
+local has_plugin = {}
 
 if type(unpack) == nil then
   unpack = table.unpack
@@ -169,6 +170,14 @@ M.get_project_venv_path = function(type)
   else
     return ""
   end
+end
+
+M.is_plugin_exist = function(plugin_name)
+  if not has_plugin[plugin_name] then
+    print("XXD")
+    has_plugin[plugin_name], _ = pcall(require, plugin_name)
+  end
+  return has_plugin[plugin_name]
 end
 
 return M

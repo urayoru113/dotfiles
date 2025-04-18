@@ -5,4 +5,5 @@
 - make
 - libluajit>=5.1
 
+# optional
 - ripgrep

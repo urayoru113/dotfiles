@@ -1,4 +1,5 @@
 local spec = {
+  enabled = false,
   'kiddos/gemini.nvim',
   option = {
     completion = {
