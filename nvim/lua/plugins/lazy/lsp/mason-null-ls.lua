@@ -7,14 +7,14 @@ local options = function()
       function() end,
       mypy = function()
         null_ls.register(null_ls.builtins.diagnostics.mypy.with({
-          command = (function()
+          command = function()
             local local_mypy_path = utils.get_project_venv_path("python") .. "/bin/mypy"
             if vim.fn.executable(local_mypy_path) == 1 then
               return local_mypy_path
             else
               return "mypy"
             end
-          end)(),
+          end,
           extra_args = { "--ignore-missing-imports" },
         }))
       end,

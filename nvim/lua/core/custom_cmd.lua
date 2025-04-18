@@ -2,11 +2,11 @@ local M = {}
 
 local utils = require('core.utils')
 
-local has_dapui, dapui = pcall(require, "dapui")
-local has_nvim_tree, api = pcall(require, "nvim-tree.api")
 local dap = require('dap')
 
 M.dap = function()
+  local has_dapui, dapui = pcall(require, "dapui")
+  local has_nvim_tree, api = pcall(require, "nvim-tree.api")
   local is_debug_mode = false
 
   local dapui_open = function()

@@ -10,7 +10,7 @@ local options = function()
         require("luasnip").lsp_expand(args.body)
       end,
     },
-    sources = {
+    sources = cmp.config.sources({
       {
         name = "nvim_lsp",
         entry_filter = function(entry, context)
@@ -39,14 +39,14 @@ local options = function()
           return true
         end,
       },
-      { name = "gemini" },
+      { name = "parrot" },
       { name = "codecompanion" },
       { name = "copilot" },
       { name = "buffer" },
       { name = "path" },
       { name = "dap" },
       { name = 'nvim_lsp_signature_help' }
-    },
+    }),
     formatting = {
       fields = { "kind", "abbr", "menu" },
       format = function(entry, vim_item)
@@ -55,12 +55,6 @@ local options = function()
             .. vim_item.kind
             .. ":"
         vim_item.menu = lsp.kind_menus[entry.source.name] or entry.source.name
-        if entry.source.name == "cmp_tabnine" then
-          local detail = (entry.completion_item.labelDetails or {}).detail
-          if detail and detail:find(".*%%.*") then
-            vim_item.menu = vim_item.menu .. " " .. detail
-          end
-        end
         return vim_item
       end,
     },
@@ -76,7 +70,6 @@ local options = function()
       priority_weight = 2,
       comparators = {
         require("copilot_cmp.comparators").prioritize,
-        require("cmp_tabnine.compare"),
         -- Below is the default comparitor list and order for nvim-cmp
         cmp.config.compare.offset,
         -- cmp.config.compare.scopes, --this is commented in nvim-cmp too
@@ -155,13 +148,10 @@ local spec = {
     "saadparwaiz1/cmp_luasnip",
 
     {
-      "tzachar/cmp-tabnine",
-      build = "./install.sh",
-    },
-    {
       dependencies = "zbirenbaum/copilot.lua",
       "zbirenbaum/copilot-cmp",
     },
+    "frankroeder/parrot.nvim",
   },
   opts = options,
   config = function(_, opts)
@@ -194,12 +184,6 @@ local spec = {
       sources = {
         { name = "dap" },
       },
-    })
-
-    local tabnine = require("cmp_tabnine.config")
-    tabnine:setup({
-      max_num_results = 0,
-      show_prediction_strength = true,
     })
 
     local copilot = require("copilot")

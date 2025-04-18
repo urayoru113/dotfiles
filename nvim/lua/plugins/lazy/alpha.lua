@@ -1,30 +1,8 @@
-local hours = {
-  [" 1"] = "",
-  [" 2"] = "",
-  [" 3"] = "",
-  [" 4"] = "",
-  [" 5"] = "",
-  [" 6"] = "",
-  [" 7"] = "",
-  [" 8"] = "",
-  [" 9"] = "",
-  ["10"] = "",
-  ["11"] = "",
-  ["12"] = "",
-}
-
-local icon_table = {
-  "███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗",
-  "████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║",
-  "██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║",
-  "██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║",
-  "██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║",
-  "╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝",
-}
+local ui = require("core.config.ui")
 
 local icon = {
   type = "text",
-  val = icon_table,
+  val = ui.icon_table,
   opts = {
     position = "center",
     hl = "DevIconMate",
@@ -33,15 +11,7 @@ local icon = {
 
 local date = {
   type = "text",
-  val = function()
-    local date = os.date("%a %d %b %Y")
-    local datetime = hours[os.date("%l")] .. os.date(" %H:%M")
-    return {
-      "╭───────────    Today is " .. date .. ". ───────────╮",
-      "│                                                     │",
-      "└────────────────────── " .. datetime .. " ──────────────────────┘",
-    }
-  end,
+  val = ui.date,
   opts = {
     position = "center",
 
@@ -132,7 +102,11 @@ local body = {
       type = "button",
       val = "󱀾  🞂 Find word",
       on_press = function()
-        vim.api.nvim_command("Telescope live_grep")
+        if vim.fn.executable("rg") == 0 then
+          vim.api.nvim_command("Telescope grep_string")
+        else
+          vim.api.nvim_command("Telescope live_grep")
+        end
       end,
       opts = {
         position = "center",
@@ -147,8 +121,14 @@ local body = {
         keymap = {
           'n',
           'w',
-          ':Telescope live_grep<CR>',
-          { noremap = true, silent = true, nowait = true }
+          function()
+            if vim.fn.executable("rg") == 0 then
+              return ':Telescope grep_string<CR>'
+            else
+              return ':Telescope live_grep<CR>'
+            end
+          end,
+          { noremap = true, expr = true, silent = true, nowait = true }
         }
       }
     },
