@@ -1,5 +1,4 @@
 local spec = {
-  enabled = false,
   "olimorris/codecompanion.nvim",
   opts = {
     adapters = {
