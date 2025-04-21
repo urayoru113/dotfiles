@@ -1,13 +1,11 @@
 local spec = {
-  enabled = false,
   "yetone/avante.nvim",
   event = "VeryLazy",
   version = false, -- Never set this value to "*"! Never!
   opts = {
     provider = "gemini",
     gemini = {
-      endpoint = "http://10.17.49.25:3000/v1",
-      model = "gemini-2.5-pro-exp-03-25",
+      model = "gemini-2.0-flash",
       timeout = 30000, -- Timeout in milliseconds
       temperature = 0,
       max_tokens = 20480,

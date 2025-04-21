@@ -1,6 +1,7 @@
 local spec = {
-	"rcarriga/nvim-notify",
-	config = function()
-	end,
+  enabled = false,
+  "rcarriga/nvim-notify",
+  config = function()
+  end,
 }
 return spec
