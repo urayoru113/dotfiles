@@ -16,7 +16,6 @@ vim.opt.ttyfast = true
 vim.opt.wrap = false
 
 vim.opt.backspace = { 'indent', 'eol', 'start' }
---vim.opt.colorcolumn = {80}
 vim.opt.complete:append('kspell')
 vim.opt.completeopt = "menu"
 vim.opt.encoding = 'utf-8'
@@ -29,4 +28,4 @@ vim.opt.scrolloff = 8
 vim.opt.shiftwidth = 2
 vim.opt.softtabstop = 2
 vim.opt.tabstop = 2
-
+-- vim.opt.winborder = '◯,─,◯,│,◯,─,◯,│' Neovim 1.11 is not supported yet

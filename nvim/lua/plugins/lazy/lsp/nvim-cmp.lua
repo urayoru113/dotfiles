@@ -126,6 +126,8 @@ local ft_options = {
 }
 
 local spec = {
+  enabled = false,
+
   "hrsh7th/nvim-cmp",
 
   dependencies = {

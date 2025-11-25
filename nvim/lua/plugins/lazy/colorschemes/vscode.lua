@@ -1,5 +1,6 @@
 local spec = {
-  "Mofiqul/vscode.nvim"
+  'Mofiqul/vscode.nvim',
+  event = 'VeryLazy',
 }
 
 return spec

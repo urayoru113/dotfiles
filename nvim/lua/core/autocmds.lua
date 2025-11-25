@@ -1,91 +1,132 @@
 local M = {}
 
-local utils = require("core.utils")
+local utils = require('core.utils')
+local keymaps = require('core.keymaps')
+local filetree = require('core.config.filetree')
 
 M.general = {
   {
-    "Filetype",
+    'Filetype',
     {
-      pattern = { "python" },
-      callback = function()
-        vim.opt.shiftwidth = 4
-        vim.opt.tabstop = 4
-        utils.load_mappings("python")
+      pattern = { 'python', 'c', 'cpp', 'sh', 'lua' },
+      callback = function(e)
+        utils.load_mappings(keymaps[e.match])
       end,
     },
   },
   {
-    "Filetype",
-    {
-      pattern = { "javascript" },
-      callback = function()
-        vim.opt.shiftwidth = 4
-        vim.opt.tabstop = 4
-      end,
-    },
-  },
-  {
-    "Filetype",
-    {
-      pattern = { "c" },
-      callback = function()
-        utils.load_mappings("c")
-      end,
-    }
-  },
-  {
-    "Filetype",
-    {
-      pattern = { "cpp" },
-      callback = function()
-        utils.load_mappings("cpp")
-      end,
-    }
-  },
-  {
-    "CursorMoved",
+    'CursorMoved',
     {
       callback = function()
-        --if utils.is_plugin_exist["lspsaga"] then
-        --  vim.api.nvim_command("Lspsaga show_cursor_diagnostics ++unfocus")
+        --if package.loaded["lspsaga"] then
+        --  vim.cmd("Lspsaga show_cursor_diagnostics ++unfocus")
         --else
-        vim.diagnostic.open_float()
+        vim.schedule(vim.diagnostic.open_float)
         --end
       end,
-    }
+    },
   },
   {
-    "ColorScheme",
+    'ColorScheme',
     {
       callback = function()
-        utils.load_highlights("general")
-      end
-    }
+        utils.load_highlights('general') -- force my personal highlight
+      end,
+    },
+  },
+}
+
+M['nvim-tree'] = function()
+  local api = require('nvim-tree.api')
+  local startup_config = require('core.config.startup')
+  return {
+    {
+      'VimEnter',
+      {
+        callback = function(e)
+          if e.file == '' then
+            vim.cmd(startup_config.providers[startup_config.provider])
+          end
+          vim.cmd('NvimTreeOpen')
+        end,
+      },
+    },
+    {
+      'BufEnter',
+      {
+        callback = function()
+          if filetree.should_open and not api.tree.is_visible() then
+            api.tree.open()
+          end
+          if not filetree.should_open and api.tree.is_visible() then
+            api.tree.close()
+          end
+        end,
+      },
+    },
   }
-}
+end
 
-M["nvim-tree"] = {
-  {
-    "VimEnter",
+M['neo-tree'] = function()
+  local neo_tree_config = require('plugins.config.neo-tree')
+  local startup_config = require('core.config.startup')
+  return {
     {
-      callback = function(data)
-        if data.file == "" then
-          return
-        end
-        vim.api.nvim_command("NvimTreeOpen")
+      'VimEnter',
+      {
+        callback = function(e)
+          if e.file == '' and package.loaded[startup_config.provider] then
+            vim.cmd(startup_config.providers[startup_config.provider])
+          end
+          vim.cmd('Neotree action=show reveal')
+        end,
+      },
+    },
+    {
+      { 'TabEnter' },
+      {
+        callback = function()
+          if filetree.should_open and not neo_tree_config.is_neo_tree_visible() then
+            -- vim.cmd('Neotree action=focus reveal')
+            neo_tree_config.throttle_neotree_open() -- HACK: Here comes a with GrugFar
+          end
+          if not filetree.should_open and neo_tree_config.is_neo_tree_visible() then
+            vim.cmd('Neotree close')
+          end
+        end,
+      },
+    },
+  }
+end
+
+M['win32yank'] = {
+  {
+    'TextYankPost',
+    {
+      pattern = '*',
+      callback = function()
+        vim.fn.system('/mnt/c/Windows/System32/win32yank.exe' .. ' -i --crlf', vim.fn.getreg('"'))
       end,
     },
   },
+}
+
+M['dap-view'] = {
   {
-    "BufEnter",
+    'BufEnter',
     {
       callback = function()
-        if vim.fn.winnr("$") == 1 and vim.o.filetype == "NvimTree" then
-          vim.api.nvim_command("q")
+        local dapview = require('dap-view')
+        local util = require('dap-view.util')
+        local state = require('dap-view.state')
+        local dap = require('plugins.config.dap')
+        if dap.is_debug_mode then
+          if not util.is_win_valid(state.winnr) then
+            dapview.open()
+          end
         end
       end,
     },
   },
 }
-
 return M
