@@ -1,0 +1,92 @@
+local utils = require('core.utils')
+local autocmds = require('core.autocmds')
+
+local specs = {
+  {
+    enabled = false,
+    'rcarriga/nvim-dap-ui',
+    event = 'VeryLazy',
+    dependencies = {
+      'mfussenegger/nvim-dap',
+      'nvim-neotest/nvim-nio',
+    },
+    opts = {
+      force_buffers = true,
+    },
+  },
+  {
+    'theHamsta/nvim-dap-virtual-text',
+    opts = {},
+  },
+  {
+    'igorlfs/nvim-dap-view',
+    cond = true,
+    event = 'VeryLazy',
+    init = function()
+      utils.load_autocmds('DapView', autocmds['dap-view'])
+    end,
+    opts = {
+      follow_tab = true,
+      windows = {
+        height = 0.2,
+        position = 'below',
+      },
+    },
+  },
+  {
+    enabled = false,
+    'mfussenegger/nvim-dap-python',
+    event = 'VeryLazy',
+    dependencies = {
+      'mfussenegger/nvim-dap',
+    },
+    config = function()
+      local dap_python = require('dap-python')
+      dap_python.setup(utils.get_project_python_path())
+      dap_python.test_runner = 'pytest'
+    end,
+  },
+  {
+    'jay-babu/mason-nvim-dap.nvim',
+    event = 'VeryLazy',
+    dependencies = {
+      'williamboman/mason.nvim',
+      'mfussenegger/nvim-dap',
+    },
+    init = function()
+      require('plugins.config.dap').setup()
+    end,
+    opts = {
+      handlers = {
+        function(config)
+          -- all sources with no handler get passed here
+
+          -- Keep original functionality
+          require('mason-nvim-dap').default_setup(config)
+        end,
+        python = function(config)
+          config.configurations = {
+            {
+              type = 'python',
+              request = 'launch',
+              name = 'debugpy',
+              pythonPath = utils.get_project_python_path(),
+              module = 'pytest',
+              args = { '-s', '--show-capture=stdout', '${file}' },
+              console = 'integratedTerminal',
+              --console = "externalTerminal"
+            },
+          }
+          require('mason-nvim-dap').default_setup(config)
+          --local dap = require('dap')
+          --dap.defaults.fallback.external_terminal = {
+          --  command = "tmux",
+          --  args = { "split-window", "-h", "-d", "-p", "35" }
+          --}
+        end,
+      },
+    },
+  },
+}
+
+return specs

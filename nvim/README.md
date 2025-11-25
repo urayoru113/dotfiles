@@ -3,7 +3,7 @@
 - unzip
 - curl
 - make
-- libluajit>=5.1
+- libluajit>=5.2
 
 # optional
 - ripgrep
