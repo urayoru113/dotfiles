@@ -23,6 +23,22 @@ M.general = {
       end,
       opts = { noremap = true, expr = true, desc = 'Close tab' },
     },
+    ['<C-t>'] = {
+      function()
+        local word = vim.fn.expand('<cword>')
+        local revert = {
+          ['true'] = 'false',
+          ['false'] = 'true',
+          ['True'] = 'False',
+          ['False'] = 'True',
+        }
+        if revert[word] ~= nil then
+          return 'ciw' .. revert[word] .. '<ESC>b'
+        end
+        return ''
+      end,
+      opts = { expr = true },
+    },
   },
 
   ['!'] = {
@@ -265,6 +281,12 @@ M.fastdap = {
     ['o'] = { '<CMD>DapStepOut<CR>' },
     ['v'] = { '<CMD>DapStepOver<CR>' },
     ['s'] = { '<CMD>DapShowLog<CR>' },
+  },
+}
+
+M['zen-mode'] = {
+  n = {
+    ['Z'] = { '<CMD>ZenMode<CR>' },
   },
 }
 
