@@ -28,13 +28,10 @@ M.load_mappings = function(definition)
       if has_snacks then
         snacks.keymap.set(mode, lhs, rhs_definition[1], rhs_definition.opts)
       else
-        if rhs_definition.opts == nil then
-          rhs_definition.opts = { silent = true }
-        else
-          rhs_definition.opts.silent = true
+        if type(rhs_definition.opts) == 'table' then
+          rhs_definition.opts.ft = nil -- OPTIM:
+          rhs_definition.opts.lsp = nil
         end
-        rhs_definition.opts.ft = nil -- OPTIM:
-        rhs_definition.opts.lsp = nil
         vim.keymap.set(mode, lhs, rhs_definition[1], rhs_definition.opts)
       end
       ::next_lhs::

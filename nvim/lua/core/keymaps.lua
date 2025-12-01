@@ -1,4 +1,4 @@
----@diagnostic disable: param-type-mismatch
+-- OPTIMIZE: This method should be refactor
 M = {}
 
 M.general = {
@@ -10,8 +10,8 @@ M.general = {
     ['<C-l>'] = { '<C-w>l' },
     ['<tab>'] = { 'gt' },
     ['<s-tab>'] = { 'gT' },
-    ['/'] = { 'ms/' },
-    ['?'] = { 'ms?' },
+    ['/'] = { 'ms/', opts = { noremap = true } },
+    ['?'] = { 'ms?', opts = { noremap = true } },
     ['Q'] = { '<CMD>q<CR>', opts = { noremap = true, desc = 'Quit' } },
     ['<C-q>'] = {
       function()
