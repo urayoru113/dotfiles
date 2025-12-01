@@ -34,6 +34,18 @@ M.general = {
       end,
     },
   },
+  {
+    'BufWritePre',
+    {
+      callback = function()
+        local clients = vim.lsp.get_clients({ bufnr = 0 })
+        if #clients == 0 then
+          return
+        end
+        vim.lsp.buf.format()
+      end,
+    },
+  },
 }
 
 M['nvim-tree'] = function()

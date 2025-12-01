@@ -9,4 +9,5 @@ utils.load_autocmds('General', autocmds['general'])
 utils.load_highlights('general')
 
 require('core')
+require('core.options')
 require('plugins').lazy()
