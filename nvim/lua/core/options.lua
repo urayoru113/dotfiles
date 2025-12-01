@@ -17,7 +17,7 @@ vim.opt.wrap = false
 
 vim.opt.backspace = { 'indent', 'eol', 'start' }
 vim.opt.complete:append('kspell')
-vim.opt.completeopt = "menu"
+vim.opt.completeopt = 'menu'
 vim.opt.encoding = 'utf-8'
 vim.opt.fileformats = { 'unix', 'dos', 'mac' }
 vim.opt.laststatus = 2
@@ -25,6 +25,7 @@ vim.opt.matchpairs:append('<:>')
 vim.opt.mouse = 'a'
 vim.opt.numberwidth = 2
 vim.opt.scrolloff = 8
+vim.opt.sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions'
 vim.opt.shiftwidth = 2
 vim.opt.softtabstop = 2
 vim.opt.tabstop = 2
