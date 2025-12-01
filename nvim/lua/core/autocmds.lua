@@ -1,3 +1,5 @@
+-- OPTIMIZE: This method should be refactor
+
 local M = {}
 
 local utils = require('core.utils')
@@ -99,8 +101,7 @@ M['neo-tree'] = function()
       {
         callback = function()
           if filetree.should_open and not neo_tree_config.is_neo_tree_visible() then
-            -- vim.cmd('Neotree action=focus reveal')
-            neo_tree_config.throttle_neotree_open() -- HACK: Here comes a with GrugFar
+            vim.cmd('Neotree action=focus reveal')
           end
           if not filetree.should_open and neo_tree_config.is_neo_tree_visible() then
             vim.cmd('Neotree close')
