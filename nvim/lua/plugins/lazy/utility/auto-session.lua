@@ -8,7 +8,6 @@ local function tree()
 
   local has_neo_tree, _ = pcall(require, 'neo-tree')
   if has_neo_tree then
-    local neo_tree_config = require('plugins.config.neo-tree')
     vim.cmd('Neotree action=show reveal')
     return
   end
@@ -23,11 +22,15 @@ local spec = {
     auto_restore = false,
     post_restore_cmds = {
       tree,
-    }
+    },
+    git_use_branch_name = true,
+    session_lens = {
+      previewer = 'active_buffer',
+    },
   },
   config = function(_, opts)
     require('auto-session').setup(opts)
-  end
+  end,
 }
 
 return spec
