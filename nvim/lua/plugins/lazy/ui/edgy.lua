@@ -1,22 +1,14 @@
 return {
   --https://github.com/folke/edgy.nvim
   'folke/edgy.nvim',
+  event = 'VeryLazy',
   opts = {
     keys = {
-      -- close window
-      ['Q'] = function(win)
-        if vim.fn.tabpagenr('$') == 1 and vim.fn.winnr('$') == 1 then
-          vim.cmd('q')
-        else
-          win:close()
-        end
-      end,
+      ['q'] = function(win) win:close() end,
       -- hide window
       ['<c-q>'] = false, -- win:hide()
-      -- close sidebar
-      -- ['Q'] = function(win)
-      --   win.view.edgebar:close()
-      -- end,
+      -- close sidebar, override by outsize keys
+      ['Q'] = false,     --win.view.edgebar:close()
       -- next open window
       [']w'] = function(win)
         win:next({ visible = true, focus = true })
@@ -70,12 +62,6 @@ return {
       {
         ft = 'dap-view',
         size = { height = 0.3 },
-      },
-    },
-    right = {
-      {
-        ft = 'grug-far',
-        size = { height = 0.5, width = 0.3 },
       },
     },
     animate = {

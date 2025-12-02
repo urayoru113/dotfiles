@@ -1,3 +1,4 @@
+local prompt_config = require('core.config.prompt')
 local spec = {
   -- https://github.com/milanglacier/minuet-ai.nvim
   'milanglacier/minuet-ai.nvim',
@@ -5,11 +6,13 @@ local spec = {
   dependencies = { 'nvim-lua/plenary.nvim' },
   opts = {
     provider = 'openai_fim_compatible',
-    n_completions = 1,
+    n_completions = 3,
     throttle = 1000,
-    request_timeout = 8,
+    request_timeout = 3,
+    before_cursor_filter_length = 2,
+    after_cursor_filter_length = 15,
     provider_options = {
-      gemini                = {
+      gemini = {
         model = 'gemini-2.0-flash',
         optional = {
           generationConfig = {
@@ -40,23 +43,20 @@ local spec = {
         end_point = 'http://localhost:11434/v1/completions',
         -- The model is set by the llama-cpp server and cannot be altered
         -- post-launch.
-        model = 'codegemma:7b-code-q3_K_S',
-        stream = false,
+        model = 'deepseek-coder:6.7b-base-q3_K_L',
+        stream = true,
         optional = {
-          max_tokens = 56,
+          max_tokens = 128,
           top_p = 0.8,
-          stop = '\n\n',
         },
         template = {
-          prompt = function(context_before_cursor, context_after_cursor, _)
-            -- return '<PRE>' .. context_before_cursor .. '<SUF>' .. context_after_cursor .. '<MID>'
-            return '<|fim_prefix|>' ..
-                context_before_cursor .. '<|fim_suffix|>' .. context_after_cursor .. '<|fim_middle|>'
+          prompt = function(...)
+            return prompt_config.get_deepseek_fim(...)
           end,
           suffix = false,
         },
       },
-    }
+    },
   },
 }
 

@@ -8,7 +8,7 @@ local options = {
     lualine_z = { 'progress', 'location' },
   },
   options = {
-    theme = 'auto',
+    theme = 'dracula',
     section_separators = { left = '', right = '' },
   },
   extensions = {

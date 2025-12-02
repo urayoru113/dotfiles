@@ -23,7 +23,7 @@ return {
   keys = function()
     local snacks = require('snacks')
     return {
-      { '<leader>lg', function() snacks.lazygit.open() end, desc = 'LazyGit' }
+      { '<leader>gl', function() snacks.lazygit.open() end, desc = 'LazyGit' },
     }
   end,
 }

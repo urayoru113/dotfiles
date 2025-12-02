@@ -1,13 +1,17 @@
 local M = {}
 
+--- @type boolean
 M.is_debug_keymap = false
+
+--- @type 'dap-view' | 'dap-ui'
+M.viewer = 'dap-view'
 
 M.setup = function()
   local debug = require('core.config.debug')
   local dap = require('dap')
   local keymaps = require('core.keymaps')
   local utils = require('core.utils')
-  local has_dapview, dapview = pcall(require, 'dap-view')
+  local has_dapview, dapview = pcall(require, M.viewer)
   local debug_on = function()
     if has_dapview then
       dapview.open()
@@ -40,15 +44,15 @@ M.setup = function()
   )
 
   vim.api.nvim_create_user_command('ToggleDebugKeymap', function()
-                                     if debug.is_debug_mode then
-                                       if M.is_debug_keymap then
-                                         utils.remove_mappings(keymaps.fastdap)
-                                       else
-                                         utils.load_mappings(keymaps.fastdap)
-                                       end
-                                       M.is_debug_keymap = not M.is_debug_keymap
-                                     end
-                                   end, {})
+    if debug.is_debug_mode then
+      if M.is_debug_keymap then
+        utils.remove_mappings(keymaps.fastdap)
+      else
+        utils.load_mappings(keymaps.fastdap)
+      end
+      M.is_debug_keymap = not M.is_debug_keymap
+    end
+  end, {})
 end
 
 return M
