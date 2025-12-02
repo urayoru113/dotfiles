@@ -19,6 +19,7 @@ M.off = function()
   vim.notify('Debug method off is not implemented', vim.log.levels.WARN)
 end
 
+--- @param opts {on:function, off:function}
 M.setup = function(opts)
   if not opts or type(opts) ~= 'table' then
     error('Argument `opts` type should be table')

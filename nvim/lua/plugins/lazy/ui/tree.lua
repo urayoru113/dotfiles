@@ -78,12 +78,17 @@ local neotree_opts = function()
         mappings = {
           ['/'] = 'noop',
           ['<C-_>'] = 'fuzzy_finder', -- <CTRL-/>
-          ['<C-s>'] = 'system_open',
+          ['<C-o>'] = 'system_open',
         },
         fuzzy_finder_mappings = {
           ['<ESC>'] = 'noop',
           ['<CR>'] = 'close_keep_filter',
           ['<C-CR>'] = 'close_clear_filter',
+        },
+      },
+      filtered_items = {
+        hide_by_name = {
+          '__pycache__',
         },
       },
     },
@@ -94,13 +99,6 @@ local neotree_opts = function()
       },
       name = {
         use_git_status_colors = false,
-      },
-      filesystem = {
-        filtered_items = {
-          ignore_files = {
-            '__pycache__',
-          },
-        },
       },
     },
     event_handlers = {
@@ -496,6 +494,12 @@ local spec = {
         {
           '<F2>',
           '<CMD>Neotree toggle reveal_force_cwd<CR>',
+          noremap = true,
+          mode = 'n',
+        },
+        {
+          'gt',
+          '<CMD>Neotree focus reveal_force_cwd<CR>',
           noremap = true,
           mode = 'n',
         },

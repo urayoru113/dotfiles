@@ -20,10 +20,11 @@ vim.opt.complete:append('kspell')
 vim.opt.completeopt = 'menu'
 vim.opt.encoding = 'utf-8'
 vim.opt.fileformats = { 'unix', 'dos', 'mac' }
-vim.opt.laststatus = 2
+vim.opt.laststatus = 3
 vim.opt.matchpairs:append('<:>')
 vim.opt.mouse = 'a'
 vim.opt.numberwidth = 2
+vim.opt.scroll = 10
 vim.opt.scrolloff = 8
 vim.opt.sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions'
 vim.opt.shiftwidth = 2

@@ -1,9 +1,17 @@
-local default_sources = { 'avante', 'lsp', 'path', 'snippets', 'buffer', }
+---@diagnostic disable: duplicate-index
+local default_sources = {
+  'avante',
+  'lsp',
+  'path',
+  'snippets',
+  'buffer',
+  'minuet',
+}
 
 local kind_icons = require('core.config.lsp').kind_icons
 
 local spec = {
-  enabled = true,
+  cond = true,
   'saghen/blink.cmp',
   event = 'VeryLazy',
   dependencies = {
@@ -17,7 +25,7 @@ local spec = {
       build = 'make install_jsregexp',
       init = function()
         require('luasnip.loaders.from_vscode').lazy_load()
-      end
+      end,
     },
 
     'Kaiser-Yang/blink-cmp-avante',
@@ -49,12 +57,12 @@ local spec = {
       ['<C-n>'] = {
         function(cmp)
           if not cmp.is_menu_visible() then
-            cmp.show_and_insert_or_accept_single()
+            cmp.show()
             return true
           end
         end,
         'select_next',
-        'fallback'
+        'fallback',
       },
     },
 
@@ -67,12 +75,12 @@ local spec = {
       documentation = {
         auto_show = true,
         auto_show_delay_ms = 100,
-        window = { border = 'double' }
+        window = { border = 'double' },
       },
       list = {
         selection = {
           preselect = false,
-        }
+        },
       },
 
       menu = {
@@ -100,13 +108,14 @@ local spec = {
 
       trigger = {
         prefetch_on_insert = false,
-      }
+        show_on_insert = true,
+      },
 
     },
 
     signature = {
       enabled = true,
-      window = { border = 'single' }
+      window = { border = 'single' },
     },
 
     cmdline = {
@@ -120,7 +129,7 @@ local spec = {
             end
           end,
           'select_next',
-          'fallback'
+          'fallback',
         },
         ['<tab>'] = {
           function(cmp)
@@ -130,19 +139,19 @@ local spec = {
             end
           end,
           'select_next',
-          'fallback'
+          'fallback',
         },
       },
       completion = {
         menu = {
-          auto_show = true
+          auto_show = true,
         },
         list = {
           selection = {
             preselect = false,
-          }
+          },
         },
-      }
+      },
     },
 
     sources = {
@@ -151,18 +160,20 @@ local spec = {
         lua = {
           inherit_defaults = true,
           'nvim_lua',
-        }
+        },
       },
       providers = {
         lsp = {
           name = 'LSP',
           module = 'blink.cmp.sources.lsp',
-          opts = {}, -- Passed to the source directly, varies by source
-
+          -- If this provider returns 0 items, it will fallback to these providers.
+          -- If multiple providers fallback to the same provider, all of the providers must return 0 items for it to fallback
+          fallbacks = { 'buffer' },
+          opts = { tailwind_color_icon = '██' }, -- Passed to the source directly, varies by source
           --- NOTE: All of these options may be functions to get dynamic behavior
           --- See the type definitions for more information
           enabled = true,    -- Whether or not to enable the provider
-          async = true,     -- Whether we should show the completions before this provider returns, without waiting for it
+          async = true,      -- Whether we should show the completions before this provider returns, without waiting for it
           timeout_ms = 2000, -- How long to wait for the provider to return before showing completions and treating it as asynchronous
           transform_items = function(ctx, items)
             local item_kind = require('blink.cmp.types').CompletionItemKind
@@ -189,17 +200,14 @@ local spec = {
           should_show_items = true, -- Whether or not to show the items
           max_items = nil,          -- Maximum number of items to display in the menu
           min_keyword_length = 0,   -- Minimum number of characters in the keyword to trigger the provider
-          -- If this provider returns 0 items, it will fallback to these providers.
-          -- If multiple providers fallback to the same provider, all of the providers must return 0 items for it to fallback
-          fallbacks = {},
-          score_offset = 0, -- Boost/penalize the score of the items
-          override = nil,   -- Override the source's functions
+          score_offset = 0,         -- Boost/penalize the score of the items
+          override = nil,           -- Override the source's functions
         },
         avante = {
           module = 'blink-cmp-avante',
           name = 'Avante',
           opts = {
-          }
+          },
         },
         parrot = {
           module = 'parrot.completion.blink',
@@ -208,19 +216,19 @@ local spec = {
           opts = {
             show_hidden_files = false,
             max_items = 50,
-          }
+          },
         },
         minuet = {
           name = 'minuet',
           module = 'minuet.blink',
           async = true,
-          timeout_ms = 10000,
+          timeout_ms = 2000,
           score_offset = 50, -- Gives minuet higher priority among suggestions
         },
         nvim_lua = {
           name = 'nvim_lua',
-          module = 'blink.compat.source'
-        }
+          module = 'blink.compat.source',
+        },
       },
 
     },
@@ -235,8 +243,8 @@ local spec = {
         'sort_text',
         'label',
         'kind',
-      }
-    }
+      },
+    },
   },
   opts_extend = { 'sources.default' },
   config = true,

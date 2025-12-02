@@ -8,8 +8,8 @@ M.general = {
     ['<C-j>'] = { '<C-w>j' },
     ['<C-k>'] = { '<C-w>k' },
     ['<C-l>'] = { '<C-w>l' },
-    ['<tab>'] = { 'gt' },
-    ['<s-tab>'] = { 'gT' },
+    ['<tab>'] = { '<CMD>tabnext<CR>' },
+    ['<s-tab>'] = { '<CMD>tabprev<CR>' },
     ['/'] = { 'ms/', opts = { noremap = true } },
     ['?'] = { 'ms?', opts = { noremap = true } },
     ['Q'] = { '<CMD>q<CR>', opts = { noremap = true, desc = 'Quit' } },
@@ -196,7 +196,7 @@ M.gitsigns = function()
             gitsigns.nav_hunk('next')
           end
         end,
-        opts = { noremap = true },
+        opts = { noremap = true, desc = 'Go to next hunk' },
       },
       ['<leader>gp'] = {
         function()
@@ -206,7 +206,7 @@ M.gitsigns = function()
             gitsigns.nav_hunk('prev')
           end
         end,
-        opts = { noremap = true },
+        opts = { noremap = true, desc = 'Go to prev hunk' },
       },
       ['<leader>gd'] = {
         '<CMD>Gitsigns diffthis HEAD vertical=true<CR>',

@@ -1,9 +1,10 @@
 local utils = require('core.utils')
 local autocmds = require('core.autocmds')
+local dap_config = require('plugins.config.dap')
 
 local specs = {
   {
-    enabled = false,
+    enabled = dap_config.viewer == 'dap-ui',
     'rcarriga/nvim-dap-ui',
     event = 'VeryLazy',
     dependencies = {
@@ -16,11 +17,13 @@ local specs = {
   },
   {
     'theHamsta/nvim-dap-virtual-text',
-    opts = {},
+    opts = {
+      only_first_definition = false,
+    },
   },
   {
     'igorlfs/nvim-dap-view',
-    cond = true,
+    enabled = dap_config.viewer == 'dap-view',
     event = 'VeryLazy',
     init = function()
       utils.load_autocmds('DapView', autocmds['dap-view'])
@@ -54,7 +57,7 @@ local specs = {
       'mfussenegger/nvim-dap',
     },
     init = function()
-      require('plugins.config.dap').setup()
+      require('plugins.config.dap').setup('dap-view')
     end,
     opts = {
       handlers = {

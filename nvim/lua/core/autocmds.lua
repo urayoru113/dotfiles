@@ -92,7 +92,7 @@ M['neo-tree'] = function()
           if e.file == '' and package.loaded[startup_config.provider] then
             vim.cmd(startup_config.providers[startup_config.provider])
           end
-          vim.cmd('Neotree action=show reveal')
+          vim.cmd('Neotree show reveal_force_cwd')
         end,
       },
     },
@@ -100,9 +100,11 @@ M['neo-tree'] = function()
       { 'TabEnter' },
       {
         callback = function()
-          if filetree.should_open and not neo_tree_config.is_neo_tree_visible() then
-            vim.cmd('Neotree action=focus reveal')
-          end
+          vim.schedule(function()
+            if filetree.should_open and not neo_tree_config.is_neo_tree_visible() then
+              vim.cmd('Neotree show reveal_force_cwd')
+            end
+          end)
           if not filetree.should_open and neo_tree_config.is_neo_tree_visible() then
             vim.cmd('Neotree close')
           end
