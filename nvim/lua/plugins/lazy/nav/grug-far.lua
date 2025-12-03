@@ -1,11 +1,8 @@
+local keymaps = require('core.keymaps')
 return {
   -- https://github.com/MagicDuck/grug-far.nvim
   'MagicDuck/grug-far.nvim',
-  init = function()
-    local utils = require('core.utils')
-    local keymaps = require('core.keymaps')
-    utils.load_mappings(keymaps['grug-far'])
-  end,
+  keys = keymaps['grug-far'],
   opts = {
     keymaps = {
       replace = { n = '<localleader>r' },

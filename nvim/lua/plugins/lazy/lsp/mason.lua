@@ -3,17 +3,11 @@ local utils = require('core.utils')
 local spec = {
   {
     'williamboman/mason.nvim',
-    event = 'VeryLazy',
-    init = function()
-      local keymaps = require('core.keymaps')
-      utils.load_mappings(keymaps['lspsaga'])
-    end,
     opts = {},
     build = ':MasonUpdate',
   },
   {
     'williamboman/mason-lspconfig.nvim',
-    event = 'VeryLazy',
     version = 'v2.*',
     dependencies = {
       { 'williamboman/mason.nvim' },
@@ -25,7 +19,6 @@ local spec = {
   },
   {
     'jay-babu/mason-null-ls.nvim',
-    event = 'VeryLazy',
     opts = function()
       local null_ls = require('null-ls')
       return {

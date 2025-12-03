@@ -1,8 +1,8 @@
 local spec = {
-  "folke/tokyonight.nvim",
+  'folke/tokyonight.nvim',
   priority = 1000,
   event = 'VeryLazy',
-  opts = {}
+  opts = {},
 }
 
 return spec

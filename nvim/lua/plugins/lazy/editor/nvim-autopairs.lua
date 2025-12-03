@@ -2,15 +2,14 @@ local spec = {
   enabled = true,
   'windwp/nvim-autopairs',
   dependencies = {
-    'RRethy/nvim-treesitter-endwise'
+    'RRethy/nvim-treesitter-endwise',
   },
-  event = 'VeryLazy',
   opts = {
     disable_filetype = { 'grug%-far', 'Telescope*' },
     pattern = [=[[%'%"%>%]%)%}%,]]=],
     fast_wrap = {
-      end_key = 's'
-    }
+      end_key = 's',
+    },
   },
   config = function(_, opts)
     local npairs = require('nvim-autopairs')
@@ -23,15 +22,15 @@ local spec = {
     npairs.add_rules(require('nvim-autopairs.rules.endwise-lua'))
 
     npairs.add_rules({
-      rule('%', '%', 'htmldjango'):with_pair(cond.before_text('{'))
+      rule('%', '%', 'htmldjango'):with_pair(cond.before_text('{')),
     })
 
     npairs.add_rules({
       rule('{', '},', 'lua'):with_pair(ts_cond.is_ts_node({ 'table_constructor' })),
       rule("'", "',", 'lua'):with_pair(ts_cond.is_ts_node({ 'table_constructor' })),
-      rule('"', '",', 'lua'):with_pair(ts_cond.is_ts_node({ 'table_constructor' }))
+      rule('"', '",', 'lua'):with_pair(ts_cond.is_ts_node({ 'table_constructor' })),
     })
-  end
+  end,
 }
 
 return spec

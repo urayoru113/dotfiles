@@ -1,5 +1,4 @@
 local M = {}
-local has_plugin = {}
 
 if type(unpack) == nil then
   unpack = table.unpack
@@ -15,28 +14,36 @@ M.load_mappings = function(definition)
 
   local has_snacks, snacks = pcall(require, 'snacks')
 
-  for mode, mode_mappings in pairs(mappings) do
-    if type(mode_mappings) ~= 'table' then
-      goto continue
+  for _, keymap_entry in ipairs(mappings) do
+    if type(keymap_entry) ~= 'table' then
+      goto next_keymap_entry
     end
 
-    for lhs, rhs_definition in pairs(mode_mappings) do
-      if type(rhs_definition) ~= 'table' or #rhs_definition < 1 then
-        goto next_lhs
-      end
+    local mode = keymap_entry.mode
+    local lhs = keymap_entry[1]
+    local rhs = keymap_entry[2]
+    local opts = {}
 
-      if has_snacks then
-        snacks.keymap.set(mode, lhs, rhs_definition[1], rhs_definition.opts)
-      else
-        if type(rhs_definition.opts) == 'table' then
-          rhs_definition.opts.ft = nil -- OPTIM:
-          rhs_definition.opts.lsp = nil
-        end
-        vim.keymap.set(mode, lhs, rhs_definition[1], rhs_definition.opts)
+    for k, v in pairs(keymap_entry) do
+      if type(k) == 'string' and k ~= 'mode' then
+        opts[k] = v
       end
-      ::next_lhs::
     end
-    ::continue::
+
+    if not mode or not lhs or not rhs then
+      goto next_keymap_entry
+    end
+
+    if has_snacks then
+      snacks.keymap.set(mode, lhs, rhs, opts)
+    else
+      if type(opts) == 'table' then
+        opts.ft = nil -- OPTIM:
+        opts.lsp = nil
+      end
+      vim.keymap.set(mode, lhs, rhs, opts)
+    end
+    ::next_keymap_entry::
   end
 end
 
@@ -54,25 +61,24 @@ M.remove_mappings = function(definition, ignore_nomap)
 
   local delete_keymap = vim.keymap.del
 
-  for mode, mode_mappings in pairs(mappings) do
-    if type(mode_mappings) ~= 'table' then
-      goto continue
+  for _, keymap_entry in ipairs(mappings) do
+    if type(keymap_entry) ~= 'table' then
+      goto next_keymap_entry_remove
     end
 
-    for lhs, rhs_definition in pairs(mode_mappings) do
-      if type(rhs_definition) ~= 'table' or #rhs_definition < 1 then
-        goto next_lhs
-      end
+    local mode = keymap_entry.mode
+    local lhs = keymap_entry[1]
 
-      if ignore_nomap then
-        pcall(delete_keymap, mode, lhs)
-      else
-        delete_keymap(mode, lhs)
-      end
-
-      ::next_lhs::
+    if not mode or not lhs then
+      goto next_keymap_entry_remove
     end
-    ::continue::
+
+    if ignore_nomap then
+      pcall(delete_keymap, mode, lhs)
+    else
+      delete_keymap(mode, lhs)
+    end
+    ::next_keymap_entry_remove::
   end
 end
 
@@ -200,13 +206,6 @@ M.get_project_venv_path = function(type)
   else
     return ''
   end
-end
-
-M.is_plugin_exist = function(plugin_name)
-  if not has_plugin[plugin_name] then
-    has_plugin[plugin_name], _ = pcall(require, plugin_name)
-  end
-  return has_plugin[plugin_name]
 end
 
 --- Throttles a function call, executing only at the start (leading edge) of the time window.

@@ -13,7 +13,6 @@ local kind_icons = require('core.config.lsp').kind_icons
 local spec = {
   cond = true,
   'saghen/blink.cmp',
-  event = 'VeryLazy',
   dependencies = {
     'nvim-lua/plenary.nvim',
     'xzbdmw/colorful-menu.nvim',
