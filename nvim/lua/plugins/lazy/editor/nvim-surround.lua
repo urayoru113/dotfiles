@@ -1,7 +1,6 @@
 return {
   'kylechui/nvim-surround',
   version = '^3.0.0', -- Use for stability; omit to use `main` branch for the latest features
-  event = 'VeryLazy',
   opts = {
     keymaps = {
       insert = '<M-s>i',
@@ -14,7 +13,7 @@ return {
       --visual_line = '<M-e>',
       delete = '<M-s>d',
       change = '<M-s>c',
-      change_line = '<M-s>C'
+      change_line = '<M-s>C',
     },
     surrounds = {
       ['q'] = {
@@ -22,14 +21,14 @@ return {
         find = function()
           return require('nvim-surround.config').get_selection({ pattern = '"""' })
         end,
-        delete = '"""'
+        delete = '"""',
       },
       ['"""'] = {
         add = { '"""', '"""' },
         find = function()
           return require('nvim-surround.config').get_selection({ pattern = '"""' })
         end,
-        delete = '"""'
+        delete = '"""',
       },
       ['C'] = {
         add = function()
@@ -42,8 +41,8 @@ return {
           local selection = M.get_selection({
             query = {
               capture = '@call.outer',
-              type = 'textobjects'
-            }
+              type = 'textobjects',
+            },
           })
 
           -- We prioritize TreeSitter-based selections if they exist, otherwise fallback on pattern-based search
@@ -60,9 +59,9 @@ return {
             if result then
               return { { result }, { '' } }
             end
-          end
-        }
-      }
+          end,
+        },
+      },
     },
     aliases = {
       ['q'] = '"""',
@@ -70,7 +69,7 @@ return {
       ['b'] = 'b',
       ['B'] = 'B',
       ['r'] = 'r',
-      ['a'] = 'a'
-    }
-  }
+      ['a'] = 'a',
+    },
+  },
 }

@@ -1,3 +1,4 @@
+local utils = require('core.utils')
 local spec = {
   'nvimdev/lspsaga.nvim',
   opts = {
@@ -8,7 +9,7 @@ local spec = {
       show_file = false,
     },
     rename = {
-      auto_save = true
+      auto_save = true,
     },
     hover = {
       open_cmd = '!google-chrome',
@@ -18,7 +19,11 @@ local spec = {
     'nvim-treesitter/nvim-treesitter', -- optional
     'nvim-tree/nvim-web-devicons',     -- optional
   },
-  event = 'LspAttach'
+  event = 'LspAttach',
+  init = function()
+    local keymaps = require('core.keymaps')
+    utils.load_mappings(keymaps['lspsaga'])
+  end,
 }
 
 return spec

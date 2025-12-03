@@ -6,7 +6,6 @@ local specs = {
   {
     enabled = dap_config.viewer == 'dap-ui',
     'rcarriga/nvim-dap-ui',
-    event = 'VeryLazy',
     dependencies = {
       'mfussenegger/nvim-dap',
       'nvim-neotest/nvim-nio',
@@ -24,7 +23,6 @@ local specs = {
   {
     'igorlfs/nvim-dap-view',
     enabled = dap_config.viewer == 'dap-view',
-    event = 'VeryLazy',
     init = function()
       utils.load_autocmds('DapView', autocmds['dap-view'])
     end,
@@ -39,7 +37,6 @@ local specs = {
   {
     enabled = false,
     'mfussenegger/nvim-dap-python',
-    event = 'VeryLazy',
     dependencies = {
       'mfussenegger/nvim-dap',
     },
@@ -51,7 +48,6 @@ local specs = {
   },
   {
     'jay-babu/mason-nvim-dap.nvim',
-    event = 'VeryLazy',
     dependencies = {
       'williamboman/mason.nvim',
       'mfussenegger/nvim-dap',

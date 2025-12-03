@@ -1,12 +1,10 @@
-local utils = require('core.utils')
 local keymaps = require('core.keymaps')
 return {
   --https://github.com/folke/zen-mode.nvim
+  enabled = false,
   'folke/zen-mode.nvim',
   cmd = 'ZenMode',
-  init = function()
-    utils.load_mappings(keymaps['zen-mode'])
-  end,
+  keys = keymaps['zen-mode'],
   opts = {
     -- your configuration comes here
     -- or leave it empty to use the default settings

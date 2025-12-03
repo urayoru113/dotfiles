@@ -15,10 +15,10 @@ local spec = {
           end,
           text_align = 'center',
           highlight = 'Directory',
-          separator = true
+          separator = true,
         },
         indicator = {
-          style = 'underline'
+          style = 'underline',
         },
       },
       separator_style = 'slant',
@@ -28,14 +28,13 @@ local spec = {
         if not unwanted_to_see[vim.bo[bufnr].filetype] then
           return true
         end
-      end
+      end,
     },
     highlights = {
     },
   },
   dependencies = 'nvim-tree/nvim-web-devicons',
   event = 'VeryLazy',
-  -- ft = 'NvimTree'
 }
 
 return spec

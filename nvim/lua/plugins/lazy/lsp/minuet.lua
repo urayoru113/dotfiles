@@ -2,7 +2,6 @@ local prompt_config = require('core.config.prompt')
 local spec = {
   -- https://github.com/milanglacier/minuet-ai.nvim
   'milanglacier/minuet-ai.nvim',
-  event = 'VeryLazy',
   dependencies = { 'nvim-lua/plenary.nvim' },
   opts = {
     provider = 'openai_fim_compatible',
