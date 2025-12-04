@@ -12,10 +12,11 @@ local spec = {
     after_cursor_filter_length = 15,
     provider_options = {
       gemini = {
-        model = 'gemini-2.0-flash',
+        model = 'gemini-2.5-flash',
+        stream = true,
         optional = {
           generationConfig = {
-            maxOutputTokens = 256,
+            maxOutputTokens = 128,
             -- When using `gemini-2.5-flash`, it is recommended to entirely
             -- disable thinking for faster completion retrieval.
             thinkingConfig = {
@@ -46,7 +47,9 @@ local spec = {
         stream = true,
         optional = {
           max_tokens = 128,
-          top_p = 0.8,
+          temperature = 0.2,
+          top_p = 0.9,
+          top_k = 20,
         },
         template = {
           prompt = function(...)

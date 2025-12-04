@@ -19,11 +19,15 @@ local spec = {
   },
   {
     'jay-babu/mason-null-ls.nvim',
+    dependencies = {
+      'williamboman/mason.nvim',
+      'nvimtools/none-ls.nvim',
+    },
     opts = function()
       local null_ls = require('null-ls')
       return {
         handlers = {
-          function() end,
+          -- function() end, -- put an anonmous function to disable using default config
           mypy = function()
             null_ls.register(null_ls.builtins.diagnostics.mypy.with({
               command = function()
