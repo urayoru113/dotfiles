@@ -2,6 +2,20 @@ local M = {}
 local utils = require('core.utils')
 
 M.providers = {
+  nil_ls = {
+    settings = {
+      ['nil'] = {
+        formatting = {
+          command = { 'alejandra' },
+        },
+      },
+      nix = {
+        flake = {
+          autoEvalInputs = true,
+        },
+      },
+    },
+  },
   emmylua_ls = {
     settings = {
       emmylua = {

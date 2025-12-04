@@ -10,6 +10,14 @@ M.setup = function()
     { nargs = 0, desc = 'Start osv server' }
   )
   vim.api.nvim_create_user_command(
+    'OsvServerRestart',
+    function()
+      osv.stop()
+      osv.launch({ port = 8086 })
+    end,
+    { nargs = 0, desc = 'Restart osv server' }
+  )
+  vim.api.nvim_create_user_command(
     'OsvServerStop',
     function()
       osv.stop()

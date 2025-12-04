@@ -44,7 +44,7 @@ M.general = {
         if #clients == 0 then
           return
         end
-        vim.lsp.buf.format()
+        vim.lsp.buf.format({ async = true })
       end,
     },
   },

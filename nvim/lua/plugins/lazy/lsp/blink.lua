@@ -176,7 +176,6 @@ local spec = {
           timeout_ms = 2000, -- How long to wait for the provider to return before showing completions and treating it as asynchronous
           transform_items = function(ctx, items)
             local item_kind = require('blink.cmp.types').CompletionItemKind
-
             return vim.tbl_filter(function(item)
               local col = item.cursor_column
               local char_before_cursor = string.sub(ctx.line, col, col)
@@ -221,7 +220,7 @@ local spec = {
           name = 'minuet',
           module = 'minuet.blink',
           async = true,
-          timeout_ms = 2000,
+          timeout_ms = 5000,
           score_offset = 50, -- Gives minuet higher priority among suggestions
         },
         nvim_lua = {
