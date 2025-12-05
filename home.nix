@@ -3,84 +3,106 @@
   pkgs,
   ...
 }: {
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
   home.username = "urayoru";
   home.homeDirectory = "/home/urayoru";
-
-  # This value determines the Home Manager release that your configuration is
-  # compatible with. This helps avoid breakage when a new Home Manager release
-  # introduces backwards incompatible changes.
-  #
-  # You should not change this value, even if you update Home Manager. If you do
-  # want to update the value, then make sure to first check the Home Manager
-  # release notes.
-  home.stateVersion = "25.05"; # Please read the comment before changing.
-
-  # The home.packages option allows you to install Nix packages into your
-  # environment.
+  home.stateVersion = "25.05";
   home.packages = with pkgs; [
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # pkgs.hello
+    # Terminal utilities
+    btop # System monitor (personal use)
+    htop # Backup monitor
+    ripgrep # Fast search
+    fd # Fast file finder
+    fzf # Fuzzy finder
+    tmux # Terminal multiplexer
 
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+    # Modern alternatives
+    eza # Better ls
+    bat # Better cat
+    zoxide # Smarter cd
+    dust # Better du
+    duf # Better df
 
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
+    # Git related
+    lazygit # Git TUI
+    gh # GitHub CLI
+    git-lfs # Git large file support
 
-    neovim
-    ripgrep
-    btop
-    lazygit
-    fzf
-    tmux
+    # Development tools
+    # Note: Language environments go in devShells, not here!
+
+    # File processing
+    jq # JSON processor
+    yq # YAML processor
+
+    # Network tools
+    httpie # HTTP client
+
+    # Other utilities
+    tldr # Simplified man pages
+    tree # Directory tree
+    unzip # Decompression
+    zip # Compression
   ];
 
-  # Home Manager is pretty good at managing dotfiles. The primary way to manage
-  # plain files is through 'home.file'.
-  home.file = {
-    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
-    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
-    # # symlink to the Nix store copy.
-    # ".screenrc".source = dotfiles/screenrc;
+  # Neovim full configuration
+  programs.neovim = {
+    enable = true; # It seems to be that `true` will not load `~/.config/nvim/init.vim`
+    defaultEditor = true;
+    extraPackages = with pkgs; [
+      # python
+      pyright
+      ruff
 
-    # # You can also set the file content immediately.
-    # ".gradle/gradle.properties".text = ''
-    #   org.gradle.console=verbose
-    #   org.gradle.daemon.idletimeout=3600000
-    # '';
+      # lua
+      lua-language-server
+
+      # nix
+      nil
+      alejandra
+    ];
   };
 
-  # Home Manager can also manage your environment variables through
-  # 'home.sessionVariables'. These will be explicitly sourced when using a
-  # shell provided by Home Manager. If you don't want to manage your shell
-  # through Home Manager then you have to manually source 'hm-session-vars.sh'
-  # located at either
-  #
-  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  /etc/profiles/per-user/urayoru/etc/profile.d/hm-session-vars.sh
-  #
-  home.sessionVariables = {
-    # EDITOR = "emacs";
+  # Git full configuration
+  programs.git = {
+    enable = true;
+    userName = "urayoru";
+    userEmail = ""; # Remember to change!
+
+    extraConfig = {
+      init.defaultBranch = "main";
+      pull.rebase = true;
+      push.autoSetupRemote = true;
+      core.editor = "nvim";
+      diff.tool = "nvimdiff";
+      merge.tool = "nvimdiff";
+    };
+
+    aliases = {
+      st = "status";
+      co = "checkout";
+      br = "branch";
+      ci = "commit";
+      cm = "commit -m";
+      last = "log -1 HEAD";
+      unstage = "reset HEAD --";
+      lg = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
+    };
+
+    ignores = [
+      # OS
+      ".DS_Store"
+      "Thumbs.db"
+
+      # Editors
+      ".vscode/"
+      ".idea/"
+      "*.swp"
+      "*.swo"
+      "*~"
+    ];
   };
 
-  # Let Home Manager install and manage itself.
-  programs = {
-  };
+  xdg.enable = true;
+  # allow unfree packages
+  nixpkgs.config.allowunfree = true;
 }
