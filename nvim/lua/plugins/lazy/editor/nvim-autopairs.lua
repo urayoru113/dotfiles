@@ -5,7 +5,7 @@ local spec = {
     'RRethy/nvim-treesitter-endwise',
   },
   opts = {
-    disable_filetype = { 'grug%-far', 'Telescope*' },
+    disable_filetype = { 'grug%-far', 'TelescopePrompt' },
     pattern = [=[[%'%"%>%]%)%}%,]]=],
     fast_wrap = {
       end_key = 's',

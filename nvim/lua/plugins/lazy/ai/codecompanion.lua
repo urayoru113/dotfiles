@@ -32,21 +32,36 @@ local spec = {
     },
     adapters = {
       http = {
-        ollama = function()
-          return require('codecompanion.adapters').extend('ollama', {
-            model = 'gpt-oss:20b',
-            formatted_name = "Ollama",
-            url = '${url}/v1/chat/completions',
+        deepseek = function()
+          return require('codecompanion.adapters').extend('openai_compatible', {
+            name = 'deepseek',
+            formatted_name = 'Deepseek',
+            roles = {
+              llm = 'assistant',
+              user = 'user',
+            },
+            opts = {
+              stream = true,
+              tools = true,
+            },
+            features = {
+              text = true,
+              tokens = true,
+              vision = false,
+            },
             env = {
               url = 'http://localhost:11434',
-              api_key = function() return '' end,
+              chat_url = '/v1/chat/completions',
+              -- api_key = "",  <-- get from sys env: OPENAI_API_KEY
             },
-            headers = {
-              ['Content-Type'] = 'application/json',
-              ['Authorization'] = 'Bearer Unnecessary',
-            },
-            parameters = {
-              sync = true,
+            schema = {
+              model = {
+                default = 'deepseek-coder:6.7b-instruct-q4_K_M',
+              },
+              headers = {
+                ['Content-Type'] = 'application/json',
+                ['Authorization'] = 'Bearer Unnecessary',
+              },
             },
           })
         end,
@@ -62,7 +77,7 @@ local spec = {
     },
     strategies = {
       chat = {
-        adapter = 'gemini',
+        adapter = 'deepseek',
         keymaps = {
           send = {
             modes = {
