@@ -114,22 +114,25 @@ M['neo-tree'] = function()
   }
 end
 
-M['dap-view'] = {
-  {
-    'BufEnter',
+M['dap-view'] = function()
+  local dapview = require('dap-view')
+  local util = require('dap-view.util')
+  local state = require('dap-view.state')
+  local dap = require('plugins.config.dap')
+  return {
     {
-      callback = function()
-        local dapview = require('dap-view')
-        local util = require('dap-view.util')
-        local state = require('dap-view.state')
-        local dap = require('plugins.config.dap')
-        if dap.is_debug_mode then
-          if not util.is_win_valid(state.winnr) then
-            dapview.open()
+      'BufEnter',
+      {
+        callback = function()
+          if dap.is_debug_mode then
+            if not util.is_win_valid(state.winnr) then
+              dapview.open()
+            end
           end
-        end
-      end,
+        end,
+      },
     },
-  },
-}
+  }
+end
+
 return M
