@@ -7,6 +7,10 @@
   home.homeDirectory = "/home/urayoru";
   home.stateVersion = "25.05";
   home.packages = with pkgs; [
+    # System tools
+    gcc
+    gnumake
+    
     # Terminal utilities
     btop # System monitor (personal use)
     htop # Backup monitor
