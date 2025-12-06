@@ -10,7 +10,8 @@
     # System tools
     gcc
     gnumake
-    
+    luajit
+
     # Terminal utilities
     btop # System monitor (personal use)
     htop # Backup monitor
