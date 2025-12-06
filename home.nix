@@ -36,6 +36,7 @@
 
     # Network tools
     httpie # HTTP client
+    socat # Bidirectional data transfer
 
     # Other utilities
     tldr # Simplified man pages
@@ -44,64 +45,123 @@
     zip # Compression
   ];
 
-  # Neovim full configuration
-  programs.neovim = {
-    enable = true; # It seems to be that `true` will not load `~/.config/nvim/init.vim`
-    defaultEditor = true;
-    extraPackages = with pkgs; [
-      # python
-      pyright
-      ruff
-
-      # lua
-      lua-language-server
-
-      # nix
-      nil
-      alejandra
-    ];
+  home.file = {
+    ".config/nvim" = {source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/nvim";};
   };
 
-  # Git full configuration
-  programs.git = {
-    enable = true;
-    userName = "urayoru";
-    userEmail = ""; # Remember to change!
+  programs = {
+    neovim = {
+      enable = true; # It seems to be that `true` will not load `~/.config/nvim/init.vim`
+      defaultEditor = true;
+      extraPackages = with pkgs; [
+        # python
+        pyright
+        ruff
 
-    extraConfig = {
-      init.defaultBranch = "main";
-      pull.rebase = true;
-      push.autoSetupRemote = true;
-      core.editor = "nvim";
-      diff.tool = "nvimdiff";
-      merge.tool = "nvimdiff";
+        # lua
+        lua-language-server
+
+        # nix
+        nil
+        alejandra
+      ];
     };
 
-    aliases = {
-      st = "status";
-      co = "checkout";
-      br = "branch";
-      ci = "commit";
-      cm = "commit -m";
-      last = "log -1 HEAD";
-      unstage = "reset HEAD --";
-      lg = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
+    git = {
+      enable = true;
+      userName = "urayoru";
+      userEmail = ""; # Remember to change!
+
+      extraConfig = {
+        init.defaultBranch = "main";
+        pull.rebase = true;
+        push.autoSetupRemote = true;
+        core.editor = "nvim";
+        diff.tool = "nvimdiff";
+        merge.tool = "nvimdiff";
+      };
+
+      aliases = {
+        st = "status";
+        co = "checkout";
+        br = "branch";
+        ci = "commit";
+        cm = "commit -m";
+        last = "log -1 HEAD";
+        unstage = "reset HEAD --";
+        lg = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
+      };
+
+      ignores = [
+        # OS
+        ".DS_Store"
+        "Thumbs.db"
+
+        # Editors
+        ".vscode/"
+        ".idea/"
+        "*.swp"
+        "*.swo"
+        "*~"
+      ];
     };
 
-    ignores = [
-      # OS
-      ".DS_Store"
-      "Thumbs.db"
+    tmux = {
+      enable = true;
+      terminal = "screen-256color";
+      keyMode = "vi";
+      prefix = "M-p";
+      escapeTime = 0;
+      historyLimit = 10000;
 
-      # Editors
-      ".vscode/"
-      ".idea/"
-      "*.swp"
-      "*.swo"
-      "*~"
-    ];
+      extraConfig = ''
+        # Mouse support
+        set -g mouse on
+
+        # Reload config
+        bind r source-file ~/.tmux.conf \; display "Config reloaded!"
+
+        # Split windows (more intuitive)
+        bind | split-window -h
+        bind - split-window -v
+        unbind '"'
+        unbind %
+
+        # Vim-style pane switching
+        bind M-h select-pane -L
+        bind M-j select-pane -D
+        bind M-k select-pane -U
+        bind M-l select-pane -R
+
+        # Quick pane switching
+        bind -n M-Left select-pane -L
+        bind -n M-Right select-pane -R
+        bind -n M-Up select-pane -U
+        bind -n M-Down select-pane -D
+
+        # Status bar styling
+        set -g status-style bg=black,fg=white
+        set -g status-left-length 40
+        set -g status-left "#[fg=green]Session: #S #[fg=yellow]#I #[fg=cyan]#P"
+        set -g status-right "#[fg=cyan]%d %b %R"
+      '';
+    };
+
+    zoxide = {
+      enableZshIntegration = true;
+    };
+
+    zsh = {
+      enable = true;
+      enableCompletion = true;
+      autosuggestion.enable = true;
+      syntaxHighlighting.enable = true;
+      shellAliases = {
+        ll = "ls -l";
+        ".." = "cd ..";
+      };
+    };
   };
-
   xdg.enable = true;
   # allow unfree packages
   nixpkgs.config.allowunfree = true;
