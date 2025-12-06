@@ -172,7 +172,7 @@ local spec = {
           --- NOTE: All of these options may be functions to get dynamic behavior
           --- See the type definitions for more information
           enabled = true,    -- Whether or not to enable the provider
-          async = true,      -- Whether we should show the completions before this provider returns, without waiting for it
+          async = false,     -- Whether we should show the completions before this provider returns, without waiting for it
           timeout_ms = 2000, -- How long to wait for the provider to return before showing completions and treating it as asynchronous
           transform_items = function(ctx, items)
             local item_kind = require('blink.cmp.types').CompletionItemKind
