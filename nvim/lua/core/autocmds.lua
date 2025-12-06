@@ -114,18 +114,6 @@ M['neo-tree'] = function()
   }
 end
 
-M['win32yank'] = {
-  {
-    'TextYankPost',
-    {
-      pattern = '*',
-      callback = function()
-        vim.fn.system('/mnt/c/Windows/System32/win32yank.exe' .. ' -i --crlf', vim.fn.getreg('"'))
-      end,
-    },
-  },
-}
-
 M['dap-view'] = {
   {
     'BufEnter',

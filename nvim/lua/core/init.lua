@@ -6,39 +6,8 @@ local function setup_basic()
   vim.loader.enable()
 end
 
-local function share_clipboard()
-  local clip = '/mnt/c/Windows/System32/clip.exe'
-  local win32yank = '/mnt/c/Windows/System32/win32yank.exe'
-  local autocmds = require('core.autocmds')
-  if vim.fn.executable(win32yank) == 1 then
-    utils.load_autocmds('WSLYank', autocmds['win32yank'])
-    vim.keymap.set(
-      'n',
-      'p',
-      ':let @" = system("' .. win32yank .. ' -o --lf")<CR>p',
-      { noremap = true, silent = true }
-    )
-    vim.keymap.set(
-      'n',
-      'P',
-      ':let @" = system("' .. win32yank .. ' -o --lf")<CR>P',
-      { noremap = true, silent = true }
-    )
-    vim.keymap.set('x', 'p', '<ESC><ESC>:let @" = system("' .. win32yank .. ' -o --lf")<CR>gvp', { noremap = true })
-  elseif vim.fn.executable(clip) == 1 then
-    vim.api.nvim_create_augroup('WSLYank', { clear = true })
-    autocmd('TextYankPost', {
-      group = 'WSLYank',
-      pattern = '*',
-      callback = function()
-        vim.fn.system(clip, vim.fn.getreg('"'))
-      end,
-    })
-  end
-end
-
 local function setup_debug()
-  require("core.config.debug").__set_up_cmd()
+  require('core.config.debug').__set_up_cmd()
   -- legacy
   -- vim.cmd([[
   -- " Get current cursor bypassing unicode"
@@ -107,8 +76,8 @@ vim.g.python3_host_prog = utils.get_project_python_path()
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.ftplugin_sql_omni_key = '<C-j>'
+vim.g.clipboard = 'win32yank'
 
 setup_basic()
-share_clipboard()
 setup_debug()
 setup_lsp()
