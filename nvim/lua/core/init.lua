@@ -77,6 +77,7 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.ftplugin_sql_omni_key = '<C-j>'
 vim.g.clipboard = 'win32yank'
+vim.b.do_format = false
 
 setup_basic()
 setup_debug()

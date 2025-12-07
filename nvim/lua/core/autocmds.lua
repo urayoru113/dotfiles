@@ -40,11 +40,12 @@ M.general = {
     'BufWritePre',
     {
       callback = function()
-        local clients = vim.lsp.get_clients({ bufnr = 0 })
-        if #clients == 0 then
+        print(vim.b.do_format)
+        if not vim.b.do_format or #vim.lsp.get_clients({ bufnr = 0 }) == 0 then
           return
         end
-        vim.lsp.buf.format({ async = true })
+        vim.lsp.buf.format()
+        vim.b.do_format = false
       end,
     },
   },

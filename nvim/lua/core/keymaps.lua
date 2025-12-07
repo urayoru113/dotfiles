@@ -2,7 +2,17 @@
 M = {}
 
 M.general = {
-  { mode = 'n', '<C-s>', '<CMD>w<CR>', noremap = true, desc = 'Save file' },
+  {
+    mode = 'n',
+    '<C-s>',
+    function()
+      vim.b.do_format = true
+      return '<CMD>w<CR>'
+    end,
+    noremap = true,
+    expr = true,
+    desc = 'Format and save file',
+  },
   { mode = 'n', '<C-h>', '<C-w>h' },
   { mode = 'n', '<C-j>', '<C-w>j' },
   { mode = 'n', '<C-k>', '<C-w>k' },
