@@ -69,6 +69,7 @@ local function setup_lsp()
       config.settings = {}
     end
     vim.lsp.config(provider, config)
+    vim.lsp.enable(provider)
   end
 end
 

@@ -7,22 +7,7 @@ local spec = {
     build = ':MasonUpdate',
   },
   {
-    'williamboman/mason-lspconfig.nvim',
-    version = 'v2.*',
-    dependencies = {
-      { 'williamboman/mason.nvim' },
-      'neovim/nvim-lspconfig',
-    },
-    opts = {
-      ensure_installed = {},
-    },
-  },
-  {
     'jay-babu/mason-null-ls.nvim',
-    dependencies = {
-      'williamboman/mason.nvim',
-      'nvimtools/none-ls.nvim',
-    },
     opts = function()
       local null_ls = require('null-ls')
       return {
