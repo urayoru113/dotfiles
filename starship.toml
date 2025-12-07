@@ -1,0 +1,788 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+[░▒▓█](lavender_dark)\
+$os\
+[](bg:red_dark fg:lavender_dark)\
+$username\
+[](bg:peach fg:red_dark)\
+$directory\
+[](bg:yellow fg:peach)\
+$git_branch\
+$git_status\
+[](fg:yellow bg:green)\
+$c\
+$rust\
+$golang\
+$nodejs\
+$php\
+$java\
+$kotlin\
+$haskell\
+$python\
+[](fg:green bg:sapphire)\
+$conda\
+[](fg:sapphire bg:lavender)\
+$time\
+[](fg:lavender)\
+$cmd_duration\
+$line_break\
+\n\
+$character"""
+
+palette = 'catppuccin_mocha'
+
+[os]
+disabled = false
+style = "bg:lavender_dark fg:crust"
+
+[os.symbols]
+Windows = " "
+Ubuntu = "󰕈 "
+SUSE = " "
+Raspbian = "󰐿 "
+Mint = "󰣭 "
+Macos = "󰀵 "
+Manjaro = " "
+Linux = "󰌽 "
+Gentoo = "󰣨 "
+Fedora = "󰣛 "
+Alpine = " "
+Amazon = " "
+Android = " "
+Arch = "󰣇 "
+Artix = "󰣇 "
+CentOS = " "
+Debian = "󰣚 "
+Redhat = "󱄛 "
+RedHatEnterprise = "󱄛 "
+NixOS = " "
+
+[username]
+show_always = true
+style_user = "bg:red_dark fg:crust"
+style_root = "bg:red_dark fg:crust"
+format = '[ $user]($style)'
+
+[directory]
+style = "bg:peach fg:crust"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = "󰝚 "
+"Pictures" = " "
+"Developer" = "󰲋 "
+
+[git_branch]
+symbol = ""
+style = "bg:yellow"
+format = '[[ $symbol $branch ](fg:crust bg:yellow)]($style)'
+
+[git_status]
+style = "bg:yellow"
+format = '[[($all_status$ahead_behind )](fg:crust bg:yellow)]($style)'
+
+[nodejs]
+symbol = ""
+style = "bg:green"
+format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+
+[c]
+symbol = " "
+style = "bg:green"
+format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+
+[rust]
+symbol = ""
+style = "bg:green"
+format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+
+[golang]
+symbol = ""
+style = "bg:green"
+format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+
+[php]
+symbol = ""
+style = "bg:green"
+format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+
+[java]
+symbol = " "
+style = "bg:green"
+format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+
+[kotlin]
+symbol = ""
+style = "bg:green"
+format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+
+[haskell]
+symbol = ""
+style = "bg:green"
+format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+
+[python]
+symbol = ""
+style = "bg:green"
+format = '[[ $symbol( $version)(\(#$virtualenv\)) ](fg:crust bg:green)]($style)'
+
+[docker_context]
+symbol = ""
+style = "bg:sapphire"
+format = '[[ $symbol( $context) ](fg:crust bg:sapphire)]($style)'
+
+[conda]
+symbol = "  "
+style = "fg:crust bg:sapphire"
+format = '[$symbol$environment ]($style)'
+ignore_base = false
+
+[time]
+disabled = false
+time_format = "%R"
+style = "bg:lavender"
+format = '[[  $time ](fg:crust bg:lavender)]($style)'
+
+[line_break]
+disabled = true
+
+[character]
+disabled = false
+success_symbol = '[󰘍](bold fg:green)'
+error_symbol = '[](bold fg:red)'
+vimcmd_symbol = '[󰰓](bold fg:green)'
+vimcmd_replace_one_symbol = '[󰰟](bold fg:lavender)'
+vimcmd_replace_symbol = '[󰬙](bold fg:lavender)'
+vimcmd_visual_symbol = '[󰰫](bold fg:yellow)'
+
+[cmd_duration]
+show_milliseconds = true
+format = " in $duration "
+style = "bg:lavender"
+disabled = false
+show_notifications = true
+min_time_to_notify = 45000
+min_time = 1000
+
+# ====================================================
+# ========== Catppuccin 配色方案（擴充版）===========
+# ====================================================
+
+[palettes.catppuccin_mocha]
+# === 原始 Catppuccin 16 色 ===
+rosewater = "#f5e0dc"
+flamingo = "#f2cdcd"
+pink = "#f5c2e7"
+mauve = "#cba6f7"
+red = "#f38ba8"
+maroon = "#eba0ac"
+peach = "#fab387"
+yellow = "#f9e2af"
+green = "#a6e3a1"
+teal = "#94e2d5"
+sky = "#89dceb"
+sapphire = "#74c7ec"
+blue = "#89b4fa"
+lavender = "#b4befe"
+text = "#cdd6f4"
+subtext1 = "#bac2de"
+subtext0 = "#a6adc8"
+overlay2 = "#9399b2"
+overlay1 = "#7f849c"
+overlay0 = "#6c7086"
+surface2 = "#585b70"
+surface1 = "#45475a"
+surface0 = "#313244"
+base = "#1e1e2e"
+mantle = "#181825"
+crust = "#11111b"
+
+# === 擴充：亮度變體（每個主色都有 light 和 dark）===
+rosewater_light = "#f9e9e4"
+rosewater_dark = "#e8d0c5"
+flamingo_light = "#f7d9d9"
+flamingo_dark = "#e5b8b8"
+pink_light = "#f9d0f0"
+pink_dark = "#e8abda"
+mauve_light = "#d9bcff"
+mauve_dark = "#b890e8"
+red_light = "#ffa0bb"
+red_dark = "#e07795"
+maroon_light = "#f5adb9"
+maroon_dark = "#da8c95"
+peach_light = "#ffc09d"
+peach_dark = "#e89c6e"
+yellow_light = "#ffedbb"
+yellow_dark = "#e6d199"
+green_light = "#b9f0b4"
+green_dark = "#93d68e"
+teal_light = "#a8ede1"
+teal_dark = "#80d5c8"
+sky_light = "#9fe9f7"
+sky_dark = "#73cfde"
+sapphire_light = "#89d7f5"
+sapphire_dark = "#61b7db"
+blue_light = "#9dc3ff"
+blue_dark = "#76a4eb"
+lavender_light = "#c5cdff"
+lavender_dark = "#a1a9ea"
+
+# === 擴充：中間調色板（適合漸變）===
+coral = "#f2b5a1"
+coral_light = "#ffcab6"
+coral_dark = "#e29d88"
+mint = "#b8e6d5"
+mint_light = "#cdf3e2"
+mint_dark = "#a3d9c8"
+periwinkle = "#b8b8f5"
+periwinkle_light = "#cbcbff"
+periwinkle_dark = "#a1a1e3"
+lilac = "#d5b8e8"
+lilac_light = "#e5c8f8"
+lilac_dark = "#c2a1d5"
+salmon = "#fdb8b8"
+salmon_light = "#ffcbcb"
+salmon_dark = "#eda1a1"
+lime = "#c8e6a1"
+lime_light = "#ddf3b6"
+lime_dark = "#b5d98e"
+turquoise = "#8dd5d9"
+turquoise_light = "#a1e6ea"
+turquoise_dark = "#78c2c6"
+violet = "#c0a1f5"
+violet_light = "#d3b6ff"
+violet_dark = "#ab8ee0"
+
+# === 擴充：文字層級 ===
+text_bright = "#e4ecff"
+text_muted = "#b3bcdb"
+subtext2 = "#a0a8c0"
+subtext3 = "#8d95ad"
+
+# === 擴充：表面層級 ===
+surface3 = "#6c7086"
+surface4 = "#7f8499"
+base_lighter = "#2a2a3e"
+base_darker = "#161620"
+mantle_lighter = "#222230"
+mantle_darker = "#0e0e18"
+
+# === 擴充：語意化顏色 ===
+success = "#a6e3a1"
+success_light = "#b9f0b4"
+success_dark = "#93d68e"
+warning = "#f9e2af"
+warning_light = "#ffedbb"
+warning_dark = "#e6d199"
+error = "#f38ba8"
+error_light = "#ffa0bb"
+error_dark = "#e07795"
+info = "#89b4fa"
+info_light = "#9dc3ff"
+info_dark = "#76a4eb"
+hint = "#94e2d5"
+hint_light = "#a8ede1"
+hint_dark = "#80d5c8"
+
+# === 擴充：Git 狀態色 ===
+git_added = "#a6e3a1"
+git_modified = "#f9e2af"
+git_deleted = "#f38ba8"
+git_renamed = "#b4befe"
+git_untracked = "#fab387"
+git_ignored = "#6c7086"
+git_conflicted = "#eba0ac"
+git_staged = "#94e2d5"
+
+# === 擴充：程式語言色 ===
+lang_javascript = "#f9e2af"
+lang_typescript = "#89b4fa"
+lang_python = "#89b4fa"
+lang_rust = "#fab387"
+lang_go = "#89dceb"
+lang_java = "#f38ba8"
+lang_c = "#89b4fa"
+lang_cpp = "#f38ba8"
+lang_ruby = "#f38ba8"
+lang_php = "#b4befe"
+lang_shell = "#a6e3a1"
+lang_lua = "#89b4fa"
+
+# === 擴充：工具/框架色 ===
+tool_docker = "#74c7ec"
+tool_kubernetes = "#89b4fa"
+tool_git = "#fab387"
+tool_vim = "#a6e3a1"
+tool_vscode = "#89b4fa"
+tool_react = "#89dceb"
+tool_vue = "#a6e3a1"
+tool_angular = "#f38ba8"
+tool_node = "#a6e3a1"
+tool_npm = "#f38ba8"
+
+# ====================================================
+
+[palettes.catppuccin_frappe]
+# === 原始 Catppuccin 16 色 ===
+rosewater = "#f2d5cf"
+flamingo = "#eebebe"
+pink = "#f4b8e4"
+mauve = "#ca9ee6"
+red = "#e78284"
+maroon = "#ea999c"
+peach = "#ef9f76"
+yellow = "#e5c890"
+green = "#a6d189"
+teal = "#81c8be"
+sky = "#99d1db"
+sapphire = "#85c1dc"
+blue = "#8caaee"
+lavender = "#babbf1"
+text = "#c6d0f5"
+subtext1 = "#b5bfe2"
+subtext0 = "#a5adce"
+overlay2 = "#949cbb"
+overlay1 = "#838ba7"
+overlay0 = "#737994"
+surface2 = "#626880"
+surface1 = "#51576d"
+surface0 = "#414559"
+base = "#303446"
+mantle = "#292c3c"
+crust = "#232634"
+
+# === 擴充：亮度變體 ===
+rosewater_light = "#f8e2dc"
+rosewater_dark = "#e5c1bb"
+flamingo_light = "#f5cbcb"
+flamingo_dark = "#dfabab"
+pink_light = "#f9c7ed"
+pink_dark = "#e5a5d7"
+mauve_light = "#d9b3f3"
+mauve_dark = "#b789d5"
+red_light = "#f19499"
+red_dark = "#d66f71"
+maroon_light = "#f5acaf"
+maroon_dark = "#d98589"
+peach_light = "#f9b389"
+peach_dark = "#dc8a63"
+yellow_light = "#f2d9a3"
+yellow_dark = "#d2b47d"
+green_light = "#b9de9c"
+green_dark = "#93c476"
+teal_light = "#94d5cb"
+teal_dark = "#6eb5ab"
+sky_light = "#acdee8"
+sky_dark = "#86c4ce"
+sapphire_light = "#98cee9"
+sapphire_dark = "#72b4cf"
+blue_light = "#9fbafb"
+blue_dark = "#7997dd"
+lavender_light = "#c9cefe"
+lavender_dark = "#a7a8de"
+
+# === 擴充：中間調色板 ===
+coral = "#eeab97"
+coral_light = "#fbbead"
+coral_dark = "#db9481"
+mint = "#b3dcc8"
+mint_light = "#c8e9d5"
+mint_dark = "#9ecfbb"
+periwinkle = "#b3b3ee"
+periwinkle_light = "#c6c6fb"
+periwinkle_dark = "#9c9cdb"
+lilac = "#d0addd"
+lilac_light = "#e3c0ea"
+lilac_dark = "#bd96ca"
+salmon = "#f5adad"
+salmon_light = "#ffc0c0"
+salmon_dark = "#e29696"
+lime = "#c3dd96"
+lime_light = "#d8eaa9"
+lime_dark = "#aeca83"
+turquoise = "#88c8cc"
+turquoise_light = "#9bd5d9"
+turquoise_dark = "#75b5b9"
+violet = "#bb96ee"
+violet_light = "#cea9fb"
+violet_dark = "#a283db"
+
+# === 擴充：文字層級 ===
+text_bright = "#dde7ff"
+text_muted = "#aeb8d6"
+subtext2 = "#9aa4bc"
+subtext3 = "#8891a9"
+
+# === 擴充：表面層級 ===
+surface3 = "#737994"
+surface4 = "#868c9f"
+base_lighter = "#3c3f56"
+base_darker = "#24273a"
+mantle_lighter = "#35384c"
+mantle_darker = "#1d202f"
+
+# === 擴充：語意化顏色 ===
+success = "#a6d189"
+success_light = "#b9de9c"
+success_dark = "#93c476"
+warning = "#e5c890"
+warning_light = "#f2d9a3"
+warning_dark = "#d2b47d"
+error = "#e78284"
+error_light = "#f19499"
+error_dark = "#d66f71"
+info = "#8caaee"
+info_light = "#9fbafb"
+info_dark = "#7997dd"
+hint = "#81c8be"
+hint_light = "#94d5cb"
+hint_dark = "#6eb5ab"
+
+# === 擴充：Git 狀態色 ===
+git_added = "#a6d189"
+git_modified = "#e5c890"
+git_deleted = "#e78284"
+git_renamed = "#babbf1"
+git_untracked = "#ef9f76"
+git_ignored = "#737994"
+git_conflicted = "#ea999c"
+git_staged = "#81c8be"
+
+# === 擴充：程式語言色 ===
+lang_javascript = "#e5c890"
+lang_typescript = "#8caaee"
+lang_python = "#8caaee"
+lang_rust = "#ef9f76"
+lang_go = "#99d1db"
+lang_java = "#e78284"
+lang_c = "#8caaee"
+lang_cpp = "#e78284"
+lang_ruby = "#e78284"
+lang_php = "#babbf1"
+lang_shell = "#a6d189"
+lang_lua = "#8caaee"
+
+# === 擴充：工具/框架色 ===
+tool_docker = "#85c1dc"
+tool_kubernetes = "#8caaee"
+tool_git = "#ef9f76"
+tool_vim = "#a6d189"
+tool_vscode = "#8caaee"
+tool_react = "#99d1db"
+tool_vue = "#a6d189"
+tool_angular = "#e78284"
+tool_node = "#a6d189"
+tool_npm = "#e78284"
+
+# ====================================================
+
+[palettes.catppuccin_macchiato]
+# === 原始 Catppuccin 16 色 ===
+rosewater = "#f4dbd6"
+flamingo = "#f0c6c6"
+pink = "#f5bde6"
+mauve = "#c6a0f6"
+red = "#ed8796"
+maroon = "#ee99a0"
+peach = "#f5a97f"
+yellow = "#eed49f"
+green = "#a6da95"
+teal = "#8bd5ca"
+sky = "#91d7e3"
+sapphire = "#7dc4e4"
+blue = "#8aadf4"
+lavender = "#b7bdf8"
+text = "#cad3f5"
+subtext1 = "#b8c0e0"
+subtext0 = "#a5adcb"
+overlay2 = "#939ab7"
+overlay1 = "#8087a2"
+overlay0 = "#6e738d"
+surface2 = "#5b6078"
+surface1 = "#494d64"
+surface0 = "#363a4f"
+base = "#24273a"
+mantle = "#1e2030"
+crust = "#181926"
+
+# === 擴充：亮度變體 ===
+rosewater_light = "#f9e8e3"
+rosewater_dark = "#e7cac0"
+flamingo_light = "#f7d3d3"
+flamingo_dark = "#e3b3b3"
+pink_light = "#facdef"
+pink_dark = "#e8aad9"
+mauve_light = "#d5b3ff"
+mauve_dark = "#b38de3"
+red_light = "#f79ba8"
+red_dark = "#da7484"
+maroon_light = "#f9acb3"
+maroon_dark = "#db868d"
+peach_light = "#ffbc92"
+peach_dark = "#e2966c"
+yellow_light = "#f9e1b2"
+yellow_dark = "#dbc78c"
+green_light = "#b9e7a8"
+green_dark = "#93cd82"
+teal_light = "#9ee2d7"
+teal_dark = "#78c8bd"
+sky_light = "#a4e4f0"
+sky_dark = "#7ecad6"
+sapphire_light = "#90d1f1"
+sapphire_dark = "#6ab7d7"
+blue_light = "#9dc0ff"
+blue_dark = "#779ae1"
+lavender_light = "#c8ceff"
+lavender_dark = "#a4aae5"
+
+# === 擴充：中間調色板 ===
+coral = "#f0ad99"
+coral_light = "#fdc0ac"
+coral_dark = "#dd9680"
+mint = "#b5ded0"
+mint_light = "#caebdd"
+mint_dark = "#a0d1c3"
+periwinkle = "#b5b5f0"
+periwinkle_light = "#c8c8fd"
+periwinkle_dark = "#9e9edd"
+lilac = "#d2afdf"
+lilac_light = "#e5c2ec"
+lilac_dark = "#bf98cc"
+salmon = "#f7afaf"
+salmon_light = "#ffc2c2"
+salmon_dark = "#e49898"
+lime = "#c5df98"
+lime_light = "#daecab"
+lime_dark = "#b0cc85"
+turquoise = "#8acace"
+turquoise_light = "#9dd7db"
+turquoise_dark = "#77b7c1"
+violet = "#bda1f0"
+violet_light = "#d0b4fd"
+violet_dark = "#a68edd"
+
+# === 擴充：文字層級 ===
+text_bright = "#e1eaff"
+text_muted = "#b5bed9"
+subtext2 = "#9ba4be"
+subtext3 = "#8a93ab"
+
+# === 擴充：表面層級 ===
+surface3 = "#6e738d"
+surface4 = "#81869d"
+base_lighter = "#30334a"
+base_darker = "#181a2a"
+mantle_lighter = "#2a2d40"
+mantle_darker = "#121523"
+
+# === 擴充：語意化顏色 ===
+success = "#a6da95"
+success_light = "#b9e7a8"
+success_dark = "#93cd82"
+warning = "#eed49f"
+warning_light = "#f9e1b2"
+warning_dark = "#dbc78c"
+error = "#ed8796"
+error_light = "#f79ba8"
+error_dark = "#da7484"
+info = "#8aadf4"
+info_light = "#9dc0ff"
+info_dark = "#779ae1"
+hint = "#8bd5ca"
+hint_light = "#9ee2d7"
+hint_dark = "#78c8bd"
+
+# === 擴充：Git 狀態色 ===
+git_added = "#a6da95"
+git_modified = "#eed49f"
+git_deleted = "#ed8796"
+git_renamed = "#b7bdf8"
+git_untracked = "#f5a97f"
+git_ignored = "#6e738d"
+git_conflicted = "#ee99a0"
+git_staged = "#8bd5ca"
+
+# === 擴充：程式語言色 ===
+lang_javascript = "#eed49f"
+lang_typescript = "#8aadf4"
+lang_python = "#8aadf4"
+lang_rust = "#f5a97f"
+lang_go = "#91d7e3"
+lang_java = "#ed8796"
+lang_c = "#8aadf4"
+lang_cpp = "#ed8796"
+lang_ruby = "#ed8796"
+lang_php = "#b7bdf8"
+lang_shell = "#a6da95"
+lang_lua = "#8aadf4"
+
+# === 擴充：工具/框架色 ===
+tool_docker = "#7dc4e4"
+tool_kubernetes = "#8aadf4"
+tool_git = "#f5a97f"
+tool_vim = "#a6da95"
+tool_vscode = "#8aadf4"
+tool_react = "#91d7e3"
+tool_vue = "#a6da95"
+tool_angular = "#ed8796"
+tool_node = "#a6da95"
+tool_npm = "#ed8796"
+
+# ====================================================
+
+[palettes.catppuccin_latte]
+# === 原始 Catppuccin 16 色 ===
+rosewater = "#dc8a78"
+flamingo = "#dd7878"
+pink = "#ea76cb"
+mauve = "#8839ef"
+red = "#d20f39"
+maroon = "#e64553"
+peach = "#fe640b"
+yellow = "#df8e1d"
+green = "#40a02b"
+teal = "#179299"
+sky = "#04a5e5"
+sapphire = "#209fb5"
+blue = "#1e66f5"
+lavender = "#7287fd"
+text = "#4c4f69"
+subtext1 = "#5c5f77"
+subtext0 = "#6c6f85"
+overlay2 = "#7c7f93"
+overlay1 = "#8c8fa1"
+overlay0 = "#9ca0b0"
+surface2 = "#acb0be"
+surface1 = "#bcc0cc"
+surface0 = "#ccd0da"
+base = "#eff1f5"
+mantle = "#e6e9ef"
+crust = "#dce0e8"
+
+# === 擴充：亮度變體 ===
+rosewater_light = "#e99d8b"
+rosewater_dark = "#cf7465"
+flamingo_light = "#ea8b8b"
+flamingo_dark = "#d06565"
+pink_light = "#f789d8"
+pink_dark = "#dd63be"
+mauve_light = "#994cfc"
+mauve_dark = "#7726e2"
+red_light = "#df2246"
+red_dark = "#c5002c"
+maroon_light = "#f35866"
+maroon_dark = "#d93240"
+peach_light = "#ff7e28"
+peach_dark = "#f14a00"
+yellow_light = "#eca13a"
+yellow_dark = "#cc7b00"
+green_light = "#53b33e"
+green_dark = "#2d8d18"
+teal_light = "#2aa5ac"
+teal_dark = "#047f86"
+sky_light = "#21b8f8"
+sky_dark = "#0092d2"
+sapphire_light = "#3dacc8"
+sapphire_dark = "#0692a2"
+blue_light = "#3b79ff"
+blue_dark = "#0553e2"
+lavender_light = "#859aff"
+lavender_dark = "#5f74f0"
+
+# === 擴充：中間調色板 ===
+coral = "#e89885"
+coral_light = "#f5ab98"
+coral_dark = "#d58572"
+mint = "#a0d1b8"
+mint_light = "#b5e4cb"
+mint_dark = "#8bbea5"
+periwinkle = "#a0a0e8"
+periwinkle_light = "#b3b3f5"
+periwinkle_dark = "#8d8dd5"
+lilac = "#c895d5"
+lilac_light = "#dba8e8"
+lilac_dark = "#b582c2"
+salmon = "#eda0a0"
+salmon_light = "#ffb3b3"
+salmon_dark = "#da8d8d"
+lime = "#b5d585"
+lime_light = "#c8e898"
+lime_dark = "#a2c272"
+turquoise = "#75bdc1"
+turquoise_light = "#88d0d4"
+turquoise_dark = "#62aaae"
+violet = "#ad85e8"
+violet_light = "#c098f5"
+violet_dark = "#9a72d5"
+
+# === 擴充：文字層級 ===
+text_bright = "#3a3d57"
+text_muted = "#5e6179"
+subtext2 = "#7e8196"
+subtext3 = "#9295a9"
+
+# === 擴充：表面層級 ===
+surface3 = "#9ca0b0"
+surface4 = "#8c90a0"
+base_lighter = "#ffffff"
+base_darker = "#dfe1e5"
+mantle_lighter = "#f0f2f6"
+mantle_darker = "#d6dae0"
+
+# === 擴充：語意化顏色 ===
+success = "#40a02b"
+success_light = "#53b33e"
+success_dark = "#2d8d18"
+warning = "#df8e1d"
+warning_light = "#eca13a"
+warning_dark = "#cc7b00"
+error = "#d20f39"
+error_light = "#df2246"
+error_dark = "#c5002c"
+info = "#1e66f5"
+info_light = "#3b79ff"
+info_dark = "#0553e2"
+hint = "#179299"
+hint_light = "#2aa5ac"
+hint_dark = "#047f86"
+
+# === 擴充：Git 狀態色 ===
+git_added = "#40a02b"
+git_modified = "#df8e1d"
+git_deleted = "#d20f39"
+git_renamed = "#7287fd"
+git_untracked = "#fe640b"
+git_ignored = "#9ca0b0"
+git_conflicted = "#e64553"
+git_staged = "#179299"
+
+# === 擴充：程式語言色 ===
+lang_javascript = "#df8e1d"
+lang_typescript = "#1e66f5"
+lang_python = "#1e66f5"
+lang_rust = "#fe640b"
+lang_go = "#04a5e5"
+lang_java = "#d20f39"
+lang_c = "#1e66f5"
+lang_cpp = "#d20f39"
+lang_ruby = "#d20f39"
+lang_php = "#7287fd"
+lang_shell = "#40a02b"
+lang_lua = "#1e66f5"
+
+# === 擴充：工具/框架色 ===
+tool_docker = "#209fb5"
+tool_kubernetes = "#1e66f5"
+tool_git = "#fe640b"
+tool_vim = "#40a02b"
+tool_vscode = "#1e66f5"
+tool_react = "#04a5e5"
+tool_vue = "#40a02b"
+tool_angular = "#d20f39"
+tool_node = "#40a02b"
+tool_npm = "#d20f39"

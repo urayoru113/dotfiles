@@ -175,11 +175,35 @@ in {
 
     bash = {
       enable = true;
+
+      # ===== For LOGIN shells (after nix environment loaded) =====
+      profileExtra = ''
+        # Auto-exec zsh for interactive LOGIN sessions
+        # This runs AFTER nix shell setup, so environment is preserved
+        if [[ $- == *i* ]] && [ -z "$ZSH_VERSION" ] && [ -z "$BASH_NO_ZSH" ]; then
+          if command -v zsh &> /dev/null; then
+            exec zsh -l  # -l for login shell
+          fi
+        fi
+      '';
+
+      # ===== For NON-LOGIN interactive shells =====
+      # (some terminals start non-login shells)
       initExtra = ''
-        # Auto-exec zsh for interactive sessions
-        if [[ $- == *i* ]] && command -v zsh &> /dev/null; then
-          if [ -z "$ZSH_VERSION" ] && [ -z "$BASH_NO_ZSH" ]; then
-            exec zsh
+        # For non-login interactive shells, use delayed exec
+        # This ensures nix shell environment is loaded first
+        if [[ $- == *i* ]] && [ -z "$ZSH_VERSION" ] && [ -z "$BASH_NO_ZSH" ]; then
+          if command -v zsh &> /dev/null; then
+            # Use PROMPT_COMMAND to delay exec until after full init
+            _delayed_zsh_exec() {
+              # Remove this function after first run
+              PROMPT_COMMAND="''${PROMPT_COMMAND//_delayed_zsh_exec;/}"
+              # Now exec zsh
+              exec zsh
+            }
+
+            # Prepend to PROMPT_COMMAND
+            PROMPT_COMMAND="_delayed_zsh_exec;''${PROMPT_COMMAND}"
           fi
         fi
       '';
@@ -192,8 +216,16 @@ in {
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
       inherit shellAliases;
+      initContent = ''
+        export STARSHIP_CONFIG=$HOME/.dotfiles/starship.toml
+      '';
+    };
+
+    starship = {
+      enable = true;
     };
   };
+
   xdg.enable = true;
   # allow unfree packages
   nixpkgs.config.allowunfree = true;

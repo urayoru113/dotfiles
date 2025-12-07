@@ -14,9 +14,11 @@
     nixpkgs-stable,
     home-manager,
     ...
-  }: {
+  }: let
+    system = "x86_64-linux";
+  in {
     homeConfigurations.urayoru = home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs-stable.legacyPackages.x86_64-linux;
+      pkgs = nixpkgs-stable.legacyPackages.${system};
       modules = [./home.nix];
     };
   };
