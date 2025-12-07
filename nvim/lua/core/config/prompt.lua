@@ -10,6 +10,10 @@ M.get_deepseek_fim = function(context_before_cursor, context_after_cursor, _)
       context_before_cursor .. '<｜fim▁hole｜>' .. context_after_cursor .. '<｜fim▁end｜>'
 end
 
+M.get_starcoder_fim = function(context_before_cursor, context_after_cursor, _)
+  return '<fim_prefix>' ..
+      context_before_cursor .. '<fim_suffix>' .. context_after_cursor .. '<fim_middle>'
+end
 M.code_review = function(code)
   return
   [[
