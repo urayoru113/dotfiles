@@ -40,7 +40,6 @@ M.general = {
     'BufWritePre',
     {
       callback = function()
-        print(vim.b.do_format)
         if not vim.b.do_format or #vim.lsp.get_clients({ bufnr = 0 }) == 0 then
           return
         end

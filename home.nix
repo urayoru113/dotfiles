@@ -2,10 +2,27 @@
   config,
   pkgs,
   ...
-}: {
+}: let
+  shellAliases = {
+    # Modern tool replacements
+    ls = "eza";
+    ll = "eza -la";
+    la = "eza -a";
+    lt = "eza --tree";
+    cat = "bat";
+
+    # System
+    ".." = "cd ..";
+    "..." = "cd ../..";
+    "...." = "cd ../../..";
+  };
+in {
   home.username = "urayoru";
   home.homeDirectory = "/home/urayoru";
   home.stateVersion = "25.05";
+  home.sessionVariables = {
+    SHELL = "${pkgs.zsh}/bin/zsh"; # Hint to applications
+  };
   home.packages = with pkgs; [
     # System tools
     gcc
@@ -153,7 +170,20 @@
     };
 
     zoxide = {
-      enableZshIntegration = true;
+      enable = true;
+    };
+
+    bash = {
+      enable = true;
+      initExtra = ''
+        # Auto-exec zsh for interactive sessions
+        if [[ $- == *i* ]] && command -v zsh &> /dev/null; then
+          if [ -z "$ZSH_VERSION" ] && [ -z "$BASH_NO_ZSH" ]; then
+            exec zsh
+          fi
+        fi
+      '';
+      inherit shellAliases;
     };
 
     zsh = {
@@ -161,10 +191,7 @@
       enableCompletion = true;
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
-      shellAliases = {
-        ll = "ls -l";
-        ".." = "cd ..";
-      };
+      inherit shellAliases;
     };
   };
   xdg.enable = true;
