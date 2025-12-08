@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }: let
   shellAliases = {
@@ -10,8 +11,10 @@
     la = "eza -a";
     lt = "eza --tree";
     cat = "bat";
+    du = "dust";
+    df = "duf";
 
-    # System
+    # Navigation
     ".." = "cd ..";
     "..." = "cd ../..";
     "...." = "cd ../../..";
@@ -21,8 +24,9 @@ in {
   home.homeDirectory = "/home/urayoru";
   home.stateVersion = "25.05";
   home.sessionVariables = {
-    SHELL = "${pkgs.zsh}/bin/zsh"; # Hint to applications
+    STARSHIP_CONFIG = "$HOME/.dotfiles/starship.toml";
   };
+
   home.packages = with pkgs; [
     # System tools
     gcc
@@ -30,7 +34,8 @@ in {
     luajit
 
     # Terminal utilities
-    btop # System monitor (personal use)
+    bottom # System monitor(Rust)
+    btop # System monitor (C++)
     htop # Backup monitor
     ripgrep # Fast search
     fd # Fast file finder
@@ -43,11 +48,15 @@ in {
     zoxide # Smarter cd
     dust # Better du
     duf # Better df
+    sd # Better sed
+    procs # Better ps
 
     # Git related
     lazygit # Git TUI
     gh # GitHub CLI
     git-lfs # Git large file support
+    delta # Git diff improvement
+    difftastic # Git diff improvement
 
     # Development tools
     # Note: Language environments go in devShells, not here!
@@ -59,6 +68,7 @@ in {
     # Network tools
     httpie # HTTP client
     socat # Bidirectional data transfer
+    rsync # Sync remote file
 
     # Other utilities
     tldr # Simplified man pages
@@ -67,8 +77,22 @@ in {
     zip # Compression
   ];
 
+  home.activation.cleanupNvimLink = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    if [ -L "$HOME/.config/nvim" ]; then
+      $DRY_RUN_CMD rm "$HOME/.config/nvim"
+    fi
+    if [ -L "$HOME/.tmux.conf" ]; then
+      $DRY_RUN_CMD rm "$HOME/.tmux.conf"
+    fi
+  '';
+
   home.file = {
-    ".config/nvim" = {source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/nvim";};
+    ".config/nvim" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/nvim";
+    };
+    # ".tmux.conf" = {
+    #   source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.tmux.conf";
+    # };
   };
 
   programs = {
@@ -99,19 +123,25 @@ in {
         pull.rebase = true;
         push.autoSetupRemote = true;
         core.editor = "nvim";
-        diff.tool = "nvimdiff";
         merge.tool = "nvimdiff";
+        merge.conflictStyle = "zdiff3";
+
+        # delta
+        core.pager = "delta";
+        interactive.diffFilter = "delta --color-only";
+        delta = {
+          navigate = true;
+          line-numbers = true;
+          syntax-theme = "catppuccin";
+        };
+
+        # difftastic 配置
+        diff.tool = "difftastic";
+        difftool.prompt = false;
       };
 
       aliases = {
-        st = "status";
-        co = "checkout";
-        br = "branch";
-        ci = "commit";
-        cm = "commit -m";
-        last = "log -1 HEAD";
-        unstage = "reset HEAD --";
-        lg = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
+        difftool-any = "!git diff --no-index";
       };
 
       ignores = [
@@ -135,19 +165,15 @@ in {
       prefix = "M-p";
       escapeTime = 0;
       historyLimit = 10000;
+      mouse = true;
 
       extraConfig = ''
-        # Mouse support
-        set -g mouse on
+        # Basic config
+        bind-key M-p send-prefix # if you press <M-p><M-p>
+        set-option -a terminal-overrides ",*256col*:RGB"
 
         # Reload config
-        bind r source-file ~/.tmux.conf \; display "Config reloaded!"
-
-        # Split windows (more intuitive)
-        bind | split-window -h
-        bind - split-window -v
-        unbind '"'
-        unbind %
+        bind r source-file $HOME/.dotfiles/.tmux.conf \; display "Config reloaded!"
 
         # Vim-style pane switching
         bind M-h select-pane -L
@@ -171,6 +197,9 @@ in {
 
     zoxide = {
       enable = true;
+      options = [
+        "--cmd cd"
+      ];
     };
 
     bash = {
@@ -178,33 +207,8 @@ in {
 
       # ===== For LOGIN shells (after nix environment loaded) =====
       profileExtra = ''
-        # Auto-exec zsh for interactive LOGIN sessions
-        # This runs AFTER nix shell setup, so environment is preserved
-        if [[ $- == *i* ]] && [ -z "$ZSH_VERSION" ] && [ -z "$BASH_NO_ZSH" ]; then
-          if command -v zsh &> /dev/null; then
-            exec zsh -l  # -l for login shell
-          fi
-        fi
-      '';
-
-      # ===== For NON-LOGIN interactive shells =====
-      # (some terminals start non-login shells)
-      initExtra = ''
-        # For non-login interactive shells, use delayed exec
-        # This ensures nix shell environment is loaded first
-        if [[ $- == *i* ]] && [ -z "$ZSH_VERSION" ] && [ -z "$BASH_NO_ZSH" ]; then
-          if command -v zsh &> /dev/null; then
-            # Use PROMPT_COMMAND to delay exec until after full init
-            _delayed_zsh_exec() {
-              # Remove this function after first run
-              PROMPT_COMMAND="''${PROMPT_COMMAND//_delayed_zsh_exec;/}"
-              # Now exec zsh
-              exec zsh
-            }
-
-            # Prepend to PROMPT_COMMAND
-            PROMPT_COMMAND="_delayed_zsh_exec;''${PROMPT_COMMAND}"
-          fi
+        if [ -z "$ZSH_VERSION" ] && command -v zsh &> /dev/null; then
+          exec zsh -l
         fi
       '';
       inherit shellAliases;
@@ -212,16 +216,47 @@ in {
 
     zsh = {
       enable = true;
-      enableCompletion = true;
-      autosuggestion.enable = true;
-      syntaxHighlighting.enable = true;
-      inherit shellAliases;
-      initContent = ''
-        export STARSHIP_CONFIG=$HOME/.dotfiles/starship.toml
+      enableCompletion = false;
+
+      autosuggestion = {
+        enable = true;
+        strategy = [
+          "history"
+          "completion"
+        ];
+      };
+      historySubstringSearch = {
+        enable = true;
+      };
+      syntaxHighlighting = {
+        enable = true;
+      };
+
+      profileExtra = ''
+        [ -f ~/.dotfiles/.zshrc ] && source ~/.dotfiles/.zshrc
       '';
+      initContent = ''
+        fpath+=${pkgs.zsh-completions}/share/zsh/site-functions
+        source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
+        source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+      '';
+
+      inherit shellAliases;
+
+      oh-my-zsh = {
+        enable = true;
+        plugins = [
+          "git"
+          "vi-mode"
+        ];
+      };
     };
 
     starship = {
+      enable = true;
+    };
+
+    zellij = {
       enable = true;
     };
   };
