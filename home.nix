@@ -113,6 +113,16 @@ in {
       ];
     };
 
+    jujutsu = {
+      enable = true;
+      settings = {
+        user = {
+          name = "urayoru";
+          email = ""; # Remember to change!
+        };
+      };
+    };
+
     git = {
       enable = true;
       userName = "urayoru";
@@ -259,7 +269,6 @@ in {
         enable = true;
         plugins = [
           "git"
-          "vi-mode"
         ];
       };
     };

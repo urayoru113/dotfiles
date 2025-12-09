@@ -228,6 +228,7 @@ M.providers = {
       'sh',
     },
   },
+  taplo = {},
 }
 
 M.kind_icons = {
