@@ -207,6 +207,12 @@ in {
 
       # ===== For LOGIN shells (after nix environment loaded) =====
       profileExtra = ''
+        # On non-NixOS systems, source Nix environment manually
+        # (Home Manager doesn't add this automatically)
+        if [ -e /home/urayoru/.nix-profile/etc/profile.d/nix.sh ]; then
+          . /home/urayoru/.nix-profile/etc/profile.d/nix.sh;
+        fi
+
         if [ -z "$ZSH_VERSION" ] && command -v zsh &> /dev/null; then
           exec zsh -l
         fi
@@ -233,6 +239,12 @@ in {
       };
 
       profileExtra = ''
+        # On non-NixOS systems, source Nix environment manually
+        # (Home Manager doesn't add this automatically)
+        if [ -e /home/urayoru/.nix-profile/etc/profile.d/nix.sh ]; then
+          . /home/urayoru/.nix-profile/etc/profile.d/nix.sh;
+        fi
+
         [ -f ~/.dotfiles/.zshrc ] && source ~/.dotfiles/.zshrc
       '';
       initContent = ''
