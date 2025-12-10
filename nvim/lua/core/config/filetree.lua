@@ -1,5 +1,5 @@
 local M = {}
 
-M.should_open = true
+M.should_open = false
 
 return M

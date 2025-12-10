@@ -1,11 +1,10 @@
 local default_sources = {
-  'avante',
+  'codeium',
   'lsp',
   'path',
   'snippets',
   'buffer',
   'minuet',
-  'codeium',
 }
 
 local spec = {

@@ -1,10 +1,9 @@
 local spec = {
-  { 'shaunsingh/moonlight.nvim', event = 'VeryLazy' },
-  { 'EdenEast/nightfox.nvim', event = 'VeryLazy' },
-  --"navarasu/onedark.nvim",
-  { 'olimorris/onedarkpro.nvim', event = 'VeryLazy' },
-  { 'Mofiqul/vscode.nvim', event = 'VeryLazy' },
-  { 'catppuccin/nvim', name = 'catppuccin', event = 'VeryLazy' },
+  { 'shaunsingh/moonlight.nvim', lazy = false },
+  { 'EdenEast/nightfox.nvim', lazy = false },
+  { 'olimorris/onedarkpro.nvim', lazy = false },
+  { 'Mofiqul/vscode.nvim', lazy = false },
+  { 'catppuccin/nvim', name = 'catppuccin', lazy = false },
 }
 
 return spec

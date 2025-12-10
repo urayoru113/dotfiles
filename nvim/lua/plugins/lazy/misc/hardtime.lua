@@ -17,6 +17,7 @@ return {
       'saga*',
       'codecompanion',
       'markdown',
+      'txt',
       '',
     },
     disabled_keys = {

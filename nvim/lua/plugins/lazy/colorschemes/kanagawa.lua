@@ -25,7 +25,7 @@ local options = {
 
 local spec = {
   'rebelot/kanagawa.nvim',
-  event = 'VeryLazy',
+  lazy = false,
   opts = options,
 }
 

@@ -56,7 +56,7 @@ M['nvim-tree'] = {
     {
       callback = function(e)
         local startup_config = require('core.config.startup')
-        if e.file == '' then
+        if e.file == '' and filetree.should_open then
           vim.cmd(startup_config.providers[startup_config.provider])
         end
         vim.cmd('NvimTreeOpen')
@@ -88,7 +88,9 @@ M['neo-tree'] = {
         if e.file == '' and package.loaded[startup_config.provider] then
           vim.cmd(startup_config.providers[startup_config.provider])
         end
-        vim.cmd('Neotree show reveal_force_cwd')
+        if filetree.should_open then
+          vim.cmd('Neotree show reveal_force_cwd')
+        end
       end,
     },
   },

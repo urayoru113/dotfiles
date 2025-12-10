@@ -30,7 +30,6 @@ local spec = {
     },
   },
   cmd = 'AutoSession',
-  event = 'CmdlineEnter',
   config = function(_, opts)
     require('auto-session').setup(opts)
   end,

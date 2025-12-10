@@ -1,3 +1,5 @@
+local keymaps = require('core.keymaps')
+
 local options = {
   prompt_prefix = ' ',
   path_display = { 'smart' },
@@ -25,11 +27,8 @@ local spec = {
     },
   },
   opts = options,
-  init = function()
-    local utils = require('core.utils')
-    local keymaps = require('core.keymaps')
-    utils.load_mappings(keymaps['telescope'])
-  end,
+  keys = keymaps['telescope'],
+  cmd = 'Telescope',
   config = function(_, opts)
     local telescope_config = require('plugins.config.telescope')
     local telescope = require('telescope')

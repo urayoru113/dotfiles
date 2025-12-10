@@ -1,35 +1,35 @@
 local spec = {
   enabled = false,
-  "yetone/avante.nvim",
-  event = "VeryLazy",
+  'yetone/avante.nvim',
+  event = 'VeryLazy',
   version = false, -- Never set this value to "*"! Never!
   opts = {
-    provider = "gemini",
+    provider = 'gemini',
     providers = {
       gemini = {
-        model = "gemini-2.0-flash",
+        model = 'gemini-2.0-flash',
         timeout = 30000, -- Timeout in milliseconds
         temperature = 0,
         max_tokens = 20480,
-        api_key_name = "GEMINI_API_KEY"
-      }
+        api_key_name = 'GEMINI_API_KEY',
+      },
     },
   },
   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-  build = "make",
+  build = 'make',
   -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
   dependencies = {
-    "nvim-treesitter/nvim-treesitter",
-    "nvim-lua/plenary.nvim",
-    "MunifTanjim/nui.nvim",
+    'nvim-treesitter/nvim-treesitter',
+    'nvim-lua/plenary.nvim',
+    'MunifTanjim/nui.nvim',
     --- The below dependencies are optional,
-    "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-    "hrsh7th/nvim-cmp",              -- autocompletion for avante commands and mentions
-    "zbirenbaum/copilot.lua",        -- for providers='copilot'
+    'nvim-telescope/telescope.nvim', -- for file_selector provider telescope
+    'hrsh7th/nvim-cmp',              -- autocompletion for avante commands and mentions
+    'zbirenbaum/copilot.lua',        -- for providers='copilot'
     {
       -- support for image pasting
-      "HakonHarnes/img-clip.nvim",
-      event = "VeryLazy",
+      'HakonHarnes/img-clip.nvim',
+      event = 'VeryLazy',
       opts = {
         -- recommended settings
         default = {
@@ -47,9 +47,9 @@ local spec = {
       -- Make sure to set this up properly if you have lazy=true
       'MeanderingProgrammer/render-markdown.nvim',
       opts = {
-        file_types = { "Avante" },
+        file_types = { 'Avante' },
       },
-      ft = { "Avante" },
+      ft = { 'Avante' },
     },
   },
 }

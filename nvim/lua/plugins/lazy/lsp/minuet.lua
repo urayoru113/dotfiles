@@ -73,18 +73,19 @@ local spec = {
   config = function(_, opts)
     local _config = function()
       local is_server_running = function(url)
-        local handle = io.popen('curl -s ' .. url .. ' > /dev/null 2>&1 && echo 1 || echo 0')
-        assert(handle, '`handle` should not be nil')
-        local result = tonumber(handle:read('*a')) -- *a means read whole file
-        handle:close()
-        return result == 1
+        local result = vim.system({ 'curl', '-s', url }, { text = true }):wait()
+        return result.code == 0
       end
+
       local url = opts.provider_options[opts.provider].end_point
       local base_url = string.match(url, '^(.-)/v1/completions$')
-      if is_server_running(base_url) then
+
+      if base_url and is_server_running(base_url) then
         require('minuet').setup(opts)
       else
-        vim.notify('Server `' .. base_url .. '` is unreachable', vim.log.levels.WARN)
+        vim.schedule(function()
+          vim.notify('Minuet server `' .. base_url .. '` unreachable, disabled', vim.log.levels.DEBUG)
+        end)
       end
     end
     vim.schedule(_config)

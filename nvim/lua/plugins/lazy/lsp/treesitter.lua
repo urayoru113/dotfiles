@@ -14,10 +14,11 @@ local spec = {
       enable = false,
     },
     endwise = {
-      enable = true -- for neovim < 0.9
-    }
+      enable = true, -- for neovim < 0.9
+    },
   },
   build = ':TSUpdate',
+  lazy = false,
   config = function(_, opts)
     require('nvim-treesitter.configs').setup(opts)
   end,

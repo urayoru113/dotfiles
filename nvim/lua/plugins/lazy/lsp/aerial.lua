@@ -1,3 +1,5 @@
+local keymaps = require('core.keymaps')
+
 local spec = {
   'stevearc/aerial.nvim',
   enabled = true,
@@ -13,10 +15,9 @@ local spec = {
   -- Optional dependencies
   init = function()
     local utils = require('core.utils')
-    local keymaps = require('core.keymaps')
-    utils.load_mappings(keymaps['aerial'])
     utils.load_highlights('aerial')
   end,
+  keys = keymaps['aerial'],
   dependencies = {
     'nvim-treesitter/nvim-treesitter',
     'nvim-tree/nvim-web-devicons',
