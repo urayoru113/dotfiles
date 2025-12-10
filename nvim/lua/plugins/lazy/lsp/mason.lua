@@ -8,12 +8,18 @@ local spec = {
   },
   {
     'jay-babu/mason-null-ls.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'williamboman/mason.nvim',
+      'nvimtools/none-ls.nvim',
+    },
+    event = { 'BufReadPre', 'BufNewFile' },
     opts = function()
-      local null_ls = require('null-ls')
       return {
         handlers = {
           -- function() end, -- put an anonmous function to disable using default config
           mypy = function()
+            local null_ls = require('null-ls')
             null_ls.register(null_ls.builtins.diagnostics.mypy.with({
               command = function()
                 local local_mypy_path = utils.get_project_venv_path('python') .. '/bin/mypy'
@@ -29,11 +35,6 @@ local spec = {
         },
       }
     end,
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'williamboman/mason.nvim',
-      'nvimtools/none-ls.nvim',
-    },
     config = function(_, opts)
       local null_ls = require('null-ls')
       require('mason-null-ls').setup(opts)
@@ -48,6 +49,7 @@ local spec = {
         },
       })
     end,
-  } }
+  },
+}
 
 return spec

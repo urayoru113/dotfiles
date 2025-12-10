@@ -1,4 +1,3 @@
-local keymaps = require('core.keymaps')
 local options = {
   prompt_prefix = ' ',
   path_display = { 'smart' },
@@ -25,11 +24,19 @@ local spec = {
       version = '^1.0.0',
     },
   },
-  keys = keymaps.telescope,
   opts = options,
+  init = function()
+    local utils = require('core.utils')
+    local keymaps = require('core.keymaps')
+    utils.load_mappings(keymaps['telescope'])
+  end,
   config = function(_, opts)
+    local telescope_config = require('plugins.config.telescope')
     local telescope = require('telescope')
     telescope.setup(opts)
+    for _, extension in pairs(telescope_config.extensions) do
+      telescope.load_extension(extension)
+    end
     if vim.fn.executable('rg') == 1 then
       telescope.load_extension('live_grep_args')
     end

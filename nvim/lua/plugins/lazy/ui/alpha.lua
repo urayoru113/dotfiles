@@ -259,7 +259,6 @@ local options = {
 local spec = {
   'goolord/alpha-nvim',
   dependencies = {
-    'nvim-telescope/telescope.nvim',
     'nvim-tree/nvim-web-devicons',
   },
   opts = options,

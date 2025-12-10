@@ -112,6 +112,10 @@ M.providers = {
     },
   },
   pyright = {
+    on_init = function(client)
+      client.config.settings.python.pythonPath = utils.get_project_python_path()
+      client.config.settings.python.venvPath = utils.get_project_venv_path('python')
+    end,
     settings = {
       python = {
         disableLanguageServices = true,
@@ -122,8 +126,6 @@ M.providers = {
           diagnosticSeverityOverrides = {
           },
         },
-        pythonPath = utils.get_project_python_path(),
-        venvPath = utils.get_project_venv_path('python'),
       },
     },
   },

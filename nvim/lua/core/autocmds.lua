@@ -50,89 +50,83 @@ M.general = {
   },
 }
 
-M['nvim-tree'] = function()
-  local api = require('nvim-tree.api')
-  local startup_config = require('core.config.startup')
-  return {
+M['nvim-tree'] = {
+  {
+    'VimEnter',
     {
-      'VimEnter',
-      {
-        callback = function(e)
-          if e.file == '' then
-            vim.cmd(startup_config.providers[startup_config.provider])
-          end
-          vim.cmd('NvimTreeOpen')
-        end,
-      },
+      callback = function(e)
+        local startup_config = require('core.config.startup')
+        if e.file == '' then
+          vim.cmd(startup_config.providers[startup_config.provider])
+        end
+        vim.cmd('NvimTreeOpen')
+      end,
     },
+  },
+  {
+    'BufEnter',
     {
-      'BufEnter',
-      {
-        callback = function()
-          if filetree.should_open and not api.tree.is_visible() then
-            api.tree.open()
-          end
-          if not filetree.should_open and api.tree.is_visible() then
-            api.tree.close()
-          end
-        end,
-      },
+      callback = function()
+        local api = require('nvim-tree.api')
+        if filetree.should_open and not api.tree.is_visible() then
+          api.tree.open()
+        end
+        if not filetree.should_open and api.tree.is_visible() then
+          api.tree.close()
+        end
+      end,
     },
-  }
-end
+  },
+}
 
-M['neo-tree'] = function()
-  local neo_tree_config = require('plugins.config.neo-tree')
-  local startup_config = require('core.config.startup')
-  return {
+M['neo-tree'] = {
+  {
+    'VimEnter',
     {
-      'VimEnter',
-      {
-        callback = function(e)
-          if e.file == '' and package.loaded[startup_config.provider] then
-            vim.cmd(startup_config.providers[startup_config.provider])
-          end
-          vim.cmd('Neotree show reveal_force_cwd')
-        end,
-      },
+      callback = function(e)
+        local startup_config = require('core.config.startup')
+        if e.file == '' and package.loaded[startup_config.provider] then
+          vim.cmd(startup_config.providers[startup_config.provider])
+        end
+        vim.cmd('Neotree show reveal_force_cwd')
+      end,
     },
+  },
+  {
+    { 'TabEnter' },
     {
-      { 'TabEnter' },
-      {
-        callback = function()
-          vim.schedule(function()
-            if filetree.should_open and not neo_tree_config.is_neo_tree_visible() then
-              vim.cmd('Neotree show reveal_force_cwd')
-            end
-          end)
-          if not filetree.should_open and neo_tree_config.is_neo_tree_visible() then
-            vim.cmd('Neotree close')
+      callback = function()
+        local neo_tree_config = require('plugins.config.neo-tree')
+        vim.schedule(function()
+          if filetree.should_open and not neo_tree_config.is_neo_tree_visible() then
+            vim.cmd('Neotree show reveal_force_cwd')
           end
-        end,
-      },
+        end)
+        if not filetree.should_open and neo_tree_config.is_neo_tree_visible() then
+          vim.cmd('Neotree close')
+        end
+      end,
     },
-  }
-end
+  },
+}
 
-M['dap-view'] = function()
-  local dapview = require('dap-view')
-  local util = require('dap-view.util')
-  local state = require('dap-view.state')
-  local dap = require('plugins.config.dap')
-  return {
+M['dap-view'] = {
+  {
+    'BufEnter',
     {
-      'BufEnter',
-      {
-        callback = function()
-          if dap.is_debug_mode then
-            if not util.is_win_valid(state.winnr) then
-              dapview.open()
-            end
+      callback = function()
+        local dap = require('plugins.config.dap')
+        if dap.is_debug_mode then
+          local dapview = require('dap-view')
+          local util = require('dap-view.util')
+          local state = require('dap-view.state')
+          if not util.is_win_valid(state.winnr) then
+            dapview.open()
           end
-        end,
-      },
+        end
+      end,
     },
-  }
-end
+  },
+}
 
 return M

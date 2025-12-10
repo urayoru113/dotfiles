@@ -29,6 +29,8 @@ local spec = {
       previewer = 'active_buffer',
     },
   },
+  cmd = 'AutoSession',
+  event = 'CmdlineEnter',
   config = function(_, opts)
     require('auto-session').setup(opts)
   end,

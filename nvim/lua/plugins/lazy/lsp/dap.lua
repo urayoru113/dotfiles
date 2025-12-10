@@ -1,4 +1,5 @@
 local utils = require('core.utils')
+local keymaps = require('core.keymaps')
 local autocmds = require('core.autocmds')
 local dap_config = require('plugins.config.dap')
 
@@ -16,6 +17,7 @@ local specs = {
   },
   {
     'theHamsta/nvim-dap-virtual-text',
+    lazy = true,
     opts = {
       only_first_definition = false,
     },
@@ -23,6 +25,7 @@ local specs = {
   {
     'igorlfs/nvim-dap-view',
     enabled = dap_config.viewer == 'dap-view',
+    lazy = true,
     init = function()
       utils.load_autocmds('DapView', autocmds['dap-view'])
     end,
@@ -52,39 +55,41 @@ local specs = {
       'williamboman/mason.nvim',
       'mfussenegger/nvim-dap',
     },
-    init = function()
-      require('plugins.config.dap').setup('dap-view')
-    end,
-    opts = {
-      handlers = {
-        function(config)
-          -- all sources with no handler get passed here
+    keys = keymaps['debug_mode'],
+    opts = function()
+      require('plugins.config.dap').setup()
+      require('nvim-dap-virtual-text')
+      return {
+        handlers = {
+          function(config)
+            -- all sources with no handler get passed here
 
-          -- Keep original functionality
-          require('mason-nvim-dap').default_setup(config)
-        end,
-        python = function(config)
-          config.configurations = {
-            {
-              type = 'python',
-              request = 'launch',
-              name = 'debugpy',
-              pythonPath = utils.get_project_python_path(),
-              module = 'pytest',
-              args = { '-s', '--show-capture=stdout', '${file}' },
-              console = 'integratedTerminal',
-              --console = "externalTerminal"
-            },
-          }
-          require('mason-nvim-dap').default_setup(config)
-          --local dap = require('dap')
-          --dap.defaults.fallback.external_terminal = {
-          --  command = "tmux",
-          --  args = { "split-window", "-h", "-d", "-p", "35" }
-          --}
-        end,
-      },
-    },
+            -- Keep original functionality
+            require('mason-nvim-dap').default_setup(config)
+          end,
+          python = function(config)
+            config.configurations = {
+              {
+                type = 'python',
+                request = 'launch',
+                name = 'debugpy',
+                pythonPath = utils.get_project_python_path(),
+                module = 'pytest',
+                args = { '-s', '--show-capture=stdout', '${file}' },
+                console = 'integratedTerminal',
+                --console = "externalTerminal"
+              },
+            }
+            require('mason-nvim-dap').default_setup(config)
+            --local dap = require('dap')
+            --dap.defaults.fallback.external_terminal = {
+            --  command = "tmux",
+            --  args = { "split-window", "-h", "-d", "-p", "35" }
+            --}
+          end,
+        },
+      }
+    end,
   },
 }
 

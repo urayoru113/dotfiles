@@ -206,70 +206,61 @@ M.telescope = {
   { mode = 'n', '<leader>fk', '<CMD>Telescope keymaps<CR>', noremap = true, desc = 'Find keymaps' },
 }
 
-M.gitsigns = function()
-  local gitsigns = require('gitsigns')
-  return {
-    {
-      mode = 'n',
-      '<leader>gn',
-      function()
-        if vim.wo.diff then
-          vim.cmd.normal({ ']c', bang = true })
-        else
-          gitsigns.nav_hunk('next')
-        end
-      end,
-      noremap = true,
-      desc = 'Go to next hunk',
-    },
-    {
-      mode = 'n',
-      '<leader>gp',
-      function()
-        if vim.wo.diff then
-          vim.cmd.normal({ '[c', bang = true })
-        else
-          gitsigns.nav_hunk('prev')
-        end
-      end,
-      noremap = true,
-      desc = 'Go to prev hunk',
-    },
-    { mode = 'n', '<leader>gd', '<CMD>Gitsigns diffthis HEAD vertical=true<CR>' },
-  }
-end
+M.gitsigns = {
+  {
+    mode = 'n',
+    '<leader>gn',
+    function()
+      if vim.wo.diff then
+        vim.cmd.normal({ ']c', bang = true })
+      else
+        require('gitsigns').nav_hunk('next')
+      end
+    end,
+    noremap = true,
+    desc = 'Go to next hunk',
+  },
+  {
+    mode = 'n',
+    '<leader>gp',
+    function()
+      if vim.wo.diff then
+        vim.cmd.normal({ '[c', bang = true })
+      else
+        require('gitsigns').nav_hunk('prev')
+      end
+    end,
+    noremap = true,
+    desc = 'Go to prev hunk',
+  },
+  { mode = 'n', '<leader>gd', '<CMD>Gitsigns diffthis HEAD vertical=true<CR>' },
+}
 
-M.luasnip = function()
-  local ls = require('luasnip')
-  return {
-    { mode = 'i', '<TAB>', function() ls.jump(1) end, silent = true },
-    { mode = 'i', '<s-TAB>', function() ls.jump(-1) end, silent = true },
-  }
-end
+M.luasnip = {
+  { mode = 'i', '<TAB>', function() require('luasnip').jump(1) end, silent = true },
+  { mode = 'i', '<s-TAB>', function() require('luasnip').jump(-1) end, silent = true },
+}
 
-M['grug-far'] = function()
-  local grug_far = require('grug-far')
-  return {
-    {
-      mode = 'n',
-      '<leader>S',
-      function()
-        grug_far.open()
-      end,
-      desc = 'Open grug-far',
-    },
-    {
-      mode = 'v',
-      '<leader>S',
-      function()
-        grug_far.open({
-          startInInsertMode = false,
-        })
-      end,
-      desc = 'Open grug-far',
-    },
-  }
-end
+M['grug-far'] = {
+  {
+    mode = 'n',
+    '<leader>S',
+    function()
+      require('grug-far').open()
+    end,
+    desc = 'Open grug-far',
+  },
+  {
+    mode = 'v',
+    '<leader>S',
+    function()
+      require('grug-far').open({
+        startInInsertMode = false,
+      })
+    end,
+    desc = 'Open grug-far',
+  },
+}
 
 M.debug_mode = {
   { mode = 'n', '<F6>', '<CMD>ToggleDebugMode<CR>', desc = 'Toggle debug mode' },

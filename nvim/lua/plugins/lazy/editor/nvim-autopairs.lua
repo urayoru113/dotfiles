@@ -11,6 +11,7 @@ local spec = {
       end_key = 's',
     },
   },
+  event = 'InsertEnter',
   config = function(_, opts)
     local npairs = require('nvim-autopairs')
     npairs.setup(opts)

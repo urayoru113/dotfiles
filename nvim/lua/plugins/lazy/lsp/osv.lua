@@ -3,7 +3,8 @@ return {
   dependencies = {
     'mfussenegger/nvim-dap',
   },
-  init = function()
+  cmd = { 'OsvServerStart', 'OsvServerRestart' },
+  config = function()
     require('plugins.config.osv').setup()
 
     local dap = require('dap')

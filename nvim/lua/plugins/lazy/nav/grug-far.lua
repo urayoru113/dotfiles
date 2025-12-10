@@ -32,6 +32,6 @@ return {
       nextInput = false,
       prevInput = false,
     },
-    windowCreationCommand = 'tabnew',
+    windowCreationCommand = 'tabnew | tabmove -1',
   },
 }

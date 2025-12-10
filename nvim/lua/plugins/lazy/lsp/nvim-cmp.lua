@@ -1,6 +1,5 @@
-local lsp = require('core.config.lsp')
-
 local options = function()
+  local lsp = require('core.config.lsp')
   local cmp = require('cmp')
   local item_kind = require('cmp.types').lsp.CompletionItemKind
 
@@ -141,10 +140,7 @@ local spec = {
     'hrsh7th/cmp-cmdline',
     'hrsh7th/cmp-nvim-lsp-signature-help',
 
-    {
-      'L3MON4D3/LuaSnip',
-      build = 'make install_jsregexp',
-    },
+    'L3MON4D3/LuaSnip',
     'saadparwaiz1/cmp_luasnip',
     {
       'zbirenbaum/copilot-cmp',
