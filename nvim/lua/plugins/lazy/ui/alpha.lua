@@ -1,265 +1,84 @@
-local ui = require('core.config.ui')
+local options = function()
+  local dashboard = require("alpha.themes.dashboard")
+  local ui = require("core.config.ui")
 
-local icon = {
-  type = 'text',
-  val = ui.icon_table,
-  opts = {
-    position = 'center',
-    hl = 'DevIconMate',
-  },
-}
+  -- Header
+  dashboard.section.header.val = ui.icon_table
+  dashboard.section.header.opts.hl = "DevIconMate"
 
-local date = {
-  type = 'text',
-  val = ui.date,
-  opts = {
-    position = 'center',
-
-    hl = 'DevIconNix',
-  },
-}
-
-
-local top = {
-  type = 'button',
-  val = '  🞂 New file',
-  on_press = function()
-    vim.cmd('enew | silent NvimTreeOpen')
-  end,
-  opts = {
-    position = 'center',
-    hl = 'DevIconGz',
-
-    shortcut = '[e]',
-
-    cursor = 5,
-    width = 50,
-    align_shortcut = 'right',
-    hl_shortcut = 'DevIconBzl',
-
-    keymap = {
-      'n',
-      'e',
-      ':enew | silent NvimTreeOpen<CR>',
-      { noremap = true, silent = true, nowait = true },
+  -- Date
+  local date_section = {
+    type = "text",
+    val = ui.date,
+    opts = {
+      position = "center",
+      hl = "DevIconNix",
     },
-  },
-}
+  }
 
-local body = {
-  type = 'group',
-  val = {
-    {
-      type = 'button',
-      val = '󰮗  🞂 Find files',
-      on_press = function()
-        vim.cmd([[Telescope find_files]])
-      end,
-      opts = {
-        position = 'center',
-        hl = 'DevIconGz',
+  -- Buttons
+  dashboard.section.buttons.val = {
+    dashboard.button("e", "   New file", ":enew | silent NvimTreeOpen<CR>"),
+    dashboard.button("f", "󰮗   Find files", ":Telescope find_files<CR>"),
+    dashboard.button("r", "󰕁   Recents", ":Telescope oldfiles<CR>"),
+    dashboard.button("w", "󱀾   Find word", function()
+      if vim.fn.executable("rg") == 1 then
+        vim.cmd("Telescope live_grep")
+      else
+        vim.cmd("Telescope grep_string")
+      end
+    end),
+    dashboard.button("b", "󱓍   Git branches", ":Telescope git_branches<CR>"),
+    dashboard.button("l", "󰦛   Last session", ":AutoSession restore<CR>"),
+    dashboard.button("z", "󱁤   Lazy plugins", ":Lazy<CR>"),
+    dashboard.button("c", "   Colorschemes", ":Telescope colorscheme enable_preview=true<CR>"),
+    dashboard.button("q", "   Quit", ":qa<CR>"),
+  }
 
-        shortcut = '[f]',
-        cursor = 5,
-        width = 50,
-        align_shortcut = 'right',
-        hl_shortcut = 'DevIconBzl',
+  -- Customize button styling
+  for _, button in ipairs(dashboard.section.buttons.val) do
+    button.opts.hl = "DevIconGz"
+    button.opts.hl_shortcut = "DevIconBzl"
+    button.opts.width = 50
+    button.opts.align_shortcut = "right"
+  end
 
-        keymap = {
-          'n',
-          'f',
-          ':Telescope find_files<CR>',
-          { noremap = true, silent = true, nowait = true },
-        },
+  -- Footer
+  dashboard.section.footer.val = function()
+    return "  neovim loaded " .. require("lazy").stats().loaded .. " plugins"
+  end
+  dashboard.section.footer.opts.hl = { { "DevIconPpt", 0, 3 }, { "DevIconSig", 3, -1 } }
 
-      },
+  -- Copyright
+  local copyright = {
+    type = "text",
+    val = "-- Copyright © urayoru -- ",
+    opts = {
+      position = "center",
+      hl = "SplashAuthor",
     },
-    {
-      type = 'button',
-      val = '󰕁  🞂 Recents',
-      on_press = function()
-        vim.cmd('Telescope oldfiles')
-      end,
-      opts = {
-        position = 'center',
-        hl = 'DevIconGz',
+  }
 
-        shortcut = '[r]',
-        cursor = 5,
-        width = 50,
-        align_shortcut = 'right',
-        hl_shortcut = 'DevIconBzl',
-
-        keymap = {
-          'n',
-          'r',
-          ':Telescope oldfiles<CR>',
-          { noremap = true, silent = true, nowait = true },
-        },
-      },
-    },
-    {
-      type = 'button',
-      val = '󱀾  🞂 Find word',
-      on_press = function()
-        if vim.fn.executable('rg') == 0 then
-          vim.cmd('Telescope grep_string')
-        else
-          vim.cmd('Telescope live_grep')
-        end
-      end,
-      opts = {
-        position = 'center',
-        hl = 'DevIconGz',
-
-        shortcut = '[w]',
-        cursor = 5,
-        width = 50,
-        align_shortcut = 'right',
-        hl_shortcut = 'DevIconBzl',
-
-        keymap = {
-          'n',
-          'w',
-          function()
-            if vim.fn.executable('rg') == 0 then
-              return ':Telescope grep_string<CR>'
-            else
-              return ':Telescope live_grep<CR>'
-            end
-          end,
-          { noremap = true, expr = true, silent = true, nowait = true },
-        },
-      },
-    },
-    {
-      type = 'button',
-      val = '󰦛  🞂 Last session',
-      on_press = function()
-        vim.cmd('AutoSession restore')
-      end,
-      opts = {
-        position = 'center',
-        hl = 'DevIconGz',
-
-        shortcut = '[l]',
-        cursor = 5,
-        width = 50,
-        align_shortcut = 'right',
-        hl_shortcut = 'DevIconBzl',
-
-        keymap = {
-          'n',
-          'l',
-          ':AutoSession restore<CR>',
-          { noremap = true, silent = true, nowait = true },
-        },
-      },
-    },
-    {
-      type = 'button',
-      val = '  🞂 Colorschemes',
-      on_press = function()
-        local path = vim.fn.stdpath('config') .. '/lua/plugins/colorscheme'
-        for _, v in pairs(vim.fn.readdir(path)) do
-          require(vim.fn.fnamemodify(v, ':r'))
-        end
-        vim.cmd('Telescope colorscheme')
-      end,
-      opts = {
-        position = 'center',
-        hl = 'DevIconGz',
-
-        shortcut = '[c]',
-        cursor = 5,
-        width = 50,
-        align_shortcut = 'right',
-        hl_shortcut = 'DevIconBzl',
-
-        keymap = {
-          'n',
-          'c',
-          [[:let b:path = stdpath('config') .. '/lua/plugins/colorscheme'
-            :for file in readdir(b:path) |
-              exec "lua require('" . fnamemodify(file, ':r') . "')" |
-            endfor
-            :Telescope colorscheme<CR>]],
-          { noremap = true, silent = true, nowait = true },
-        },
-      },
-    },
-    {
-      type = 'button',
-      val = '  🞂 Quit',
-      on_press = function()
-        vim.cmd('qall')
-      end,
-      opts = {
-        position = 'center',
-        hl = 'DevIconGz',
-
-        shortcut = '[q]',
-        cursor = 5,
-        width = 50,
-        align_shortcut = 'right',
-        hl_shortcut = 'DevIconBzl',
-
-        keymap = {
-          'n',
-          'q',
-          ':q<CR>',
-          { noremap = true, silent = true, nowait = true },
-        },
-      },
-    },
-  },
-  opts = {
-    spacing = 1,
-  },
-}
-
-local foooter = {
-  type = 'text',
-  val = function()
-    return '  neovim loaded ' .. require('lazy').stats().loaded .. ' plugins'
-  end,
-  opts = {
-    position = 'center',
-    hl = { { 'DevIconPpt', 0, 3 }, { 'DevIconSig', 3, -1 } },
-  },
-}
-
-local copyright = {
-  type = 'text',
-  val = '-- Copyright © urayoru -- ',
-  opts = {
-    position = 'center',
-    hl = 'SplashAuthor',
-  },
-}
-
-local options = {
-  layout = {
-    { type = 'padding', val = 3 },
-    icon,
-    { type = 'padding', val = 1 },
-    date,
-    { type = 'padding', val = 2 },
-    top,
-    { type = 'padding', val = 1 },
-    body,
-    { type = 'padding', val = 1 },
-    foooter,
-  },
-  opts = {
-    --margin = 0
-  },
-}
+  -- Layout
+  dashboard.config.layout = {
+    { type = "padding", val = 3 },
+    dashboard.section.header,
+    { type = "padding", val = 1 },
+    date_section,
+    { type = "padding", val = 2 },
+    dashboard.section.buttons,
+    { type = "padding", val = 1 },
+    dashboard.section.footer,
+    { type = "padding", val = 1 },
+    copyright,
+  }
+  return dashboard.config
+end
 
 local spec = {
-  'goolord/alpha-nvim',
+  "goolord/alpha-nvim",
   dependencies = {
-    'nvim-tree/nvim-web-devicons',
+    "nvim-tree/nvim-web-devicons",
   },
   opts = options,
 }
