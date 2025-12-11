@@ -1,5 +1,5 @@
 local spec = {
-  enabled = false,
+  enabled = true,
   'altermo/ultimate-autopair.nvim',
   dependencies = {
     'RRethy/nvim-treesitter-endwise',

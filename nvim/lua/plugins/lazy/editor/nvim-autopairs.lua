@@ -1,17 +1,17 @@
 local spec = {
-  enabled = true,
+  enabled = false,
   'windwp/nvim-autopairs',
   dependencies = {
-    'RRethy/nvim-treesitter-endwise',
+    'rrethy/nvim-treesitter-endwise',
   },
   opts = {
-    disable_filetype = { 'grug%-far', 'TelescopePrompt' },
+    disable_filetype = { 'grug%-far', 'telescopeprompt' },
     pattern = [=[[%'%"%>%]%)%}%,]]=],
     fast_wrap = {
       end_key = 's',
     },
   },
-  event = 'InsertEnter',
+  event = 'insertenter',
   config = function(_, opts)
     local npairs = require('nvim-autopairs')
     npairs.setup(opts)
@@ -27,9 +27,18 @@ local spec = {
     })
 
     npairs.add_rules({
-      rule('{', '},', 'lua'):with_pair(ts_cond.is_ts_node({ 'table_constructor' })),
-      rule("'", "',", 'lua'):with_pair(ts_cond.is_ts_node({ 'table_constructor' })),
-      rule('"', '",', 'lua'):with_pair(ts_cond.is_ts_node({ 'table_constructor' })),
+      rule('{', '},', 'lua'):with_pair(function(options)
+        return cond.not_after_text(',')(options) == nil and
+            ts_cond.is_ts_node({ 'table_constructor' })(options)
+      end),
+      rule("'", "',", 'lua'):with_pair(function(options)
+        return cond.not_after_text(',')(options) == nil and
+            ts_cond.is_ts_node({ 'table_constructor' })(options)
+      end),
+      rule('"', '",', 'lua'):with_pair(function(options)
+        return cond.not_after_text(',')(options) == nil and
+            ts_cond.is_ts_node({ 'table_constructor' })(options)
+      end),
     })
   end,
 }
