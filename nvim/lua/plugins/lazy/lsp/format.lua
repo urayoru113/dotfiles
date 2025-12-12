@@ -6,7 +6,7 @@ return {
     ---@diagnostic disable-next-line: duplicate-set-field
     vim.lsp.buf.format = function(format_opts)
       require("conform").format(vim.tbl_extend("force", format_opts or {}, {
-        lsp_format = "fallback",
+        lsp_format = "last", -- use lspconfig first
       }))
     end
   end,
