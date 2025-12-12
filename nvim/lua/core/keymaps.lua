@@ -65,31 +65,6 @@ M["nvim-tree"] = {
   { mode = "n", "<F2>", "<CMD>NvimTreeToggle<CR>", noremap = true },
 }
 
-M.cocnvim = {
-  { mode = "n", "<C-n>", "<Plug>(coc-cursors-word)g*", noremap = true },
-  { mode = "n", "<leader><leader>", "<Plug>(coc-cursors-position)", noremap = true },
-  {
-    mode = "n",
-    "<leader>F",
-    function()
-      vim.fn.CocAction("format")
-    end,
-    noremap = true,
-    desc = "Format",
-  },
-  { mode = "n", "[g", "<Plug>(coc-diagnostic-prev)", noremap = true, silent = true },
-  { mode = "n", "]g", "<Plug>(coc-diagnostic-next)", noremap = true, silent = true },
-  { mode = "x", "<C-n>", "y/\\V<C-r>=escape(@\", '/\\')<CR><CR>Ngn<Plug>(coc-cursors-range)ngn", noremap = true },
-  {
-    mode = "i",
-    "<C-y>",
-    [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]],
-    noremap = true,
-    silent = true,
-    expr = true,
-    replace_keycodes = false,
-  },
-}
 
 M.aerial = {
   { mode = "n", "<F8>", "<cmd>AerialToggle!<CR>", noremap = true, silent = true },
@@ -97,7 +72,7 @@ M.aerial = {
 
 M.lspsaga = {
   { mode = "n", "K", "<CMD>Lspsaga hover_doc<CR>" },
-  { mode = "n", "grd", "<CMD>Lspsaga goto_definition<CR>" },
+  { mode = "n", "grd", "m'<CMD>Lspsaga goto_definition<CR>" },
   { mode = "n", "grf", "<CMD>Lspsaga finder<CR>" },
   { mode = "n", "grn", function() vim.lsp.buf.rename() end, desc = "Rename" },
   { mode = "n", "gj", "<CMD>Lspsaga diagnostic_jump_next<CR>" },
@@ -310,6 +285,10 @@ M.cpp = {
 
 M.sh = {
   { mode = "n", "<F9>", "<CMD>!%:p<CR>", noremap = true, silent = true, ft = { "sh" } },
+}
+
+M.markview = {
+  { mode = "n", "<F9>", "<CMD>Markview splitToggle<CR>", noremap = true, silent = true, ft = { "markdown" } },
 }
 
 return M
