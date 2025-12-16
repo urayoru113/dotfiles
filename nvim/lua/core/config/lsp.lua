@@ -238,6 +238,7 @@ M.providers = {
     },
   },
   taplo = {},
+  jsonls = {},
 }
 
 M.kind_icons = {
