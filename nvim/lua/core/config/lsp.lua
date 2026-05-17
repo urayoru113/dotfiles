@@ -239,6 +239,8 @@ M.providers = {
   },
   taplo = {},
   jsonls = {},
+  java = {},
+  jdtls = {},
 }
 
 M.kind_icons = {

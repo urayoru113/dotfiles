@@ -288,7 +288,7 @@ M.sh = {
 }
 
 M.markview = {
-  { mode = "n", "<F9>", "<CMD>Markview splitToggle<CR>", noremap = true, silent = true, ft = { "markdown" } },
+  { mode = "n", "<F9>", "<CMD>Markview splitToggle<CR>", noremap = true, silent = true, ft = { "markdown", "rst" } },
 }
 
 return M
