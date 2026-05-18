@@ -24,6 +24,9 @@ local specs = {
   {
     "igorlfs/nvim-dap-view",
     enabled = dap_config.viewer == "dap-view",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+    },
     version = "1.*",
     lazy = true,
     init = function()

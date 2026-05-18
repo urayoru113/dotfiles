@@ -31,6 +31,15 @@ M.lazy = function()
 
   local options = {
     concurrency = math.min(8, math.max(1, math.ceil(vim.uv.available_parallelism() / 2))),
+    git = {
+      throttle = {
+        enabled = true, -- not enabled by default
+        -- max 4 ops every 5 seconds
+        rate = 4,
+        duration = 5 * 1000, -- in ms
+      },
+    },
+
     change_detection = {
       notify = false,
       enabled = true,

@@ -166,8 +166,8 @@ local spec = {
         keymaps = {
           send = {
             modes = {
+              i = "<C-!>",
               n = "<C-s>",
-              i = "<C-!",
             },
             opts = {},
           },

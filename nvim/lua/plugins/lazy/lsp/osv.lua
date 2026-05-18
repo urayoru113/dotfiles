@@ -1,22 +1,22 @@
 return {
-  'jbyuki/one-small-step-for-vimkind',
+  "jbyuki/one-small-step-for-vimkind",
   dependencies = {
-    'mfussenegger/nvim-dap',
+    "mfussenegger/nvim-dap",
   },
-  cmd = { 'OsvServerStart', 'OsvServerRestart' },
+  ft = "lua",
   config = function()
-    require('plugins.config.osv').setup()
+    require("plugins.config.osv").setup()
 
-    local dap = require('dap')
+    local dap = require("dap")
     dap.configurations.lua = {
       {
-        type = 'nlua',
-        request = 'attach',
-        name = 'Attach to running Neovim instance',
+        type = "nlua",
+        request = "attach",
+        name = "Attach to running Neovim instance",
       },
     }
     dap.adapters.nlua = function(callback, config)
-      callback({ type = 'server', host = config.host or '127.0.0.1', port = config.port or 8086 })
+      callback({ type = "server", host = config.host or "127.0.0.1", port = config.port or 8086 })
     end
   end,
 }
