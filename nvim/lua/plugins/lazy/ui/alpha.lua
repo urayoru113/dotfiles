@@ -18,7 +18,7 @@ local options = function()
 
   -- Buttons
   dashboard.section.buttons.val = {
-    dashboard.button("e", "   New file", ":enew | silent NvimTreeOpen<CR>"),
+    dashboard.button("e", "   New file", ":enew<CR>"),
     dashboard.button("f", "󰮗   Find files", ":Telescope find_files<CR>"),
     dashboard.button("r", "󰕁   Recents", ":Telescope oldfiles<CR>"),
     dashboard.button("w", "󱀾   Find word", function()
@@ -29,7 +29,8 @@ local options = function()
       end
     end),
     dashboard.button("b", "󱓍   Git branches", ":Telescope git_branches<CR>"),
-    dashboard.button("l", "󰦛   Last session", ":AutoSession restore<CR>"),
+    dashboard.button("s", "󱎸   Search Session", ":Autosession search<CR>"),
+    dashboard.button("l", "󰦛   Last session", ":SessionRestore<CR>"),
     dashboard.button("z", "󱁤   Lazy plugins", ":Lazy<CR>"),
     dashboard.button("c", "   Colorschemes", ":Telescope colorscheme enable_preview=true<CR>"),
     dashboard.button("q", "   Quit", ":qa<CR>"),

@@ -1,3 +1,16 @@
+-- == Disable these options to speed up startup ==
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+-- ===============================================
+vim.g.ftplugin_sql_omni_key = "<C-j>"
+vim.g.clipboard = "win32yank"
+
+vim.b.do_format = false
+
+-- ===============================================
 vim.opt.autoindent = true
 vim.opt.cindent = true
 vim.opt.endofline = false

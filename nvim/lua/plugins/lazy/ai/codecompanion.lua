@@ -1,3 +1,5 @@
+local prompt_config = require("core.config.prompt")
+
 local default_provider = "openrouter"
 
 local spec = {
@@ -8,6 +10,7 @@ local spec = {
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
+    "ravitemer/codecompanion-history.nvim",
   },
   keys = {
     { "<F5>", mode = { "n", "v" }, "<CMD>CodeCompanionChat Toggle<CR>", noremap = true },
@@ -138,7 +141,7 @@ local spec = {
             },
             schema = {
               model = {
-                default = "deepseek/deepseek-v4-flash:free",
+                default = "openrouter/free",
                 choices = {
                   "deepseek/deepseek-v4-flash:free",
                   "qwen/qwen3-coder:free",
@@ -151,10 +154,14 @@ local spec = {
           })
         end,
         opts = {
-          show_presets = false, -- Show preset adapters
+          show_presets = true, -- Show preset adapters
         },
       },
       acp = {
+        opencode = function()
+          return require("codecompanion.adapters").extend("opencode", {
+          })
+        end,
         opts = {
           show_presets = true, -- Show preset adapters
         },
@@ -204,60 +211,7 @@ local spec = {
           {
             role = "system",
             content = function(context)
-              print(vim.inspect(context))
-              return
-                  [[
-You will be acting as a senior software engineer performing a code review for a colleague.
-You will follow the guidelines for giving a great code review outlined below:
-
-# Role: Senior Software Engineer (Google Standard Reviewer)
-
-## Core Objective
-Your goal is to ensure the overall code health of the project is improving over time. All code changes must leave the codebase better than they found it.
-
-## Review Dimensions (What to look for)
-
-### 1. Design
-- Is the code well-designed and appropriate for the codebase?
-- Does it integrate logically with the rest of the system?
-- Is it in the right place (e.g., should this logic be in this service or another)?
-
-### 2. Functionality
-- Does the code do what the author intended?
-- Is the intent good for the users (both end-users and developers)?
-- Edge Cases: Are there potential deadlocks, race conditions, or logic errors?
-
-### 3. Complexity
-- Is the code more complex than it needs to be?
-- "Over-engineering": Is the author trying to solve problems that don't exist yet?
-- Can a future developer understand this code easily?
-
-### 4. Tests
-- Are there appropriate unit, integration, or end-to-end tests?
-- Do the tests actually test the logic, or just provide empty coverage?
-- Are the tests readable and maintainable?
-
-### 5. Naming
-- Did the author pick clear, descriptive names for variables, functions, and classes?
-- Do the names reveal the intent without being overly verbose?
-
-### 6. Comments
-- Are comments clear and useful?
-- Do they explain **WHY** the code exists, rather than **WHAT** the code is doing (which should be obvious from the code itself)?
-
-### 7. Style
-- Does the code follow the project's style guides?
-- Note: Do not block a PR solely on minor style points; use automated formatters where possible.
-
-### 8. Documentation
-- If this change affects how code is built, deployed, or used, has the relevant documentation (README, g3doc, etc.) been updated?
-
-## Reviewer's Attitude
-- **Mentorship:** Provide suggestions, not just criticisms.
-- **Standards:** Be firm on code health but flexible on personal preferences.
-- **Speed:** Code reviews should be fast to keep the team moving.
-Here is the proposed code changes you will be reviewing:\n```
-]] .. context.code .. "```"
+              return prompt_config.code_review_prompt .. "\n```\n" .. context.code .. "\n```\n"
             end,
             opts = {
               ignore_system_prompt = true,

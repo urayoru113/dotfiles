@@ -176,9 +176,29 @@ M.lsp = {
 M.telescope = {
   { mode = "n", "<leader>fb", "<CMD>Telescope buffers<CR>", noremap = true, desc = "Find buffers" },
   { mode = "n", "<leader>fd", "<CMD>Telescope diagnostics<CR>", noremap = true, desc = "Find diagnostic" },
+  { mode = "n", "<leader>fw", "<CMD>Telescope live_grep<CR>", noremap = true, desc = "Find word" },
   { mode = "n", "<leader>fc", "<CMD>Telescope colorscheme enable_preview=true<CR>", noremap = true, desc = "Colorscheme" },
   { mode = "n", "<leader>ff", "<CMD>Telescope find_files<CR>", noremap = true, desc = "Find files" },
   { mode = "n", "<leader>fk", "<CMD>Telescope keymaps<CR>", noremap = true, desc = "Find keymaps" },
+}
+
+M.yazi = {
+  {
+    "<leader>-",
+    mode = { "n", "v" },
+    "<cmd>Yazi<cr>",
+    desc = "Open yazi at the current file",
+  },
+  {
+    "<leader>cw",
+    "<cmd>Yazi cwd<cr>",
+    desc = "Open the file manager in nvim's working directory",
+  },
+  {
+    "<c-up>",
+    "<cmd>Yazi toggle<cr>",
+    desc = "Resume the last yazi session",
+  },
 }
 
 M.gitsigns = {
@@ -210,6 +230,7 @@ M.gitsigns = {
   },
   { mode = "n", "<leader>gd", "<CMD>Gitsigns diffthis HEAD vertical=true<CR>", desc = "Diff HEAD" },
   { mode = "n", "<leader>gh", "<CMD>Gitsigns preview_hunk<CR>", "Show diff of current hunk" },
+  { mode = "n", "<leader>gb", "<CMD>Gitsigns blame_line<CR>", "Show blame of current line" },
 }
 
 M.luasnip = {

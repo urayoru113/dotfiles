@@ -262,6 +262,9 @@ local spec = {
                 return item
               end, items)
             end,
+            enabled = function()
+              return vim.api.nvim_buf_get_name(0):find("oil://", 1, true) ~= 1
+            end,
           },
           nvim_lua = {
             name = "nvim_lua",

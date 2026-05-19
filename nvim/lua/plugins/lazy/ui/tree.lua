@@ -1535,7 +1535,7 @@ local neotree_opts = function()
           "%.cssnanorc*",
           "%.htmlnanorc*",
           "%.postcssrc*",
-          "%.terserrc*",
+          "%.tercerrc*",
           "babel%.config%.*",
           "capacitor%.config%.*",
           "content%.config%.*",
@@ -1587,6 +1587,30 @@ local neotree_opts = function()
   }
 end
 
+local oil_opts = function()
+  return {
+    keymaps = {
+      ["g?"] = { "actions.show_help", mode = "n" },
+      ["<CR>"] = "actions.select",
+      ["gs"] = { "actions.select", opts = { vertical = true } },
+      -- ["<C-h>"] = { "actions.select", opts = { horizontal = true } },
+      -- ["<C-t>"] = { "actions.select", opts = { tab = true } },
+      -- ["<C-p>"] = "actions.preview",
+      -- ["<C-c>"] = { "actions.close", mode = "n" },
+      -- ["<C-l>"] = "actions.refresh",
+      ["<backspace>"] = { "actions.parent", mode = "n" },
+      ["_"] = { "actions.open_cwd", mode = "n" },
+      ["`"] = { "actions.cd", mode = "n" },
+      ["g~"] = { "actions.cd", opts = { scope = "tab" }, mode = "n" },
+      -- ["gs"] = { "actions.change_sort", mode = "n" },
+      ["gx"] = "actions.open_external",
+      ["H"] = { "actions.toggle_hidden", mode = "n" },
+      ["g\\"] = { "actions.toggle_trash", mode = "n" },
+    },
+    use_default_keymaps = false,
+  }
+end
+
 local spec = {
   {
     "nvim-tree/nvim-tree.lua",
@@ -1631,6 +1655,36 @@ local spec = {
       }
     end,
     opts = neotree_opts,
+  },
+  {
+    enabled = true,
+    "stevearc/oil.nvim",
+    dependencies = { { "nvim-mini/mini.icons", opts = {} } },
+    cmd = "Oil",
+    opts = oil_opts,
+  },
+  {
+    "mikavilpas/yazi.nvim",
+    version = "*", -- use the latest stable version
+    event = "VeryLazy",
+    dependencies = {
+      { "nvim-lua/plenary.nvim", lazy = true },
+    },
+    keys = keymaps["yazi"],
+    opts = {
+      -- if you want to open yazi instead of netrw, see below for more info
+      open_for_directories = false,
+      keymaps = {
+        show_help = "<f1>",
+      },
+    },
+    -- 👇 if you use `open_for_directories=true`, this is recommended
+    init = function()
+      -- mark netrw as loaded so it's not loaded at all.
+      --
+      -- More details: https://github.com/mikavilpas/yazi.nvim/issues/802
+      vim.g.loaded_netrwPlugin = 1
+    end,
   },
 }
 

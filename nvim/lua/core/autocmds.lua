@@ -99,7 +99,7 @@ M["neo-tree"] = {
         local neo_tree_config = require("plugins.config.neo-tree")
         vim.schedule(function()
           if filetree.should_open and not neo_tree_config.is_neo_tree_visible() then
-            vim.cmd("Neotree show reveal_force_cwd")
+            neo_tree_config.smart_neotree_reveal()
           end
         end)
         if not filetree.should_open and neo_tree_config.is_neo_tree_visible() then
