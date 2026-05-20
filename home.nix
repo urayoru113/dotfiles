@@ -14,17 +14,26 @@
     du = "dust";
     df = "duf";
 
+    fonts = "fc-list : family";
+
     # Navigation
     ".." = "cd ..";
     "..." = "cd ../..";
     "...." = "cd ../../..";
   };
+
+  shellInit = ''
+    ns() {
+      nix shell "''${@/#/nixpkgs#}"
+    }
+  '';
 in {
   home.username = "urayoru";
   home.homeDirectory = "/home/urayoru";
-  home.stateVersion = "25.05";
+  home.stateVersion = "25.11";
   home.sessionVariables = {
-    STARSHIP_CONFIG = "$HOME/.dotfiles/starship.toml";
+    ZELLIJ_CONFIG_DIR = "$HOME/.dotfiles/zellij";
+    OPENCODE_CONFIG = "$HOME/.dotfiles/opencode.jsonc";
   };
 
   home.packages = with pkgs; [
@@ -41,6 +50,8 @@ in {
     fd # Fast file finder
     fzf # Fuzzy finder
     tmux # Terminal multiplexer
+    zellij # Terminal multiplexer
+    yazi # File explorer
 
     # Modern alternatives
     eza # Better ls
@@ -75,25 +86,14 @@ in {
     tree # Directory tree
     unzip # Decompression
     zip # Compression
+
+    # Project Manager
+    uv
+
+    # ai
+    opencode # AI agent
+    vectorcode # AI assist
   ];
-
-  home.activation.cleanupNvimLink = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    if [ -L "$HOME/.config/nvim" ]; then
-      $DRY_RUN_CMD rm "$HOME/.config/nvim"
-    fi
-    if [ -L "$HOME/.tmux.conf" ]; then
-      $DRY_RUN_CMD rm "$HOME/.tmux.conf"
-    fi
-  '';
-
-  home.file = {
-    ".config/nvim" = {
-      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/nvim";
-    };
-    # ".tmux.conf" = {
-    #   source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/.tmux.conf";
-    # };
-  };
 
   programs = {
     neovim = {
@@ -125,10 +125,17 @@ in {
 
     git = {
       enable = true;
-      userName = "urayoru";
-      userEmail = ""; # Remember to change!
 
-      extraConfig = {
+      settings = {
+        user = {
+          name = "urayoru";
+          email = ""; # Remember to change!
+        };
+
+        aliases = {
+          difftool-any = "!git diff --no-index";
+        };
+
         init.defaultBranch = "main";
         pull.rebase = true;
         push.autoSetupRemote = true;
@@ -142,16 +149,12 @@ in {
         delta = {
           navigate = true;
           line-numbers = true;
-          syntax-theme = "catppuccin";
         };
 
         # difftastic 配置
-        diff.tool = "difftastic";
+        diff.tool = "difft";
         difftool.prompt = false;
-      };
-
-      aliases = {
-        difftool-any = "!git diff --no-index";
+        difftool.difft.cmd = "difft '$LOCAL' '$REMOTE'";
       };
 
       ignores = [
@@ -166,6 +169,11 @@ in {
         "*.swo"
         "*~"
       ];
+    };
+
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
     };
 
     tmux = {
@@ -216,7 +224,7 @@ in {
       enable = true;
 
       # ===== For LOGIN shells (after nix environment loaded) =====
-      profileExtra = ''
+      initExtra = ''
         # On non-NixOS systems, source Nix environment manually
         # (Home Manager doesn't add this automatically)
         if [ -e /home/urayoru/.nix-profile/etc/profile.d/nix.sh ]; then
@@ -261,6 +269,7 @@ in {
         fpath+=${pkgs.zsh-completions}/share/zsh/site-functions
         source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
         source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+        ${shellInit}
       '';
 
       inherit shellAliases;
@@ -275,14 +284,16 @@ in {
 
     starship = {
       enable = true;
-    };
-
-    zellij = {
-      enable = true;
+      settings = builtins.fromTOML (builtins.readFile ./starship.toml);
     };
   };
 
   xdg.enable = true;
+
+  xdg.configFile."nvim" = {
+    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/nvim";
+    force = true;
+  };
   # allow unfree packages
   nixpkgs.config.allowunfree = true;
 }
