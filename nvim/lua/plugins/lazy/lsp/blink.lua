@@ -9,6 +9,7 @@ local default_sources = {
 
 local spec = {
   "saghen/blink.cmp",
+  version = "v1.*",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "xzbdmw/colorful-menu.nvim",
@@ -50,7 +51,7 @@ local spec = {
         ["<C-n>"] = {
           function(cmp)
             if not cmp.is_menu_visible() then
-              cmp.show()
+              cmp.show_and_insert()
               return true
             end
           end,
@@ -109,7 +110,7 @@ local spec = {
 
         trigger = {
           prefetch_on_insert = false,
-          show_on_insert = true,
+          show_on_insert = false,
           show_on_x_blocked_trigger_characters = {},
         },
       },
@@ -161,6 +162,10 @@ local spec = {
           lua = {
             inherit_defaults = true,
             "nvim_lua",
+          },
+          codecompanion = {
+            inherit_defaults = true,
+            "codecompanion",
           },
         },
         providers = {
@@ -228,11 +233,12 @@ local spec = {
             score_offset = 30, -- Gives minuet higher priority among suggestions
           },
           codeium = {
-            name = "Codeium",
+            name = "codeium",
             module = "codeium.blink",
             async = true,
             timeout_ms = 3000,
             score_offset = 50, -- Gives minuet higher priority among suggestions
+            max_items = 2,
             transform_items = function(ctx, items)
               local col = ctx.cursor[2]
               local after_cursor = string.sub(ctx.line, col + 1)

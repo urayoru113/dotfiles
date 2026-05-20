@@ -6,7 +6,7 @@ local spec = {
   --https://github.com/olimorris/codecompanion.nvim/blob/main/lua/codecompanion/config.lua
   enabled = true,
   "olimorris/codecompanion.nvim",
-  tag = "v18.7.0",
+  version = "v19.*",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
@@ -94,6 +94,7 @@ local spec = {
               model = {
                 default = "qwen3-vl:2b-thinking-bf16",
                 choices = {
+                  "qwen3-vl:2b-thinking-bf16",
                   "deepseek-coder:6.7b-instruct-q4_K_M",
                   "ishumilin/deepseek-r1-coder-tools:1.5b",
                 },
@@ -116,6 +117,7 @@ local spec = {
                 --https://console.groq.com/settings/limits
                 default = "meta-llama/llama-4-scout-17b-16e-instruct",
                 choices = {
+                  "meta-llama/llama-4-scout-17b-16e-instruct",
                   "llama-3.3-70b-versatile",
                   "llama-3.1-8b-instant",
                   "mixtral-8x7b-32768",
@@ -143,6 +145,7 @@ local spec = {
               model = {
                 default = "openrouter/free",
                 choices = {
+                  "openrouter/free",
                   "deepseek/deepseek-v4-flash:free",
                   "qwen/qwen3-coder:free",
                   "nvidia/nemotron-3-super-120b-a12b:free",
@@ -154,14 +157,11 @@ local spec = {
           })
         end,
         opts = {
+          show_model_choices = true,
           show_presets = true, -- Show preset adapters
         },
       },
       acp = {
-        opencode = function()
-          return require("codecompanion.adapters").extend("opencode", {
-          })
-        end,
         opts = {
           show_presets = true, -- Show preset adapters
         },
@@ -217,6 +217,56 @@ local spec = {
               ignore_system_prompt = true,
             },
           },
+        },
+      },
+    },
+
+    extensions = {
+      history = {
+        enabled = true,
+        opts = {
+          auto_save = true,
+          continue_last_chat = true,
+          delete_on_clearing_chat = true,
+          keymap = "gh",
+          picker = "telescope",
+          auto_generate_title = true,
+          chat_filter = function(chat_data)
+            return chat_data.cwd == vim.fn.getcwd()
+          end,
+        },
+        summary = {
+          -- Keymap to generate summary for current chat (default: "gcs")
+          create_summary_keymap = "gcs",
+          -- Keymap to browse summaries (default: "gbs")
+          browse_summaries_keymap = "gbs",
+
+          generation_opts = {
+            adapter = nil,               -- defaults to current chat adapter
+            model = nil,                 -- defaults to current chat model
+            context_size = 90000,        -- max tokens that the model supports
+            include_references = true,   -- include slash command content
+            include_tool_outputs = true, -- include tool execution results
+            system_prompt = nil,         -- custom system prompt (string or function)
+            format_summary = nil,        -- custom function to format generated summary e.g to remove <think/> tags from summary
+          },
+        },
+        -- Memory system (requires VectorCode CLI)
+        memory = {
+          -- Automatically index summaries when they are generated
+          auto_create_memories_on_summary_generation = true,
+          -- Path to the VectorCode executable
+          vectorcode_exe = "vectorcode",
+          -- Tool configuration
+          tool_opts = {
+            -- Default number of memories to retrieve
+            default_num = 10,
+          },
+          -- Enable notifications for indexing progress
+          notify = true,
+          -- Index all existing memories on startup
+          -- (requires VectorCode 0.6.12+ for efficient incremental indexing)
+          index_on_startup = false,
         },
       },
     },

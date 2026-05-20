@@ -28,6 +28,8 @@ M.kind_icons = {
   Ollama = "󰳆",
   ["Llama.cpp"] = "󰳆",
   Deepseek = "",
+  supermaven = "",
+
 }
 
 M.kind_menus = {
