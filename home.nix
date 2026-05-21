@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  hermes-agent,
   ...
 }: let
   shellAliases = {
@@ -93,6 +94,7 @@ in {
     # ai
     opencode # AI agent
     vectorcode # AI assist
+    hermes-agent.packages.${pkgs.system}.default
   ];
 
   programs = {
