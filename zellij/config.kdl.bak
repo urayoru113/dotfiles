@@ -1,0 +1,80 @@
+keybinds clear-defaults=false {
+    normal {
+        // Move
+        bind "h" { MoveFocus "Left"; }
+        bind "j" { MoveFocus "Down"; }
+        bind "k" { MoveFocus "Up"; }
+        bind "l" { MoveFocus "Right"; }
+
+        // Tab
+        bind "ctrl t" { NewTab;}
+        bind "tab" { GoToNextTab; }
+        bind "shift tab" { GoToPreviousTab; }
+        bind "Ctrl q" { CloseTab; SwitchToMode "Normal"; }
+
+        // Pane
+        bind "v" { NewPane "right"; SwitchToMode "locked"; }
+        bind "s" { NewPane "down"; SwitchToMode "locked"; }
+        bind "o" { NewPane "stacked"; SwitchToMode "locked"; }
+        bind "H" { Resize "Increase left"; }
+        bind "J" { Resize "Increase down"; }
+        bind "K" { Resize "Increase up"; }
+        bind "L" { Resize "Increase right"; }
+        bind "f" { TogglePaneFrames; }
+        bind "z" { ToggleFocusFullscreen; }
+        bind "e" { TogglePaneEmbedOrFloating; }
+
+        // Session
+        bind "alt d" { Detach; }
+
+        // Search
+        bind "/" { SwitchToMode "EnterSearch"; SearchInput 0; }
+    }
+
+    search {
+            bind "Ctrl s" { SwitchToMode "Normal"; }
+            bind "Ctrl c" { ScrollToBottom; SwitchToMode "Normal"; }
+            bind "j" "Down" { ScrollDown; }
+            bind "k" "Up" { ScrollUp; }
+            bind "Ctrl f" "PageDown" "Right" "l" { PageScrollDown; }
+            bind "Ctrl b" "PageUp" "Left" "h" { PageScrollUp; }
+            bind "d" { HalfPageScrollDown; }
+            bind "u" { HalfPageScrollUp; }
+            bind "n" { Search "down"; }
+            bind "p" { Search "up"; }
+            bind "c" { SearchToggleOption "CaseSensitivity"; }
+            bind "w" { SearchToggleOption "Wrap"; }
+            bind "o" { SearchToggleOption "WholeWord"; }
+        }
+
+    entersearch {
+        bind "Ctrl c" "Esc" { SwitchToMode "Normal"; }
+        bind "Enter" { SwitchToMode "Search"; }
+    }
+    
+
+}
+
+plugins {
+    tab-bar location="zellij:tab-bar"
+    status-bar location="zellij:status-bar"
+    strider location="zellij:strider"
+    compact-bar location="zellij:compact-bar"
+    session-manager location="zellij:session-manager"
+    welcome-screen location="zellij:session-manager" {
+        welcome_screen true
+    }
+    filepicker location="zellij:strider" {
+        cwd "/"
+    }
+    configuration location="zellij:configuration"
+    plugin-manager location="zellij:plugin-manager"
+    about false
+}
+
+pane_frames false
+default_shell "zsh"
+show_release_notes false
+default_mode "locked"
+default_layout "compact"
+

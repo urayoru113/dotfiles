@@ -33,8 +33,8 @@ in {
   home.homeDirectory = "/home/urayoru";
   home.stateVersion = "25.11";
   home.sessionVariables = {
-    ZELLIJ_CONFIG_DIR = "$HOME/.dotfiles/zellij";
-    OPENCODE_CONFIG = "$HOME/.dotfiles/opencode.jsonc";
+    ZELLIJ_CONFIG_DIR = "$HOME/.dotfiles/config/zellij";
+    OPENCODE_CONFIG = "$HOME/.dotfiles/config/opencode.jsonc";
   };
 
   home.packages = with pkgs; [
@@ -125,17 +125,6 @@ in {
       };
     };
 
-    opencode = {
-      enable = true;
-      extraPackages = with pkgs; [
-        bash-language-server
-        lua-language-server
-        pyright
-        nixd
-        yaml-language-server
-      ];
-    };
-
     git = {
       enable = true;
 
@@ -204,7 +193,7 @@ in {
         set-option -a terminal-overrides ",*256col*:RGB"
 
         # Reload config
-        bind r source-file $HOME/.dotfiles/.tmux.conf \; display "Config reloaded!"
+        bind r source-file $HOME/.dotfiles/home/.tmux.conf \; display "Config reloaded!"
 
         # Vim-style pane switching
         bind M-h select-pane -L
@@ -276,7 +265,7 @@ in {
           . /home/urayoru/.nix-profile/etc/profile.d/nix.sh;
         fi
 
-        [ -f ~/.dotfiles/.zshrc ] && source ~/.dotfiles/.zshrc
+        [ -f ~/.dotfiles/home/.zshrc ] && source ~/.dotfiles/home/.zshrc
       '';
       initContent = ''
         fpath+=${pkgs.zsh-completions}/share/zsh/site-functions
@@ -297,14 +286,14 @@ in {
 
     starship = {
       enable = true;
-      settings = builtins.fromTOML (builtins.readFile ./starship.toml);
+      settings = builtins.fromTOML (builtins.readFile config/starship.toml);
     };
   };
 
   xdg.enable = true;
 
   xdg.configFile."nvim" = {
-    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/nvim";
+    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/nvim";
     force = true;
   };
   # allow unfree packages
