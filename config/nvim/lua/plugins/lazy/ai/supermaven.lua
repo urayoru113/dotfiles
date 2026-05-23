@@ -10,7 +10,7 @@ return {
     disable_keymaps = false,
     condition = function()
       local filename = vim.fn.expand("%:t")
-      return filename:match(".env") or filename:match(".secret.sh")
+      return filename:match(".env")
     end,
   },
 }

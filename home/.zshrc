@@ -1,2 +1,2 @@
-[ -f ~/.dotfiles/.secret.sh ] && source ~/.dotfiles/.secret.sh # Add some sensive environment variables
+[ -f ~/.dotfiles/.env ] && source ~/.dotfiles/.env # Load environment variables
 export PATH="$HOME/.local/bin:$PATH"
