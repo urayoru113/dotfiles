@@ -68,6 +68,7 @@ local spec = {
     },
   },
   version = "v2.*",
+  event = "VeryLazy",
   config = function(_, opts)
     require("auto-session").setup(opts)
   end,

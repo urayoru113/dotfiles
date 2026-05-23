@@ -1,15 +1,23 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "model": "google/gemma-4-31b-it",
+  "instructions": [
+    "~/.dotfiles/ai/rules/AGENTS.md"
+  ],
+  "lsp": false,
   "provider": {
     "openrouter": {
-      "models": {},
+      "models": {
+        "openrouter/free": {},
+        "openrouter/owl-alpha": {}
+      },
       "options": {
         "apiKey": "{env:OPENROUTER_API_KEY}"
       }
     },
     "google": {
       "models": {
+        "gemma-4-26b-a4b-it": {},
         "gemma-4-31b-it": {}
       },
       "options": {

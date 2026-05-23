@@ -18,9 +18,12 @@ local spec = {
   },
   cmd = {
     "CodeCompanion",
+    "CodeCompanionActions",
+    "CodeCompanionCLI",
     "CodeCompanionChat",
     "CodeCompanionCmd",
-    "CodeCompanionActions",
+    "CodeCompanionHistory",
+    "CodeCompanionSummaries",
   },
   opts = {
     opts = {
@@ -36,8 +39,8 @@ local spec = {
           chat_fold = " ",
         },
         separator = "=",
-        fold_reasoning = false,
-        show_reasoning = false,
+        fold_reasoning = true,
+        show_reasoning = true,
       },
     },
     adapters = {
@@ -162,6 +165,50 @@ local spec = {
         },
       },
       acp = {
+        hermes = function()
+          local helpers = require("codecompanion.adapters.acp.helpers")
+          return {
+            name = "hermes",
+            formatted_name = "Hermes",
+            type = "acp",
+            roles = {
+              llm = "assistant",
+              user = "user",
+            },
+            commands = {
+              default = {
+                "hermes",
+                "acp",
+              },
+            },
+            defaults = {
+              mcpServers = {},
+              timeout = 20000,
+            },
+            parameters = {
+              protocolVersion = 1,
+              clientCapabilities = {
+                fs = { readTextFile = true, writeTextFile = true },
+              },
+              clientInfo = {
+                name = "CodeCompanion.nvim",
+                version = "1.0.0",
+              },
+            },
+            handlers = {
+              setup = function(self)
+                return true
+              end,
+              auth = function(self)
+                return true
+              end,
+              form_messages = function(self, messages, capabilities)
+                return helpers.form_messages(self, messages, capabilities)
+              end,
+              on_exit = function(self, code) end,
+            },
+          }
+        end,
         opts = {
           show_presets = true, -- Show preset adapters
         },
@@ -177,6 +224,11 @@ local spec = {
               n = "<C-s>",
             },
             opts = {},
+          },
+          codeblock = {
+            modes = {
+              n = "gcb",
+            },
           },
           close = {
             modes = {
@@ -230,7 +282,7 @@ local spec = {
           delete_on_clearing_chat = true,
           keymap = "gh",
           picker = "telescope",
-          auto_generate_title = true,
+          auto_generate_title = false,
           chat_filter = function(chat_data)
             return chat_data.cwd == vim.fn.getcwd()
           end,
@@ -267,6 +319,25 @@ local spec = {
           -- Index all existing memories on startup
           -- (requires VectorCode 0.6.12+ for efficient incremental indexing)
           index_on_startup = false,
+        },
+      },
+    },
+    rules = {
+      default = {
+        description = "Collection of common files for all projects",
+        files = {
+          ".clinerules",
+          ".cursorrules",
+          ".goosehints",
+          ".rules",
+          ".windsurfrules",
+          ".github/copilot-instructions.md",
+          "AGENT.md",
+          "AGENTS.md",
+          "~/.dotfiles/ai/rules/AGENTS.md",
+          { path = "CLAUDE.md", parser = "claude" },
+          { path = "CLAUDE.local.md", parser = "claude" },
+          { path = "~/.claude/CLAUDE.md", parser = "claude" },
         },
       },
     },

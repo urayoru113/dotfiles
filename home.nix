@@ -94,7 +94,7 @@ in {
     # ai
     opencode # AI agent
     vectorcode # AI assist
-    hermes-agent.packages.${pkgs.system}.default
+    (hermes-agent.packages.${pkgs.system}.default.override {extraDependencyGroups = ["messaging"];})
   ];
 
   programs = {
@@ -123,6 +123,17 @@ in {
           email = ""; # Remember to change!
         };
       };
+    };
+
+    opencode = {
+      enable = true;
+      extraPackages = with pkgs; [
+        bash-language-server
+        lua-language-server
+        pyright
+        nixd
+        yaml-language-server
+      ];
     };
 
     git = {

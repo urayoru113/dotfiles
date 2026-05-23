@@ -1,6 +1,6 @@
 -- https://github.com/folke/snacks.nvim
 return {
-  'folke/snacks.nvim',
+  "folke/snacks.nvim",
   cond = true,
   lazy = false,
   opts = function()
@@ -16,6 +16,7 @@ return {
       scope = { enabled = false },
       scroll = { enabled = false },
       statuscolumn = { enabled = false },
+      terminal = { enabled = true },
       words = { enabled = true },
       image = { enabled = false },
       zen = {
@@ -34,13 +35,13 @@ return {
     }
   end,
   keys = function()
-    local snacks = require('snacks')
+    local snacks = require("snacks")
     return {
-      { '<leader>gl', function() snacks.lazygit.open() end, desc = 'LazyGit' },
-      { mode = { 'n', 'o' }, 'gw', function() snacks.words.jump(1, true) end, desc = 'Go to next lsp word' },
-      { mode = { 'n', 'o' }, 'gW', function() snacks.words.jump(-1, true) end, desc = 'Go to prev lsp word' },
-      { '<leader>z', function() snacks.zen.zen() end, desc = 'Zen mode' },
-      { '<leader>Z', function() snacks.zen.zoom() end, desc = 'Zoom mode' },
+      { "<leader>gl", function() snacks.lazygit.open() end, desc = "LazyGit" },
+      { mode = { "n", "o" }, "gw", function() snacks.words.jump(1, true) end, desc = "Go to next lsp word" },
+      { mode = { "n", "o" }, "gW", function() snacks.words.jump(-1, true) end, desc = "Go to prev lsp word" },
+      { "<leader>z", function() snacks.zen.zen() end, desc = "Zen mode" },
+      { "<leader>Z", function() snacks.zen.zoom() end, desc = "Zoom mode" },
     }
   end,
 }

@@ -157,4 +157,21 @@ M["nvim-lint"] = {
   },
 }
 
+M["codecompanion"] = {
+  {
+    "User",
+    {
+      pattern = "CodeCompanionACPConnected",
+      callback = function(args)
+        local bufnr = args.data.buf
+        vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, { "/resume" })
+        local chat = require("codecompanion").buf_get_chat(bufnr)
+        if chat then
+          chat:submit()
+        end
+      end,
+    },
+  },
+}
+
 return M
