@@ -2,7 +2,7 @@ local prompt_config = require("core.config.prompt")
 
 local spec = {
   -- https://github.com/milanglacier/minuet-ai.nvim
-  enabled = true,
+  enabled = false,
   "milanglacier/minuet-ai.nvim",
   dependencies = {
     "nvim-lua/plenary.nvim",
@@ -18,7 +18,7 @@ local spec = {
     after_cursor_filter_length = 15,
     provider_options = {
       gemini = {
-        model = "gemini-2.5-flash",
+        model = "gemini-3.1-flash-light",
         stream = true,
         optional = {
           generationConfig = {
@@ -81,7 +81,7 @@ local spec = {
             name = "Groq",
             api_key = "GROQ_API_KEY",
             end_point = "https://api.groq.com/openai/v1/chat/completions",
-            model = "llama3-70b-8192",
+            model = "qwen/qwen3-32b",
             stream = true,
             optional = {
               max_tokens = 256,
@@ -94,24 +94,9 @@ local spec = {
     },
   },
   config = function(_, opts)
-    local _config = function()
-      local is_server_running = function(url)
-        local result = vim.system({ "curl", "-s", url }, { text = true }):wait()
-        return result.code == 0
-      end
-
-      local url = opts.provider_options[opts.provider].end_point
-      local base_url = string.match(url, "^(.-)/v1/completions$")
-
-      if base_url and is_server_running(base_url) then
-        require("minuet").setup(opts)
-      else
-        vim.schedule(function()
-          vim.notify("Minuet server `" .. base_url .. "` unreachable, disabled", vim.log.levels.DEBUG)
-        end)
-      end
-    end
-    vim.schedule(_config)
+    local minuet = require("minuet")
+    minuet.setup(opts)
+    minuet.change_preset("groq")
   end,
 }
 

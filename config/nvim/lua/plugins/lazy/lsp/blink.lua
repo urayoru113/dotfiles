@@ -38,7 +38,6 @@ local spec = {
       opts = {},
     },
   },
-  version = "1.*",
   event = { "InsertEnter", "CmdlineEnter" },
   opts = function()
     local capabilities = vim.lsp.protocol.make_client_capabilities()
