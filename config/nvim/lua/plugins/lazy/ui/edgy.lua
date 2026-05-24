@@ -62,7 +62,25 @@ return {
     right = {
       {
         -- codecompanion at the right
-        title = "Codecompanion",
+        title = function()
+          local winid = vim.g.statusline_winid
+          if not winid then return "Codecompanion" end
+          local bufnr = vim.api.nvim_win_get_buf(winid)
+          local chat = require("codecompanion").buf_get_chat(bufnr)
+          if not chat then return "Codecompanion" end
+          local adapter = chat.adapter
+          local provider = adapter.formatted_name or adapter.name or ""
+          local model = (adapter.model and adapter.model.formatted_name)
+              or (adapter.schema and adapter.schema.model and adapter.schema.model.default)
+              or ""
+          if provider == "" and model == "" then
+            return "Codecompanion"
+          elseif provider ~= nil and model == "" then
+            return provider
+          else
+            return provider .. " / " .. model
+          end
+        end,
         ft = "codecompanion",
         size = {
           width = 0.5,

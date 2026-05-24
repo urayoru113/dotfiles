@@ -35,6 +35,7 @@ in {
   home.sessionVariables = {
     ZELLIJ_CONFIG_DIR = "$HOME/.dotfiles/config/zellij";
     OPENCODE_CONFIG = "$HOME/.dotfiles/config/opencode.jsonc";
+    YAZI_CONFIG_HOME = "$HOME/.dotfiles/config/yazi";
   };
 
   home.packages = with pkgs; [
