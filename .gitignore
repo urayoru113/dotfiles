@@ -1,1 +1,4 @@
-.env
+.env.python_version
+.hermes/
+.luarc.json
+AGENTS.md
