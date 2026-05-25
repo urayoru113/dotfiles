@@ -7,7 +7,7 @@ keybinds clear-defaults=false {
         bind "l" { MoveFocus "Right"; }
 
         // Tab
-        bind "ctrl t" { NewTab;}
+        bind "t" { NewTab;}
         bind "tab" { GoToNextTab; }
         bind "shift tab" { GoToPreviousTab; }
         bind "Ctrl q" { CloseTab; SwitchToMode "Normal"; }

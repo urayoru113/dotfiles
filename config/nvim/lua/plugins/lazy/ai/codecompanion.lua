@@ -149,11 +149,10 @@ local spec = {
                 default = "openrouter/free",
                 choices = {
                   "openrouter/free",
-                  "deepseek/deepseek-v4-flash:free",
-                  "qwen/qwen3-coder:free",
                   "nvidia/nemotron-3-super-120b-a12b:free",
                   "poolside/laguna-m.1:free",
                   "openai/gpt-oss-120b:free",
+                  "owl-alpha",
                 },
               },
             },

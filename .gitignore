@@ -1,4 +1,5 @@
-*.env
-.python_version
-.hermes/
+.*
 AGENTS.md
+
+!.env.example
+!.gitignore

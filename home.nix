@@ -96,6 +96,14 @@ in {
     opencode # AI agent
     vectorcode # AI assist
     (hermes-agent.packages.${pkgs.system}.default.override {extraDependencyGroups = ["messaging"];})
+
+    # LSP servers for opencode
+    ast-grep
+    lua-language-server
+    nixd
+    pyright
+    typescript-language-server
+    yaml-language-server
   ];
 
   programs = {
