@@ -8,8 +8,8 @@
   "provider": {
     "openrouter": {
       "models": {
-        "openrouter/free": {},
-        "openrouter/owl-alpha": {}
+        "free": {},
+        "owl-alpha": {}
       },
       "options": {
         "apiKey": "{env:OPENROUTER_API_KEY}"
@@ -29,6 +29,6 @@
       "options": {
         "apiKey": "{env:GROQ_API_KEY}"
       }
-    },
+    }
   }
 }
