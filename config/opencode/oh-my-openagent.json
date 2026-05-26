@@ -1,0 +1,161 @@
+{
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
+  "agents": {
+    "sisyphus": {
+      "model": "opencode-go/kimi-k2.6"
+    },
+    "prometheus": {
+      "model": "opencode-go/glm-5.1",
+      "fallback_models": [
+        {
+          "model": "openrouter/gemini-2.5-pro"
+        }
+      ]
+    },
+    "hephaestus": {
+      "model": "openrouter/gpt-5.3-codex",
+      "fallback_models": [
+        {
+          "model": "opencode-go/deepseek-v4-pro"
+        }
+      ]
+    },
+    "atlas": {
+      "model": "opencode-go/minimax-m2.5",
+      "fallback_models": [
+        {
+          "model": "opencode/big-pickle"
+        }
+      ]
+    },
+    "oracle": {
+      "model": "opencode-go/deepseek-v4-pro",
+      "variant": "high",
+      "fallback_models": [
+        {
+          "model": "opencode-go/glm-5.0"
+        }
+      ]
+    },
+    "librarian": {
+      "model": "google/gemini-3.1-flash-lite",
+      "fallback_models": [
+        {
+          "model": "opencode-go/minimax-m2.5"
+        }
+      ]
+    },
+    "explore": {
+      "model": "google/gemini-3.1-flash-lite",
+      "fallback_models": [
+        {
+          "model": "opencode-go/minimax-m2.5"
+        }
+      ]
+    },
+    "multimodal-looker": {
+      "model": "gemini-3.1-flash-lite"
+    },
+    "metis": {
+      "model": "opencode-go/kimi-k2.5"
+    },
+    "momus": {
+      "model": "google/gemini-3.1-flash-lite",
+      "variant": "high"
+    },
+    "sisyphus-junior": {
+      "model": "opencode-go/minimax-m2.5",
+      "fallback_models": [
+        {
+          "model": "opencode/big-pickle"
+        }
+      ]
+    }
+  },
+  "categories": {
+    "visual-engineering": {
+      "model": "google/gemini-3.1-flash-lite",
+      "variant": "high",
+      "fallback_models": [
+        {
+          "model": "google/gemini-3.1-flash-lite"
+        }
+      ]
+    },
+    "ultrabrain": {
+      "model": "openrouter/gpt-5.4",
+      "variant": "high",
+      "fallback_models": [
+        {
+          "model": "openrouter/gemini-3.1-pro",
+          "variant": "high"
+        }
+      ]
+    },
+    "deep": {
+      "model": "opencode-go/deepseek-v4-pro",
+      "variant": "high",
+      "fallback_models": [
+        {
+          "model": "openrouter/gogole/gemini-3.1-pro"
+        },
+        {
+          "model": "opencode-go/glm-5.1"
+        }
+      ]
+    },
+    "artistry": {
+      "model": "google/gemini-3-flash",
+      "variant": "high",
+      "fallback_models": [
+        {
+          "model": "openrouter/google/gemini-3-flash"
+        },
+        {
+          "model": "opencode-go/qwen3.5-plus"
+        }
+      ]
+    },
+    "quick": {
+      "model": "google/gemini-3.1-flash-lite",
+      "fallback_models": [
+        {
+          "model": "opencode-go/minimax-m2.7"
+        }
+      ]
+    },
+    "unspecified-low": {
+      "model": "google/gemini-3-flash-lite",
+      "fallback_models": [
+        {
+          "model": "openrouter/gemini-3-flash-lite"
+        },
+        {
+          "model": "opencode-go/minimax-m2.5"
+        }
+      ]
+    },
+    "unspecified-high": {
+      "model": "opencode-go/glm-5",
+      "fallback_models": [
+        {
+          "model": "opencode-go/kimi-k2.5"
+        },
+        {
+          "model": "openrouter/minimax-m2.5"
+        }
+      ]
+    },
+    "writing": {
+      "model": "openrouter/minimax-m2.5",
+      "fallback_models": [
+        {
+          "model": "google/gemini-3.1-flash-lite"
+        },
+        {
+          "model": "opencode-go/deepseek-v4-flash"
+        }
+      ]
+    }
+  }
+}

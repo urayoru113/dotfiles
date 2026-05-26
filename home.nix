@@ -34,7 +34,7 @@ in {
   home.stateVersion = "25.11";
   home.sessionVariables = {
     ZELLIJ_CONFIG_DIR = "$HOME/.dotfiles/config/zellij";
-    OPENCODE_CONFIG = "$HOME/.dotfiles/config/opencode.jsonc";
+    OPENCODE_CONFIG = "$HOME/.dotfiles/config/opencode/opencode.jsonc";
     YAZI_CONFIG_HOME = "$HOME/.dotfiles/config/yazi";
   };
 
