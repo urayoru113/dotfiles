@@ -1642,7 +1642,10 @@ local spec = {
       return {
         {
           "<F2>",
-          "<CMD>Neotree toggle reveal_force_cwd<CR>",
+          function()
+            local neo_tree_config = require("plugins.config.neo-tree")
+            neo_tree_config.smart_neotree_toggle()
+          end,
           noremap = true,
           mode = "n",
         },
