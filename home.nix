@@ -38,6 +38,10 @@ in {
     YAZI_CONFIG_HOME = "$HOME/.dotfiles/config/yazi";
   };
 
+  home.sessionPath = [
+    "$HOME/.local/bin"
+  ];
+
   home.packages = with pkgs; [
     # System tools
     gcc
@@ -242,7 +246,7 @@ in {
           . /home/urayoru/.nix-profile/etc/profile.d/nix.sh;
         fi
 
-        if [ -z "$ZSH_VERSION" ] && command -v zsh &> /dev/null; then
+        if [[ $- == *i* ]] && [ -z "$ZSH_VERSION" ] && command -v zsh &> /dev/null; then
           exec zsh -l
         fi
       '';
@@ -251,7 +255,17 @@ in {
 
     zsh = {
       enable = true;
-      enableCompletion = false;
+      enableCompletion = true;
+
+      history = {
+        size = 10000;
+        save = 10000;
+        path = "${config.xdg.dataHome}/zsh/history";
+        ignoreDups = true;
+        ignoreSpace = true;
+        share = true;
+        extended = true;
+      };
 
       autosuggestion = {
         enable = true;
@@ -263,9 +277,28 @@ in {
       historySubstringSearch = {
         enable = true;
       };
-      syntaxHighlighting = {
-        enable = true;
-      };
+      plugins = with pkgs; [
+        {
+          name = "zsh-vi-mode";
+          file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
+          src = zsh-vi-mode;
+        }
+        {
+          name = "zsh-fzf-tab";
+          file = "share/fzf-tab/fzf-tab.plugin.zsh";
+          src = zsh-fzf-tab;
+        }
+        {
+          name = "zsh-fast-syntax-highlighting";
+          file = "share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh";
+          src = zsh-fast-syntax-highlighting;
+        }
+        {
+          name = "zsh-you-should-use";
+          file = "share/zsh/plugins/you-should-use/you-should-use.plugin.zsh";
+          src = zsh-you-should-use;
+        }
+      ];
 
       profileExtra = ''
         # On non-NixOS systems, source Nix environment manually
@@ -274,23 +307,14 @@ in {
           . /home/urayoru/.nix-profile/etc/profile.d/nix.sh;
         fi
 
-        [ -f ~/.dotfiles/home/.zshrc ] && source ~/.dotfiles/home/.zshrc
+        # Load environment variables (API keys, etc.)
+        [ -f ~/.dotfiles/.env ] && source ~/.dotfiles/.env
       '';
       initContent = ''
-        fpath+=${pkgs.zsh-completions}/share/zsh/site-functions
-        source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
-        source ${pkgs.zsh-vi-mode}/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
         ${shellInit}
       '';
 
       inherit shellAliases;
-
-      oh-my-zsh = {
-        enable = true;
-        plugins = [
-          "git"
-        ];
-      };
     };
 
     starship = {
@@ -306,5 +330,5 @@ in {
     force = true;
   };
   # allow unfree packages
-  nixpkgs.config.allowunfree = true;
+  nixpkgs.config.allowUnfree = true;
 }
