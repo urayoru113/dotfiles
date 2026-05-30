@@ -2,55 +2,38 @@
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
   "agents": {
     "sisyphus": {
-      "model": "openrouter/moonshotai/kimi-k2.6:free",
-      "fallback_models": [
-        {
-          "model": "opencode-go/kimi-k2.6"
-        }
-      ]
+      "model": "opencode-go/kimi-k2.6"
     },
     "prometheus": {
-      "model": "airforce/claude-opus-4.7",
+      "model": "opencode-go/glm-5.1",
       "fallback_models": [
         {
-          "model": "airforce/claude-opus-4.6"
-        },
-        {
-          "model": "opencode-go/glm-5.1"
+          "model": "openrouter/gemini-2.5-pro"
         }
       ]
     },
     "hephaestus": {
-      "model": "airforce/gpt-5.3-codex",
+      "model": "openrouter/gpt-5.3-codex",
       "fallback_models": [
         {
-          "model": "airforce/gpt-5.5"
-        },
-        {
-          "model": "openrouter/gpt-5.3-codex"
+          "model": "opencode-go/deepseek-v4-pro"
         }
       ]
     },
     "atlas": {
-      "model": "openrouter/minimax/minimax-m2.5:free",
+      "model": "opencode-go/minimax-m2.5",
       "fallback_models": [
-        {
-          "model": "opencode-go/minimax-m2.5"
-        },
         {
           "model": "opencode/big-pickle"
         }
       ]
     },
     "oracle": {
-      "model": "airforce/gpt-5.5",
+      "model": "opencode-go/deepseek-v4-pro",
       "variant": "high",
       "fallback_models": [
         {
-          "model": "airforce/claude-sonnet-4.7"
-        },
-        {
-          "model": "opencode-go/glm-5.1"
+          "model": "opencode-go/glm-5.0"
         }
       ]
     },
@@ -58,7 +41,7 @@
       "model": "google/gemini-3.1-flash-lite",
       "fallback_models": [
         {
-          "model": "opencode-go/qwen-3.5-plus"
+          "model": "opencode-go/minimax-m2.5"
         }
       ]
     },
@@ -66,38 +49,22 @@
       "model": "google/gemini-3.1-flash-lite",
       "fallback_models": [
         {
-          "model": "opencode-go/minimax-m2.7"
+          "model": "opencode-go/minimax-m2.5"
         }
       ]
     },
     "multimodal-looker": {
-      "model": "openrouter/z-ai/glm-4.5-air:free"
+      "model": "gemini-3.1-flash-lite"
     },
     "metis": {
-      "model": "airforce/claude-opus-4.6",
-      "fallback_models": [
-        {
-          "model": "airforce/claude-opus-4.7"
-        },
-        {
-          "model": "opencode-go/glm-5.1"
-        }
-      ]
+      "model": "opencode-go/kimi-k2.7"
     },
     "momus": {
-      "model": "airforce/gpt-5.5",
-      "variant": "high",
-      "fallback_models": [
-        {
-          "model": "airforce/gemini-3.1-pro"
-        },
-        {
-          "model": "openrouter/gemini-3.1-pro"
-        }
-      ]
+      "model": "openrouter/gpt-5.4",
+      "variant": "high"
     },
     "sisyphus-junior": {
-      "model": "openrouter/moonshotai/kimi-k2.6:free",
+      "model": "opencode-go/minimax-m2.5",
       "fallback_models": [
         {
           "model": "opencode/big-pickle"
@@ -111,22 +78,22 @@
       "variant": "high",
       "fallback_models": [
         {
-          "model": "opencode-go/qwen-3.5-plus"
+          "model": "google/gemini-3.1-flash-lite"
         }
       ]
     },
     "ultrabrain": {
-      "model": "openrouter/gpt-5.5",
-      "variant": "xhigh",
+      "model": "openrouter/gpt-5.4",
+      "variant": "high",
       "fallback_models": [
         {
-          "model": "openrouter/gpt-5.4",
-          "variant": "xhigh"
+          "model": "openrouter/gemini-3.1-pro",
+          "variant": "high"
         }
       ]
     },
     "deep": {
-      "model": "airforce/gpt-5.5",
+      "model": "opencode-go/deepseek-v4-pro",
       "variant": "high",
       "fallback_models": [
         {
@@ -142,7 +109,7 @@
       "variant": "high",
       "fallback_models": [
         {
-          "model": "google/gemini-3.1-flash-lite"
+          "model": "google/gemini-3.5-flash"
         },
         {
           "model": "opencode-go/qwen3.5-plus"
@@ -161,7 +128,7 @@
       "model": "google/gemini-3.1-flash-lite",
       "fallback_models": [
         {
-          "model": "openrouter/moonshotai/kimi-k2.6:free"
+          "model": "opencode-go/minimax-m2.5"
         }
       ]
     },
@@ -169,25 +136,23 @@
       "model": "opencode-go/glm-5",
       "fallback_models": [
         {
-          "model": "openrouter/moonshotai/kimi-k2.6:free"
+          "model": "opencode-go/kimi-k2.6"
         },
         {
-          "model": "opencode-go/kimi-k2.6"
+          "model": "openrouter/minimax-m2.7"
         }
       ]
     },
     "writing": {
-      "model": "google/gemini-3.1-flash-lite",
+      "model": "openrouter/minimax-m2.5",
       "fallback_models": [
+        {
+          "model": "google/gemini-3.1-flash-lite"
+        },
         {
           "model": "opencode-go/deepseek-v4-flash"
         }
       ]
     }
-  },
-  "git_master": {
-    "commit_footer": false,
-    "include_co_authored_by": false,
-    "git_env_prefix": "GIT_MASTER=1"
   }
 }

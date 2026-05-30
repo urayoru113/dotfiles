@@ -47,6 +47,7 @@ in {
     gcc
     gnumake
     luajit
+    jdk21_headless
 
     # Terminal utilities
     bottom # System monitor(Rust)
@@ -97,7 +98,7 @@ in {
     uv
 
     # ai
-    opencode # AI agent
+    # opencode # currently broken wait for nixpkgs 26.06 release
     vectorcode # AI assist
     (hermes-agent.packages.${pkgs.system}.default.override {extraDependencyGroups = ["messaging"];})
 
