@@ -1,15 +1,15 @@
-local keymaps = require('core.keymaps')
+local keymaps = require("core.keymaps")
 
 local spec = {
-  'lewis6991/gitsigns.nvim',
+  "lewis6991/gitsigns.nvim",
   lazy = true,
   cond = function()
     local found_paths = vim.fs.find(
-      '.git',
+      ".git",
       {
         upward = true,
         limit = 1,
-        type = 'directory',
+        type = "directory",
       }
     )
     return #found_paths > 0
@@ -21,8 +21,8 @@ local spec = {
     linehl = false,     -- Toggle with `:Gitsigns toggle_linehl`
     word_diff = false,  -- Toggle with `:Gitsigns toggle_word_diff`
   },
-  cmd = { 'Gitsigns' },
-  keys = keymaps['gitsigns'],
+  cmd = { "Gitsigns" },
+  keys = keymaps["gitsigns"],
 }
 
 return spec

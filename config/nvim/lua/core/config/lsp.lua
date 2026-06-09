@@ -13,6 +13,7 @@ M.enabled_servers = {
   "jsonls",
   "java",
   "jdtls",
+  "ts_ls",
 }
 
 M.kind_icons = {

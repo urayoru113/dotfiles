@@ -6,16 +6,20 @@ return {
     ---@diagnostic disable-next-line: duplicate-set-field
     vim.lsp.buf.format = function(format_opts)
       require("conform").format(vim.tbl_extend("force", format_opts or {}, {
-        lsp_format = "last", -- use lspconfig first
+        -- lsp_format = "last", -- use lspconfig first
       }))
     end
   end,
   opts = {
+    default_format_opts = {
+      lsp_format = "fallback",
+    },
     formatters_by_ft = {
       lua = { "stylua" },
       go = { "goimports", "gofmt" },
       rust = { "rustfmt" },
       nix = { "nixfmt" },
+      typescript = { "biome" },
       python = function(bufnr)
         if require("conform").get_formatter_info("ruff_format", bufnr).available then
           return { "ruff_format" }
@@ -30,6 +34,13 @@ return {
       -- Use the "_" filetype to run formatters on filetypes that don't
       -- have other formatters configured.
       ["_"] = {},
+    },
+
+    -- Customize formatters setting
+    formatters = {
+      biome = {
+        append_args = { "--line-width=120", "--format-with-errors=true" },
+      },
     },
     notify_no_formatters = false,
   },

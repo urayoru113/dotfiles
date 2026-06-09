@@ -38,8 +38,8 @@ return {
     local snacks = require("snacks")
     return {
       { "<leader>gl", function() snacks.lazygit.open() end, desc = "LazyGit" },
-      { "<leader>gw", function() snacks.words.jump(1, true) end, desc = "Go to next lsp word" },
-      { "<leader>gW", function() snacks.words.jump(-1, true) end, desc = "Go to prev lsp word" },
+      { "gw", function() snacks.words.jump(1, true) end, desc = "Go to next lsp word" },
+      { "gW", function() snacks.words.jump(-1, true) end, desc = "Go to prev lsp word" },
       { "<leader>z", function() snacks.zen.zen() end, desc = "Zen mode" },
       { "<leader>Z", function() snacks.zen.zoom() end, desc = "Zoom mode" },
     }

@@ -42,6 +42,8 @@ M.general = {
     function()
       local word = vim.fn.expand("<cword>")
       local revert = {
+        ["column"] = "row",
+        ["row"] = "column",
         ["true"] = "false",
         ["false"] = "true",
         ["True"] = "False",

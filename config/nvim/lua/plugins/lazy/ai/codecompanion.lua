@@ -1,6 +1,6 @@
 local prompt_config = require("core.config.prompt")
 
-local default_provider = "openrouter"
+local default_provider = "gemini"
 
 local spec = {
   --https://github.com/olimorris/codecompanion.nvim/blob/main/lua/codecompanion/config.lua

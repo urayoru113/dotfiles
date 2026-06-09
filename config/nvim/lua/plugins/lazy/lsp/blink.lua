@@ -65,6 +65,16 @@ local spec = {
             return true
           end,
         },
+        ["<C-y>"] = {
+          function(cmp)
+            if cmp.is_menu_visible() and cmp.get_selected_item() then
+              cmp.accept()
+              return true
+            end
+            return false
+          end,
+          "fallback",
+        },
       },
 
       appearance = {
