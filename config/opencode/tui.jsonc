@@ -1,0 +1,10 @@
+{
+  "$schema": "https://opencode.ai/tui.json",
+  "keybinds": {
+    "input_delete_line": "ctrl+d",
+    "input_delete": "delete,shift+delete"
+  },
+  "plugin": [
+    "opencode-subagent-statusline"
+  ]
+}

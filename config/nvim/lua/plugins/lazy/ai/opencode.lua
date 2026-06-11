@@ -1,5 +1,5 @@
 local spec = {
-  enabled = true,
+  enabled = false,
   "nickjvandyke/opencode.nvim",
   version = "*", -- Latest stable release
   dependencies = {

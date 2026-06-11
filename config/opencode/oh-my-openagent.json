@@ -2,52 +2,19 @@
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
   "agents": {
     "sisyphus": {
-      "model": "openrouter/moonshotai/kimi-k2.6:free",
+      "model": "opencode-go/kimi-k2.6",
       "fallback_models": [
         {
           "model": "opencode-go/kimi-k2.6"
         }
       ]
     },
-    "prometheus": {
-      "model": "airforce/claude-opus-4.7",
-      "fallback_models": [
-        {
-          "model": "airforce/claude-opus-4.6"
-        },
-        {
-          "model": "opencode-go/glm-5.1"
-        }
-      ]
-    },
-    "hephaestus": {
-      "model": "airforce/gpt-5.3-codex",
-      "fallback_models": [
-        {
-          "model": "airforce/gpt-5.5"
-        },
-        {
-          "model": "openrouter/gpt-5.3-codex"
-        }
-      ]
-    },
-    "atlas": {
-      "model": "openrouter/minimax/minimax-m2.5:free",
-      "fallback_models": [
-        {
-          "model": "opencode-go/minimax-m2.5"
-        },
-        {
-          "model": "opencode/big-pickle"
-        }
-      ]
-    },
     "oracle": {
-      "model": "airforce/gpt-5.5",
+      "model": "airforce/gpt-5.4",
       "variant": "high",
       "fallback_models": [
         {
-          "model": "airforce/claude-sonnet-4.7"
+          "model": "airforce/gemini-3.1-pro"
         },
         {
           "model": "opencode-go/glm-5.1"
@@ -73,11 +40,22 @@
     "multimodal-looker": {
       "model": "openrouter/z-ai/glm-4.5-air:free"
     },
-    "metis": {
-      "model": "airforce/claude-opus-4.6",
+    "prometheus": {
+      "model": "opencode-go/kimi-k2.6",
       "fallback_models": [
         {
-          "model": "airforce/claude-opus-4.7"
+          "model": "airforce/gemini-3.1-pro"
+        },
+        {
+          "model": "opencode-go/glm-5.1"
+        }
+      ]
+    },
+    "metis": {
+      "model": "airforce/gpt-5.4",
+      "fallback_models": [
+        {
+          "model": "opencode-go/glm-5.1"
         },
         {
           "model": "opencode-go/glm-5.1"
@@ -85,7 +63,7 @@
       ]
     },
     "momus": {
-      "model": "airforce/gpt-5.5",
+      "model": "airforce/gpt-5.4",
       "variant": "high",
       "fallback_models": [
         {
@@ -96,11 +74,27 @@
         }
       ]
     },
+    "atlas": {
+      "model": "opencode-go/kimi-k2.6",
+      "fallback_models": [
+        {
+          "model": "opencode-go/minimax-m2.5"
+        }
+      ]
+    },
     "sisyphus-junior": {
-      "model": "openrouter/moonshotai/kimi-k2.6:free",
+      "model": "opencode-go/kimi-k2.6",
       "fallback_models": [
         {
           "model": "opencode/big-pickle"
+        }
+      ]
+    },
+    "hephaestus": {
+      "model": "airforce/gpt-5.4",
+      "fallback_models": [
+        {
+          "model": "openrouter/gpt-5.3-codex"
         }
       ]
     }
@@ -116,7 +110,7 @@
       ]
     },
     "ultrabrain": {
-      "model": "openrouter/gpt-5.5",
+      "model": "airforce/gpt-5.4",
       "variant": "xhigh",
       "fallback_models": [
         {
@@ -126,7 +120,7 @@
       ]
     },
     "deep": {
-      "model": "airforce/gpt-5.5",
+      "model": "airforce/gpt-5.4",
       "variant": "high",
       "fallback_models": [
         {
@@ -184,6 +178,25 @@
         }
       ]
     }
+  },
+  "runtime_fallback": {
+    "enabled": true,
+    "retry_on_errors": [
+      429,
+      402,
+      500,
+      502,
+      503
+    ],
+    "cooldown_seconds": 5,
+    "timeout_seconds": 60,
+    "max_fallback_attempts": 3
+  },
+  "background_task": {
+    "staleTimeoutMs": 180000,
+    "defaultConcurrency": 1,
+    "taskTtlMs": 300000,
+    "messageStalenessTimeoutMs": 60000
   },
   "git_master": {
     "commit_footer": false,

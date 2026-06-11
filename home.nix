@@ -34,8 +34,9 @@ in {
   home.stateVersion = "25.11";
   home.sessionVariables = {
     ZELLIJ_CONFIG_DIR = "$HOME/.dotfiles/config/zellij";
-    OPENCODE_CONFIG = "$HOME/.dotfiles/config/opencode/opencode.jsonc";
+    OPENCODE_CONFIG_DIR = "$HOME/.dotfiles/config/opencode";
     YAZI_CONFIG_HOME = "$HOME/.dotfiles/config/yazi";
+    OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS = 1;
   };
 
   home.sessionPath = [
@@ -47,7 +48,6 @@ in {
     gcc
     gnumake
     luajit
-    jdk21_headless
 
     # Terminal utilities
     bottom # System monitor(Rust)
@@ -59,6 +59,7 @@ in {
     tmux # Terminal multiplexer
     zellij # Terminal multiplexer
     yazi # File explorer
+    wezterm # Terminal
 
     # Modern alternatives
     eza # Better ls
@@ -94,8 +95,9 @@ in {
     unzip # Decompression
     zip # Compression
 
-    # Project Manager
+    # Project Manager & runner & bundler
     uv
+    bun
 
     # ai
     # opencode # currently broken wait for nixpkgs 26.06 release
@@ -108,6 +110,9 @@ in {
     nixd
     pyright
     typescript-language-server
+    nil
+    alejandra
+    lua-language-server
     yaml-language-server
   ];
 
@@ -115,18 +120,9 @@ in {
     neovim = {
       enable = true; # It seems to be that `true` will not load `~/.config/nvim/init.vim`
       defaultEditor = true;
-      extraPackages = with pkgs; [
-        # python
-        pyright
-        ruff
-
-        # lua
-        lua-language-server
-
-        # nix
-        nil
-        alejandra
-      ];
+      withPython3 = false;
+      withNodeJs = false;
+      withRuby = false;
     };
 
     jujutsu = {
@@ -181,6 +177,7 @@ in {
         # Editors
         ".vscode/"
         ".idea/"
+        ".env"
         "*.swp"
         "*.swo"
         "*~"
@@ -320,7 +317,8 @@ in {
 
     starship = {
       enable = true;
-      settings = builtins.fromTOML (builtins.readFile config/starship.toml);
+      # settings = builtins.fromTOML (builtins.readFile config/starship.toml);
+      configPath = "$HOME/.dotfiles/config/starship.toml";
     };
   };
 

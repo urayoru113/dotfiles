@@ -1,5 +1,8 @@
 .*
 AGENTS.md
+**/node_modules/**
+token-optimizer
 
 !.env.example
 !.gitignore
+!.wezterm.lua
