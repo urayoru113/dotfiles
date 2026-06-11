@@ -31,7 +31,7 @@
 in {
   home.username = "urayoru";
   home.homeDirectory = "/home/urayoru";
-  home.stateVersion = "25.11";
+  home.stateVersion = "26.05";
   home.sessionVariables = {
     ZELLIJ_CONFIG_DIR = "$HOME/.dotfiles/config/zellij";
     OPENCODE_CONFIG_DIR = "$HOME/.dotfiles/config/opencode";
@@ -102,7 +102,7 @@ in {
     # ai
     # opencode # currently broken wait for nixpkgs 26.06 release
     vectorcode # AI assist
-    (hermes-agent.packages.${pkgs.system}.default.override {extraDependencyGroups = ["messaging"];})
+    (hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default.override {extraDependencyGroups = ["messaging"];})
 
     # LSP servers for opencode
     ast-grep
@@ -123,6 +123,8 @@ in {
       withPython3 = false;
       withNodeJs = false;
       withRuby = false;
+      withPerl = false;
+      sideloadInitLua = true;
     };
 
     jujutsu = {
@@ -323,11 +325,11 @@ in {
   };
 
   xdg.enable = true;
-
   xdg.configFile."nvim" = {
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/nvim";
     force = true;
   };
+
   # allow unfree packages
   nixpkgs.config.allowUnfree = true;
 }
