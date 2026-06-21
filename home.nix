@@ -2,7 +2,7 @@
   config,
   pkgs,
   lib,
-  hermes-agent,
+  custom,
   ...
 }: let
   shellAliases = {
@@ -47,7 +47,6 @@ in {
     # System tools
     gcc
     gnumake
-    luajit
 
     # Terminal utilities
     bottom # System monitor(Rust)
@@ -95,16 +94,20 @@ in {
     unzip # Decompression
     zip # Compression
 
-    # Project Manager & runner & bundler
+    # Project Manager & runner & builder
     uv
     bun
+    luajit
+    python314
+    cargo
+    nodejs_24
 
     # ai
-    # opencode # currently broken wait for nixpkgs 26.06 release
+    # opencode Currently broken, wait for nixpkgs 26.11 release
     vectorcode # AI assist
-    (hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default.override {extraDependencyGroups = ["messaging"];})
+    (custom.hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default.override {extraDependencyGroups = ["messaging"];})
 
-    # LSP servers for opencode
+    # LSP servers
     ast-grep
     lua-language-server
     nixd
@@ -114,6 +117,9 @@ in {
     alejandra
     lua-language-server
     yaml-language-server
+
+    # Misc tools
+    lua55Packages.tree-sitter-cli
   ];
 
   programs = {

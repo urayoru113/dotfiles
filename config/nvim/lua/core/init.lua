@@ -71,6 +71,11 @@ local function setup_lsp()
   end
 end
 
+local setup_treesitter = function()
+  vim.treesitter.language.register("bash", "env")
+end
+
 setup_basic()
 setup_debug()
 setup_lsp()
+setup_treesitter()

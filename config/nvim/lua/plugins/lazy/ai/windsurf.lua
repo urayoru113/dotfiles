@@ -31,7 +31,7 @@ return {
       use_lsp = true,
     },
     virtual_text = {
-      enabled = true,
+      enabled = false,
     },
   },
 }

@@ -5,6 +5,8 @@
     "input_delete": "delete,shift+delete"
   },
   "plugin": [
-    "opencode-subagent-statusline"
+    "oh-my-openagent/tui",
+    "opencode-subagent-statusline",
+    "opencode-insight"
   ]
 }

@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json",
-  "preset": "opencode-go",
+  "preset": "my-preset",
   "multiplexer": {
     "type": "auto"
   },
@@ -9,6 +9,25 @@
     "cooldownMs": 3000,
     "autoEnable": false,
     "autoEnableThreshold": 4
+  },
+  "council": {
+    "default_preset": "default",
+    "timeout": 180000,
+    "councillor_execution_mode": "parallel",
+    "councillor_retries": 3,
+    "presets": {
+      "default": {
+        "alpha": {
+          "model": "openrouter/gpt-5.4-nano"
+        },
+        "beta": {
+          "model": "airforce/gemini-3.1-pro"
+        },
+        "gamma": {
+          "model": "airforce/gpt-5.4"
+        }
+      }
+    }
   },
   "presets": {
     "openai": {
@@ -105,7 +124,7 @@
         "mcps": []
       },
       "fixer": {
-        "model": "opencode-go/deepseek-v4-flash",
+        "model": "opencode/deepseek-v4-flash-free",
         "variant": "high",
         "skills": [],
         "mcps": []
@@ -158,6 +177,58 @@
       },
       "fixer": {
         "model": "google/gemini-3.1-flash-lite",
+        "variant": "high",
+        "skills": [],
+        "mcps": []
+      }
+    },
+    "my-preset": {
+      "orchestrator": {
+        "model": "opencode-go/glm-5.1",
+        "skills": [
+          "*"
+        ],
+        "mcps": [
+          "*",
+          "!context7"
+        ]
+      },
+      "oracle": {
+        "model": "airforce/gpt-5.4",
+        "variant": "high",
+        "skills": [
+          "simplify"
+        ],
+        "mcps": []
+      },
+      "council": {
+        "model": "opencode-go/deepseek-v4-pro",
+        "variant": "high",
+        "skills": [],
+        "mcps": []
+      },
+      "librarian": {
+        "model": "google/gemini-3.1-flash-lite",
+        "skills": [],
+        "mcps": [
+          "websearch",
+          "context7",
+          "grep_app"
+        ]
+      },
+      "explorer": {
+        "model": "opencode-go/minimax-m2.7",
+        "skills": [],
+        "mcps": []
+      },
+      "designer": {
+        "model": "opencode-go/kimi-k2.6",
+        "variant": "medium",
+        "skills": [],
+        "mcps": []
+      },
+      "fixer": {
+        "model": "opencode/deepseek-v4-flash-free",
         "variant": "high",
         "skills": [],
         "mcps": []

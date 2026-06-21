@@ -5,11 +5,10 @@
     "~/.dotfiles/ai/rules/MEMORY.md"
   ],
   "plugin": [
-    "oh-my-openagent@latest",
     "@tarquinen/opencode-dcp@latest",
     "oh-my-opencode-slim@latest",
     "token-optimizer-opencode",
-    "@codemem/opencode-plugin"
+    // "oh-my-openagent@latest",
   ],
   "mcp": {
     "ddg_search": {
@@ -18,7 +17,14 @@
         "uvx",
         "duckduckgo-mcp-server"
       ],
-      "enabled": true
+      "enabled": false
+    },
+    "git": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "mcp-server-git",
+      ]
     },
     "you_search": {
       "type": "local",
@@ -27,7 +33,7 @@
         "-y",
         "@youdotcom-oss/mcp"
       ],
-      "enabled": true,
+      "enabled": false,
       "environment": {
         "YDC_PROFILE": "free"
       }
@@ -40,7 +46,8 @@
       ],
       "environment": {
         "PYTHONIOENCODING": "utf-8"
-      }
+      },
+      "enabled": false,
     },
     "codemem": {
       "type": "local",

@@ -1,11 +1,11 @@
 {
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json",
   "agents": {
-    "sisyphus": {
-      "model": "opencode-go/kimi-k2.6",
+    "hephaestus": {
+      "model": "airforce/gpt-5.4",
       "fallback_models": [
         {
-          "model": "opencode-go/kimi-k2.6"
+          "model": "openrouter/gpt-5.3-codex"
         }
       ]
     },
@@ -90,11 +90,11 @@
         }
       ]
     },
-    "hephaestus": {
-      "model": "airforce/gpt-5.4",
+    "sisyphus": {
+      "model": "opencode-go/kimi-k2.6",
       "fallback_models": [
         {
-          "model": "openrouter/gpt-5.3-codex"
+          "model": "opencode-go/kimi-k2.6"
         }
       ]
     }
@@ -121,7 +121,6 @@
     },
     "deep": {
       "model": "airforce/gpt-5.4",
-      "variant": "high",
       "fallback_models": [
         {
           "model": "openrouter/gogole/gemini-3.1-pro"
@@ -129,11 +128,11 @@
         {
           "model": "opencode-go/glm-5.1"
         }
-      ]
+      ],
+      "variant": "high"
     },
     "artistry": {
       "model": "google/gemini-3.5-flash",
-      "variant": "high",
       "fallback_models": [
         {
           "model": "google/gemini-3.1-flash-lite"
@@ -141,7 +140,8 @@
         {
           "model": "opencode-go/qwen3.5-plus"
         }
-      ]
+      ],
+      "variant": "high"
     },
     "quick": {
       "model": "google/gemini-3.1-flash-lite",

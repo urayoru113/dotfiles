@@ -3,6 +3,7 @@ local utils = require("core.utils")
 
 M.enabled_servers = {
   "nil_ls",
+  "nixd",
   "emmylua_ls",
   "lua_ls",
   "pyright",

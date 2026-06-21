@@ -7,23 +7,26 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
-    hermes-agent.url = "github:NousResearch/hermes-agent/v2026.5.16";
+    hermes-agent.url = "github:NousResearch/hermes-agent/v2026.6.19";
+    win32yank = {
+      url = "https://github.com/equalsraf/win32yank/releases/download/v0.1.1/win32yank-x64.zip";
+      flake = false;
+    };
   };
 
   outputs = {
     self,
     nixpkgs-stable,
     home-manager,
-    hermes-agent,
     ...
-  }: let
+  } @ custom: let
     system = "x86_64-linux";
   in {
     homeConfigurations.urayoru = home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs-stable.legacyPackages.${system};
       modules = [./home.nix];
       extraSpecialArgs = {
-        inherit hermes-agent;
+        inherit custom;
       };
     };
   };
