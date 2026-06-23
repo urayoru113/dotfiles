@@ -4,6 +4,7 @@ return {
   cond = true,
   lazy = false,
   opts = function()
+    ---@type snacks.Config
     return {
       bigfile = { enabled = true },
       dashboard = { enabled = false },

@@ -233,7 +233,7 @@ M.gitsigns = {
   { mode = "n", "<leader>gd", "<CMD>Gitsigns diffthis HEAD vertical=true<CR>", desc = "Diff HEAD" },
   { mode = "n", "<leader>gh", "<CMD>Gitsigns preview_hunk<CR>", desc = "Show diff of current hunk" },
   { mode = "n", "<leader>gb", "<CMD>Gitsigns blame_line<CR>", desc = "Show blame of current line" },
-  { mode = "n", "<leader>grb", "<CMD>Gitsigns reset_buffer<CR>", desc = "Reset buffer tobHEAD" },
+  { mode = "n", "<leader>grb", "<CMD>Gitsigns reset_buffer<CR>", desc = "Reset buffer to HEAD" },
   { mode = "n", "<leader>grh", "<CMD>Gitsigns reset_hunk<CR>", desc = "Reset hunk to HEAD" },
 }
 

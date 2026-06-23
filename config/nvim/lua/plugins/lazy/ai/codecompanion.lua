@@ -46,68 +46,70 @@ local spec = {
     adapters = {
       http = {
         gemini = function()
-          return require("codecompanion.adapters").extend("gemini", {
-            schema = {
-              model = {
-                default = "gemma-4-26b-a4b-it",
-                choices = {
-                  ["gemma-4-31b-it"] = {
-                    formatted_name = "Gemma 4",
-                    meta = { context_window = 1048576 },
-                    opts = { can_reason = true, has_vision = false },
-                  },
-                  ["gemma-4-26b-a4b-it"] = {
-                    formatted_name = "Gemma 4 MOE",
-                    meta = { context_window = 1048576 },
-                    opts = { can_reason = true, has_vision = false },
+          return require("codecompanion.adapters").extend("gemini",
+            {
+              schema = {
+                model = {
+                  default = "gemma-4-26b-a4b-it",
+                  choices = {
+                    ["gemma-4-31b-it"] = {
+                      formatted_name = "Gemma 4",
+                      meta = { context_window = 1048576 },
+                      opts = { can_reason = true, has_vision = false },
+                    },
+                    ["gemma-4-26b-a4b-it"] = {
+                      formatted_name = "Gemma 4 MOE",
+                      meta = { context_window = 1048576 },
+                      opts = { can_reason = true, has_vision = false },
+                    },
                   },
                 },
               },
-            },
-            opts = {
-              stream = true,
-              tools = true,
-              vision = false,
-            },
-          })
+              opts = {
+                stream = true,
+                tools = true,
+                vision = false,
+              },
+            })
         end,
         deepseek = function()
-          return require("codecompanion.adapters").extend("openai_compatible", {
-            name = "deepseek",
-            formatted_name = "Deepseek",
-            roles = {
-              llm = "assistant",
-              user = "user",
-            },
-            opts = {
-              stream = true,
-              tools = true,
-            },
-            features = {
-              text = true,
-              tokens = true,
-              vision = false,
-            },
-            env = {
-              url = "http://localhost:11434",
-              chat_url = "/v1/chat/completions",
-              -- api_key = "",  <-- get from sys env: OPENAI_API_KEY
-            },
-            schema = {
-              model = {
-                default = "qwen3-vl:2b-thinking-bf16",
-                choices = {
-                  "qwen3-vl:2b-thinking-bf16",
-                  "deepseek-coder:6.7b-instruct-q4_K_M",
-                  "ishumilin/deepseek-r1-coder-tools:1.5b",
+          return require("codecompanion.adapters").extend("openai_compatible",
+            {
+              name = "deepseek",
+              formatted_name = "Deepseek",
+              roles = {
+                llm = "assistant",
+                user = "user",
+              },
+              opts = {
+                stream = true,
+                tools = true,
+              },
+              features = {
+                text = true,
+                tokens = true,
+                vision = false,
+              },
+              env = {
+                url = "http://localhost:11434",
+                chat_url = "/v1/chat/completions",
+                -- api_key = "",  <-- get from sys env: OPENAI_API_KEY
+              },
+              schema = {
+                model = {
+                  default = "qwen3-vl:2b-thinking-bf16",
+                  choices = {
+                    "qwen3-vl:2b-thinking-bf16",
+                    "deepseek-coder:6.7b-instruct-q4_K_M",
+                    "ishumilin/deepseek-r1-coder-tools:1.5b",
+                  },
+                },
+                headers = {
+                  ["Content-Type"] = "application/json",
+                  ["Authorization"] = "Bearer Unnecessary",
                 },
               },
-              headers = {
-                ["Content-Type"] = "application/json",
-                ["Authorization"] = "Bearer Unnecessary",
-              },
-            },
-          })
+            })
         end,
         groq = function()
           return require("codecompanion.adapters").extend("openai_compatible", {
@@ -146,14 +148,29 @@ local spec = {
             },
             schema = {
               model = {
-                default = "openrouter/free",
-                choices = {
-                  "openrouter/free",
-                  "nvidia/nemotron-3-super-120b-a12b:free",
-                  "poolside/laguna-m.1:free",
-                  "openai/gpt-oss-120b:free",
-                  "owl-alpha",
-                },
+                default = "owl-alpha",
+                choices = function()
+                  local models = {}
+                  local handle = io.popen("curl -s https://openrouter.ai/api/v1/models")
+                  if handle then
+                    local json_data = handle:read("*a")
+                    handle:close()
+
+                    for id in string.gmatch(json_data, '"id"%s*:%s*"([^"]+)"') do
+                      local exists = false
+                      for _, m in ipairs(models) do
+                        if m == id then
+                          exists = true; break
+                        end
+                      end
+                      if not exists then
+                        table.insert(models, id)
+                      end
+                    end
+                  end
+
+                  return models
+                end,
               },
             },
           })
@@ -166,7 +183,8 @@ local spec = {
       acp = {
         hermes = function()
           local helpers = require("codecompanion.adapters.acp.helpers")
-          return {
+          return
+          {
             name = "hermes",
             formatted_name = "Hermes",
             type = "acp",

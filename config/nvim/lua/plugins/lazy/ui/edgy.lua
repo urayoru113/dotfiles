@@ -70,9 +70,10 @@ return {
           if not chat then return "Codecompanion" end
           local adapter = chat.adapter
           local provider = adapter.formatted_name or adapter.name or ""
-          local model = (adapter.model and adapter.model.formatted_name)
+          local model = (adapter.model and (adapter.model.formatted_name or adapter.model.name))
               or (adapter.schema and adapter.schema.model and adapter.schema.model.default)
-              or ""
+              or (chat.acp_connection and chat.acp_connection._config_options and chat.acp_connection._config_options[1]
+                and chat.acp_connection._config_options[1].currentValue) or ""
           if provider == "" and model == "" then
             return "Codecompanion"
           elseif provider ~= nil and model == "" then

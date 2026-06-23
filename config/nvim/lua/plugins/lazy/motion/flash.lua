@@ -1,6 +1,7 @@
 local spec = {
   "folke/flash.nvim",
   event = "BufEnter",
+  ---@type Flash.Config
   opts = {
     search = {
       multi_window = false,
@@ -9,7 +10,7 @@ local spec = {
     },
     modes = {
       char = {
-        jump_labels = true,
+        enabled = false,
       },
       search = {
         enabled = true,
@@ -20,10 +21,10 @@ local spec = {
     },
   },
   keys = {
-    { "s", mode = { "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-    { "S", mode = { "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-    -- { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-    { "r", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+    { "f", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+    { "t", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+    { "T", mode = { "n", "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+    -- { "T", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
     -- { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
   },
 }
