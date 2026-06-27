@@ -15,11 +15,7 @@ $time\
 [](fg:teal)\
 $container\
 $cmd_duration\
-$line_break\
-\n\
-$character"""
-
-right_format = """
+$fill\
 $nodejs\
 $bun\
 $deno\
@@ -57,7 +53,10 @@ $red\
 $fennel\
 $odin\
 $mojo\
-"""
+\n\
+$character"""
+
+right_format = """"""
 
 palette = 'catppuccin_latte'
 
@@ -87,6 +86,10 @@ Redhat = "󱄛 "
 RedHatEnterprise = "󱄛 "
 NixOS = " "
 
+[fill]
+symbol = ' '
+style = 'bold green'
+
 [username]
 show_always = true
 style_user = "bg:red fg:crust"
@@ -95,7 +98,7 @@ format = '[ [](bg:red fg:blue) $user]($style)'
 
 [directory]
 style = "bg:peach fg:crust"
-format = "[ [󰉋](fg:yellow bg:peach) $path]($style)"
+format = "[ [󰉋](fg:sky bg:peach) $path]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
 home_symbol = '~'
@@ -124,8 +127,8 @@ format = '[[ ](fg:lang_javascript)[ $symbol( $version) ](fg:crust bg:lang_jav
 
 [bun]
 symbol = ""
-style = "bg:lang_bun fg:crust bold"
-format = '[[ ](fg:lang_bun)[ $symbol( $version) ](fg:crust bg:lang_bun)[](fg:lang_bun)]($style)'
+style = "bg:lang_bun fg:text bold"
+format = '[[ ](fg:lang_bun)[ $symbol( $version) ](fg:text bg:lang_bun)[](fg:lang_bun)]($style)'
 
 [deno]
 symbol = ""

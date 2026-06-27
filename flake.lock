@@ -228,8 +228,7 @@
         "hermes-agent": "hermes-agent",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs_2",
-        "nixpkgs-stable": "nixpkgs-stable",
-        "win32yank": "win32yank"
+        "nixpkgs-stable": "nixpkgs-stable"
       }
     },
     "uv2nix": {
@@ -279,19 +278,6 @@
         "owner": "pyproject-nix",
         "repo": "uv2nix",
         "type": "github"
-      }
-    },
-    "win32yank": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1678983146,
-        "narHash": "sha256-4ivE1cYZhYs4ibx5oiYMOhbse9bdOomk7RjgdVl5lD0=",
-        "type": "tarball",
-        "url": "https://github.com/equalsraf/win32yank/releases/download/v0.1.1/win32yank-x64.zip"
-      },
-      "original": {
-        "type": "tarball",
-        "url": "https://github.com/equalsraf/win32yank/releases/download/v0.1.1/win32yank-x64.zip"
       }
     }
   },

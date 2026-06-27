@@ -2,6 +2,7 @@
 AGENTS.md
 **/node_modules/**
 token-optimizer
+config/opencode/skills
 
 !.env.example
 !.gitignore

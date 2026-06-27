@@ -837,6 +837,15 @@
             "cache_write": 0
           }
         },
+        "kimi-k2.7-code": {
+          "name": "kimi-k2.7-code",
+          "cost": {
+            "input": 0.55,
+            "output": 2,
+            "cache_read": 0,
+            "cache_write": 0
+          }
+        },
         "grok-4": {
           "name": "grok-4",
           "cost": {
@@ -1074,10 +1083,19 @@
         "glm-5.1": {
           "name": "glm-5.1",
           "cost": {
-            "input": 1.15,
-            "output": 3.96,
+            "input": 0.8,
+            "output": 2.4,
             "cache_read": 0.29,
             "cache_write": 0.29
+          }
+        },
+        "glm-5.2": {
+          "name": "glm-5.2",
+          "cost": {
+            "input": 1.05,
+            "output": 3.3,
+            "cache_read": 0.33,
+            "cache_write": 0.33
           }
         },
         "claude-opus-4.5": {

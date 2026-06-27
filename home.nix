@@ -1,7 +1,7 @@
 {
   config,
   pkgs,
-  lib,
+  # lib,
   custom,
   ...
 }: let
@@ -14,10 +14,15 @@
     cat = "bat";
     du = "dust";
     df = "duf";
+    sed = "sd";
 
     fonts = "fc-list : family";
 
+    # Docker alias
+    docker = "podman";
+
     # Navigation
+    "-" = "cd -";
     ".." = "cd ..";
     "..." = "cd ../..";
     "...." = "cd ../../..";
@@ -29,6 +34,12 @@
     }
   '';
 in {
+  services = {
+    podman.enable = true;
+  };
+
+  fonts.fontconfig.enable = true; # Enable GUI font rendering
+
   home.username = "urayoru";
   home.homeDirectory = "/home/urayoru";
   home.stateVersion = "26.05";
@@ -44,8 +55,7 @@ in {
   ];
 
   home.packages = with pkgs; [
-    # System tools
-    gcc
+    #System tools
     gnumake
 
     # Terminal utilities
@@ -59,6 +69,7 @@ in {
     zellij # Terminal multiplexer
     yazi # File explorer
     wezterm # Terminal
+    less # Pager
 
     # Modern alternatives
     eza # Better ls
@@ -89,12 +100,16 @@ in {
     rsync # Sync remote file
 
     # Other utilities
-    tldr # Simplified man pages
     tree # Directory tree
     unzip # Decompression
     zip # Compression
+    lua55Packages.tree-sitter-cli # Tree sitter
+    podman-compose # Compose podman containers
+    podman-desktop # Podman desktop
+    pods # Podman desktop alternative
 
     # Project Manager & runner & builder
+    gcc
     uv
     bun
     luajit
@@ -109,17 +124,12 @@ in {
 
     # LSP servers
     ast-grep
-    lua-language-server
     nixd
     pyright
     typescript-language-server
     nil
     alejandra
-    lua-language-server
     yaml-language-server
-
-    # Misc tools
-    lua55Packages.tree-sitter-cli
   ];
 
   programs = {
@@ -338,4 +348,18 @@ in {
 
   # allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  systemd.user.sockets.podman = {
+    Unit = {
+      Description = "Podman API Socket";
+      Documentation = "man:podman-system-service(1)";
+    };
+    Socket = {
+      # %t is systemd matic variable for /run/user/1001
+      ListenStream = "%t/podman/podman.sock";
+      SocketMode = "0600";
+    };
+    Install = {
+      WantedBy = ["sockets.target"];
+    };
+  };
 }

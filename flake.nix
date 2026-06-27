@@ -8,10 +8,6 @@
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
     hermes-agent.url = "github:NousResearch/hermes-agent/v2026.6.19";
-    win32yank = {
-      url = "https://github.com/equalsraf/win32yank/releases/download/v0.1.1/win32yank-x64.zip";
-      flake = false;
-    };
   };
 
   outputs = {
