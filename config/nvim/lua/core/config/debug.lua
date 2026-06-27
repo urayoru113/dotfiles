@@ -12,17 +12,17 @@ M.toggle_debug = function()
 end
 
 M.on = function()
-  vim.notify('Debug method on is not implemented', vim.log.levels.WARN)
+  vim.notify("Debug method on is not implemented", vim.log.levels.WARN)
 end
 
 M.off = function()
-  vim.notify('Debug method off is not implemented', vim.log.levels.WARN)
+  vim.notify("Debug method off is not implemented", vim.log.levels.WARN)
 end
 
---- @param opts {on:function, off:function}
+---@param opts { on: function, off: function }
 M.setup = function(opts)
-  if not opts or type(opts) ~= 'table' then
-    error('Argument `opts` type should be table')
+  if not opts or type(opts) ~= "table" then
+    error("Argument `opts` type should be table")
     return
   end
   M.on = opts.on or M.on
@@ -30,7 +30,7 @@ M.setup = function(opts)
 end
 
 M.__set_up_cmd = function()
-  vim.api.nvim_create_user_command('ToggleDebugMode', M.toggle_debug, {})
+  vim.api.nvim_create_user_command("ToggleDebugMode", M.toggle_debug, {})
 end
 
 return M

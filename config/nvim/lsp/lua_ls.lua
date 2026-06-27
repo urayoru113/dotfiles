@@ -1,12 +1,4 @@
 return {
-  on_init = function(client)
-    if client.workspace_folders then
-      local path = client.workspace_folders[1].name
-      if path == vim.fn.stdpath("config") or string.match(path, "/dotfiles$") then
-        table.insert(client.config.settings.Lua.workspace.library, vim.fn.stdpath("data") .. "/lazy")
-      end
-    end
-  end,
   settings = {
     Lua = {
       runtime = {
@@ -18,25 +10,24 @@ return {
         },
       },
       diagnostics = {
+        enable = true,
         globals = { "vim" },
         libraryFiles = "Disable",
         workspaceDelay = 100,
+        disable = { "missing-fields" },
       },
       completion = {
         enable = true,
         displayContext = 10,
       },
       workspace = {
-        checkThirdParty = "Disable",
-        library = {
-          vim.env.VIMRUNTIME,
-        },
+        checkThirdParty = false,
       },
       format = {
-        enable = true,
+        enable = false,
         defaultConfig = {
           indent_style = "space",
-          indent_size = "4",
+          indent_size = "2",
           quote_style = "double",
           call_arg_parentheses = "keep",
           trailing_table_separator = "smart",
@@ -48,6 +39,9 @@ return {
         },
       },
       hint = {
+        enable = true,
+      },
+      hover = {
         enable = true,
       },
     },

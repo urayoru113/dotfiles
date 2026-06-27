@@ -46,70 +46,68 @@ local spec = {
     adapters = {
       http = {
         gemini = function()
-          return require("codecompanion.adapters").extend("gemini",
-            {
-              schema = {
-                model = {
-                  default = "gemma-4-26b-a4b-it",
-                  choices = {
-                    ["gemma-4-31b-it"] = {
-                      formatted_name = "Gemma 4",
-                      meta = { context_window = 1048576 },
-                      opts = { can_reason = true, has_vision = false },
-                    },
-                    ["gemma-4-26b-a4b-it"] = {
-                      formatted_name = "Gemma 4 MOE",
-                      meta = { context_window = 1048576 },
-                      opts = { can_reason = true, has_vision = false },
-                    },
+          return require("codecompanion.adapters").extend("gemini", {
+            schema = {
+              model = {
+                default = "gemma-4-26b-a4b-it",
+                choices = {
+                  ["gemma-4-31b-it"] = {
+                    formatted_name = "Gemma 4",
+                    meta = { context_window = 1048576 },
+                    opts = { can_reason = true, has_vision = false },
+                  },
+                  ["gemma-4-26b-a4b-it"] = {
+                    formatted_name = "Gemma 4 MOE",
+                    meta = { context_window = 1048576 },
+                    opts = { can_reason = true, has_vision = false },
                   },
                 },
               },
-              opts = {
-                stream = true,
-                tools = true,
-                vision = false,
-              },
-            })
+            },
+            opts = {
+              stream = true,
+              tools = true,
+              vision = false,
+            },
+          })
         end,
         deepseek = function()
-          return require("codecompanion.adapters").extend("openai_compatible",
-            {
-              name = "deepseek",
-              formatted_name = "Deepseek",
-              roles = {
-                llm = "assistant",
-                user = "user",
-              },
-              opts = {
-                stream = true,
-                tools = true,
-              },
-              features = {
-                text = true,
-                tokens = true,
-                vision = false,
-              },
-              env = {
-                url = "http://localhost:11434",
-                chat_url = "/v1/chat/completions",
-                -- api_key = "",  <-- get from sys env: OPENAI_API_KEY
-              },
-              schema = {
-                model = {
-                  default = "qwen3-vl:2b-thinking-bf16",
-                  choices = {
-                    "qwen3-vl:2b-thinking-bf16",
-                    "deepseek-coder:6.7b-instruct-q4_K_M",
-                    "ishumilin/deepseek-r1-coder-tools:1.5b",
-                  },
-                },
-                headers = {
-                  ["Content-Type"] = "application/json",
-                  ["Authorization"] = "Bearer Unnecessary",
+          return require("codecompanion.adapters").extend("openai_compatible", {
+            name = "deepseek",
+            formatted_name = "Deepseek",
+            roles = {
+              llm = "assistant",
+              user = "user",
+            },
+            opts = {
+              stream = true,
+              tools = true,
+            },
+            features = {
+              text = true,
+              tokens = true,
+              vision = false,
+            },
+            env = {
+              url = "http://localhost:11434",
+              chat_url = "/v1/chat/completions",
+              -- api_key = "",  <-- get from sys env: OPENAI_API_KEY
+            },
+            schema = {
+              model = {
+                default = "qwen3-vl:2b-thinking-bf16",
+                choices = {
+                  "qwen3-vl:2b-thinking-bf16",
+                  "deepseek-coder:6.7b-instruct-q4_K_M",
+                  "ishumilin/deepseek-r1-coder-tools:1.5b",
                 },
               },
-            })
+              headers = {
+                ["Content-Type"] = "application/json",
+                ["Authorization"] = "Bearer Unnecessary",
+              },
+            },
+          })
         end,
         groq = function()
           return require("codecompanion.adapters").extend("openai_compatible", {
@@ -160,7 +158,8 @@ local spec = {
                       local exists = false
                       for _, m in ipairs(models) do
                         if m == id then
-                          exists = true; break
+                          exists = true
+                          break
                         end
                       end
                       if not exists then
@@ -183,8 +182,7 @@ local spec = {
       acp = {
         hermes = function()
           local helpers = require("codecompanion.adapters.acp.helpers")
-          return
-          {
+          return {
             name = "hermes",
             formatted_name = "Hermes",
             type = "acp",
@@ -213,16 +211,16 @@ local spec = {
               },
             },
             handlers = {
-              setup = function(self)
+              setup = function(_)
                 return true
               end,
-              auth = function(self)
+              auth = function(_)
                 return true
               end,
               form_messages = function(self, messages, capabilities)
                 return helpers.form_messages(self, messages, capabilities)
               end,
-              on_exit = function(self, code) end,
+              on_exit = function(_, _) end,
             },
           }
         end,
@@ -258,7 +256,22 @@ local spec = {
           },
         },
         tools = {
-          insert_edit_into_file = {
+          ["read_file"] = {
+            opts = {
+              require_approval_before = false,
+            },
+          },
+          ["grep_search"] = {
+            opts = {
+              require_approval_before = false,
+            },
+          },
+          ["memory"] = {
+            opts = {
+              require_approval_before = false,
+            },
+          },
+          agents = {
             opts = {
               require_confirmation_after = false,
             },
@@ -311,13 +324,13 @@ local spec = {
           browse_summaries_keymap = "gbs",
 
           generation_opts = {
-            adapter = nil,               -- defaults to current chat adapter
-            model = nil,                 -- defaults to current chat model
-            context_size = 90000,        -- max tokens that the model supports
-            include_references = true,   -- include slash command content
+            adapter = nil, -- defaults to current chat adapter
+            model = nil, -- defaults to current chat model
+            context_size = 90000, -- max tokens that the model supports
+            include_references = true, -- include slash command content
             include_tool_outputs = true, -- include tool execution results
-            system_prompt = nil,         -- custom system prompt (string or function)
-            format_summary = nil,        -- custom function to format generated summary e.g to remove <think/> tags from summary
+            system_prompt = nil, -- custom system prompt (string or function)
+            format_summary = nil, -- custom function to format generated summary e.g to remove <think/> tags from summary
           },
         },
         -- Memory system (requires VectorCode CLI)

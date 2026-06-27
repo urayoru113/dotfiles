@@ -165,8 +165,8 @@ local spec = {
               opts = { tailwind_color_icon = "██" }, -- Passed to the source directly, varies by source
               --- NOTE: All of these options may be functions to get dynamic behavior
               --- See the type definitions for more information
-              enabled = true,    -- Whether or not to enable the provider
-              async = false,     -- Whether we should show the completions before this provider returns, without waiting for it
+              enabled = true, -- Whether or not to enable the provider
+              async = false, -- Whether we should show the completions before this provider returns, without waiting for it
               timeout_ms = 2000, -- How long to wait for the provider to return before showing completions and treating it as asynchronous
               transform_items = function(ctx, items)
                 local item_kind = require("blink.cmp.types").CompletionItemKind
@@ -176,7 +176,7 @@ local spec = {
                   local kind = item.kind
                   if char_before_cursor == "." then
                     if
-                        kind ~= item_kind.Field
+                      kind ~= item_kind.Field
                         and kind ~= item_kind.Method
                         and kind ~= item_kind.Variable
                         and kind ~= item_kind.Class
@@ -184,33 +184,24 @@ local spec = {
                         and kind ~= item_kind.File
                         and kind ~= item_kind.Constant
                         and kind ~= item_kind.Property
-                        or item.label:sub(1, 1) == "_"
+                      or item.label:sub(1, 1) == "_"
                     then
                       return false
                     end
                   end
                   return true
                 end, items)
-              end,                      -- Function to transform the items before they're returned
+              end, -- Function to transform the items before they're returned
               should_show_items = true, -- Whether or not to show the items
-              max_items = nil,          -- Maximum number of items to display in the menu
-              min_keyword_length = 0,   -- Minimum number of characters in the keyword to trigger the provider
-              score_offset = 0,         -- Boost/penalize the score of the items
-              override = nil,           -- Override the source's functions
+              max_items = nil, -- Maximum number of items to display in the menu
+              min_keyword_length = 0, -- Minimum number of characters in the keyword to trigger the provider
+              score_offset = 0, -- Boost/penalize the score of the items
+              override = nil, -- Override the source's functions
             },
             avante = {
               module = "blink-cmp-avante",
               name = "Avante",
               opts = {},
-            },
-            parrot = {
-              module = "parrot.completion.blink",
-              name = "parrot",
-              score_offset = 20,
-              opts = {
-                show_hidden_files = false,
-                max_items = 50,
-              },
             },
             minuet = {
               name = "minuet",

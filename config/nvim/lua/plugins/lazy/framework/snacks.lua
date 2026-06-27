@@ -38,11 +38,41 @@ return {
   keys = function()
     local snacks = require("snacks")
     return {
-      { "<leader>gl", function() snacks.lazygit.open() end, desc = "LazyGit" },
-      { "gw", function() snacks.words.jump(1, true) end, desc = "Go to next lsp word" },
-      { "gW", function() snacks.words.jump(-1, true) end, desc = "Go to prev lsp word" },
-      { "<leader>z", function() snacks.zen.zen() end, desc = "Zen mode" },
-      { "<leader>Z", function() snacks.zen.zoom() end, desc = "Zoom mode" },
+      {
+        "<leader>gl",
+        function()
+          snacks.lazygit.open()
+        end,
+        desc = "LazyGit",
+      },
+      {
+        "gw",
+        function()
+          snacks.words.jump(1, true)
+        end,
+        desc = "Go to next lsp word",
+      },
+      {
+        "gW",
+        function()
+          snacks.words.jump(-1, true)
+        end,
+        desc = "Go to prev lsp word",
+      },
+      {
+        "<F3>",
+        function()
+          snacks.zen.zen()
+        end,
+        desc = "Zen mode",
+      },
+      {
+        "<F15>",
+        function()
+          snacks.zen.zoom()
+        end,
+        desc = "Zoom mode",
+      },
     }
   end,
 }

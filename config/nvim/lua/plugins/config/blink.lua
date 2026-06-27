@@ -1,5 +1,3 @@
-local lazydev_config = require("plugins.config.lazydev")
-
 local M = {}
 
 M.default_sources = {
@@ -8,20 +6,13 @@ M.default_sources = {
   "path",
   "snippets",
   "buffer",
-  -- "minuet",
 }
 
 M.per_filetype = {
-  lua = function()
-    local lua = {
-      inherit_defaults = true,
-      "nvim_lua",
-    }
-    if lazydev_config.should_load() then
-      table.insert(lua, "lazydev")
-    end
-    return lua
-  end,
+  lua = {
+    inherit_defaults = true,
+    "nvim_lua",
+  },
   codecompanion = {
     inherit_defaults = true,
     "codecompanion",

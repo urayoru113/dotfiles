@@ -5,17 +5,17 @@ if type(unpack) == nil then
 end
 
 M.load_mappings = function(definition)
-  local mappings = type(definition) == 'function' and definition() or definition
+  local mappings = type(definition) == "function" and definition() or definition
 
-  if type(mappings) ~= 'table' then
-    error('Mappings definition must result in a table.')
+  if type(mappings) ~= "table" then
+    error("Mappings definition must result in a table.")
     return
   end
 
-  local has_snacks, snacks = pcall(require, 'snacks')
+  local has_snacks, snacks = pcall(require, "snacks")
 
   for _, keymap_entry in ipairs(mappings) do
-    if type(keymap_entry) ~= 'table' then
+    if type(keymap_entry) ~= "table" then
       goto next_keymap_entry
     end
 
@@ -25,7 +25,7 @@ M.load_mappings = function(definition)
     local opts = {}
 
     for k, v in pairs(keymap_entry) do
-      if type(k) == 'string' and k ~= 'mode' then
+      if type(k) == "string" and k ~= "mode" then
         opts[k] = v
       end
     end
@@ -37,7 +37,7 @@ M.load_mappings = function(definition)
     if has_snacks then
       snacks.keymap.set(mode, lhs, rhs, opts)
     else
-      if type(opts) == 'table' then
+      if type(opts) == "table" then
         opts.ft = nil -- OPTIM:
         opts.lsp = nil
       end
@@ -52,17 +52,17 @@ M.remove_mappings = function(definition, ignore_nomap)
     ignore_nomap = false
   end
 
-  local mappings = type(definition) == 'function' and definition() or definition
+  local mappings = type(definition) == "function" and definition() or definition
 
-  if type(mappings) ~= 'table' then
-    error('Mappings definition must result in a table.')
+  if type(mappings) ~= "table" then
+    error("Mappings definition must result in a table.")
     return
   end
 
   local delete_keymap = vim.keymap.del
 
   for _, keymap_entry in ipairs(mappings) do
-    if type(keymap_entry) ~= 'table' then
+    if type(keymap_entry) ~= "table" then
       goto next_keymap_entry_remove
     end
 
@@ -83,18 +83,18 @@ M.remove_mappings = function(definition, ignore_nomap)
 end
 
 M.load_autocmds = function(name, definition)
-  local autocmds_table = type(definition) == 'function' and definition() or definition
+  local autocmds_table = type(definition) == "function" and definition() or definition
 
-  if type(autocmds_table) ~= 'table' then
+  if type(autocmds_table) ~= "table" then
     error("Autocmds definition for '" .. name .. "' must result in a table.")
     return
   end
 
-  local group_id = vim.api.nvim_create_augroup('Autocmd' .. name, { clear = true })
+  local group_id = vim.api.nvim_create_augroup("Autocmd" .. name, { clear = true })
   local create_autocmd = vim.api.nvim_create_autocmd
 
   for _, cmd in pairs(autocmds_table) do
-    if type(cmd) == 'table' and #cmd == 2 and type(cmd[2]) == 'table' then
+    if type(cmd) == "table" and #cmd == 2 and type(cmd[2]) == "table" then
       cmd[2].group = group_id
       create_autocmd(unpack(cmd))
     else
@@ -104,7 +104,7 @@ M.load_autocmds = function(name, definition)
 end
 
 M.load_highlights = function(name)
-  local highlights = require('core.highlights')
+  local highlights = require("core.highlights")
   if highlights[name] == nil then
     error("highlight '" .. name .. "' not found")
     return
@@ -117,9 +117,9 @@ end
 
 M.alpha_icon_table = function(icon_name)
   local icon_table = {}
-  if type(icon_name) == 'string' then
-    local icon_dir = vim.fn.stdpath('config') .. '/data/' .. icon_name
-    local icon_fp = io.open(icon_dir, 'r')
+  if type(icon_name) == "string" then
+    local icon_dir = vim.fn.stdpath("config") .. "/data/" .. icon_name
+    local icon_fp = io.open(icon_dir, "r")
     if vim.fn.isdirectory(icon_dir) then
       if icon_fp ~= nil then
         for line in icon_fp:lines() do
@@ -133,7 +133,7 @@ M.alpha_icon_table = function(icon_name)
       error("Splash file '" .. icon_name .. "' not found")
     end
   else
-    error('Type error: ' .. type(icon_name))
+    error("Type error: " .. type(icon_name))
   end
   return icon_table
 end
@@ -141,7 +141,7 @@ end
 M.tbl_deepcopy = function(orig)
   local orig_type = type(orig)
   local copy
-  if orig_type == 'table' then
+  if orig_type == "table" then
     copy = {}
     for orig_key, orig_value in pairs(orig) do
       copy[M.tbl_deepcopy(orig_key)] = M.tbl_deepcopy(orig_value)
@@ -156,16 +156,16 @@ end
 -- Merge two tables.
 -- If key in target is number, target[key] will insert into orig
 M.tbl_deep_merge = function(keep, orig, target)
-  if type(keep) ~= 'boolean' then
+  if type(keep) ~= "boolean" then
     error('invaild type "keep" ' .. type(target))
   end
   local orig_copy = M.tbl_deepcopy(orig)
   local target_copy = M.tbl_deepcopy(target)
   local function _tbl_deep_merge(_keep, _orig, _target)
     for k, v in pairs(_target) do
-      if type(k) == 'number' then
+      if type(k) == "number" then
         table.insert(_orig, v)
-      elseif type(v) == 'table' and type(_orig[k]) == 'table' then
+      elseif type(v) == "table" and type(_orig[k]) == "table" then
         _tbl_deep_merge(_keep, _orig[k], _target[k])
       else
         if not _keep or not _orig[k] then
@@ -180,31 +180,31 @@ end
 
 -- try to get project python path
 M.get_project_python_path = function()
-  if vim.fn.getenv('VIRTUAL_ENV') ~= vim.NIL then
-    return vim.fn.getenv('VIRTUAL_ENV') .. '/bin/python'
-  elseif vim.fn.filereadable('poetry.lock') == 1 and vim.fn.executable('poetry') == 1 then
-    return vim.trim(vim.fn.system('poetry env info -e'))
-  elseif vim.fn.executable('pyenv') == 1 and vim.fn.filereadable('.python-version') == 1 then
-    return vim.trim(vim.fn.system('pyenv which python'))
+  if vim.fn.getenv("VIRTUAL_ENV") ~= vim.NIL then
+    return vim.fn.getenv("VIRTUAL_ENV") .. "/bin/python"
+  elseif vim.fn.filereadable("poetry.lock") == 1 and vim.fn.executable("poetry") == 1 then
+    return vim.trim(vim.fn.system("poetry env info -e"))
+  elseif vim.fn.executable("pyenv") == 1 and vim.fn.filereadable(".python-version") == 1 then
+    return vim.trim(vim.fn.system("pyenv which python"))
   else
-    return vim.fn.exepath('python')
+    return vim.fn.exepath("python")
   end
 end
 
 M.get_project_venv_path = function(type)
   -- try to get project venv path
-  if type == 'python' then
-    if vim.fn.getenv('VIRTUAL_ENV') ~= vim.NIL then
-      return vim.fn.getenv('VIRTUAL_ENV')
-    elseif vim.fn.filereadable('poetry.lock') == 1 and vim.fn.executable('poetry') == 1 then
-      return vim.trim(vim.fn.system('poetry env info -p'))
-    elseif vim.fn.executable('pyenv') == 1 and vim.fn.filereadable('.python-version') == 1 then
-      return vim.trim(vim.fn.system('pyenv prefix'))
+  if type == "python" then
+    if vim.fn.getenv("VIRTUAL_ENV") ~= vim.NIL then
+      return vim.fn.getenv("VIRTUAL_ENV")
+    elseif vim.fn.filereadable("poetry.lock") == 1 and vim.fn.executable("poetry") == 1 then
+      return vim.trim(vim.fn.system("poetry env info -p"))
+    elseif vim.fn.executable("pyenv") == 1 and vim.fn.filereadable(".python-version") == 1 then
+      return vim.trim(vim.fn.system("pyenv prefix"))
     else
-      return ''
+      return ""
     end
   else
-    return ''
+    return ""
   end
 end
 
@@ -223,6 +223,20 @@ M.throttle = function(fn, ms)
       last_executed_time = now
       wrapped_fn(...)
     end
+  end
+end
+
+M.lock_local_file = function()
+  vim.g.file_editable = false
+  if vim.bo.buftype == "" then
+    vim.opt_local.modifiable = false
+  end
+end
+
+M.unlock_local_file = function()
+  vim.g.file_editable = true
+  if vim.bo.buftype == "" then
+    vim.opt_local.modifiable = true
   end
 end
 

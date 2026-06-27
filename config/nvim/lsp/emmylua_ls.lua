@@ -1,31 +1,28 @@
 return {
   settings = {
-    emmylua = {
+    emmylua_ls = {
+      -- Lua = {
       runtime = {
         version = "LuaJIT",
-        pathStrict = false,
-        requirePattern = {
-          "lua/?.lua",
-          "lua/?/init.lua",
-        },
+      },
+      diagnostics = {
+        enable = true,
+        globals = { "vim" },
       },
       completion = {
         enable = true,
         callSnippet = true,
       },
       workspace = {
+        checkThirdParty = false,
         library = {
-          vim.env.VIMRUNTIME,
+          vim.env.VIMRUNTIME, -- Use lazedev
+          -- unpack(vim.fn.glob(vim.fn.stdpath("data") .. "/lazy/*", false, true)), -- Use lazydev
         },
-      },
-      diagnostics = {
-        globals = { "vim" },
+        workspaceRoots = { vim.fn.getcwd() },
       },
       hint = {
         enable = true,
-      },
-      strict = {
-        requirePath = true,
       },
     },
   },

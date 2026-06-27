@@ -1,4 +1,3 @@
--- OPTIMIZE: This method should be refactor
 M = {}
 
 M.general = {
@@ -67,7 +66,6 @@ M["nvim-tree"] = {
   { mode = "n", "<F2>", "<CMD>NvimTreeToggle<CR>", noremap = true },
 }
 
-
 M.aerial = {
   { mode = "n", "<F8>", "<cmd>AerialToggle!<CR>", noremap = true, silent = true },
 }
@@ -76,7 +74,14 @@ M.lspsaga = {
   { mode = "n", "K", "<CMD>Lspsaga hover_doc<CR>" },
   { mode = "n", "grd", "m'<CMD>Lspsaga goto_definition<CR>" },
   { mode = "n", "grf", "<CMD>Lspsaga finder<CR>" },
-  { mode = "n", "grn", function() vim.lsp.buf.rename() end, desc = "Rename" },
+  {
+    mode = "n",
+    "grn",
+    function()
+      vim.lsp.buf.rename()
+    end,
+    desc = "Rename",
+  },
   { mode = "n", "gj", "<CMD>Lspsaga diagnostic_jump_next<CR>" },
   { mode = "n", "gk", "<CMD>Lspsaga diagnostic_jump_prev<CR>" },
   { mode = "n", "grp", "<CMD>Lspsaga peek_definition<CR>" },
@@ -84,7 +89,14 @@ M.lspsaga = {
   { mode = "n", "gro", "<CMD>Lspsaga outgoing_calls<CR>" },
   { mode = "n", "gra", "<CMD>Lspsaga code_action<CR>" },
   { mode = "n", "grO", "<CMD>Lspsaga outline<CR>" },
-  { mode = "n", "<leader>F", function() vim.lsp.buf.format({ async = true }) end, desc = "Format" },
+  {
+    mode = "n",
+    "<leader>F",
+    function()
+      vim.lsp.buf.format({ async = true })
+    end,
+    desc = "Format",
+  },
 }
 
 M.lsp = {
@@ -179,7 +191,13 @@ M.telescope = {
   { mode = "n", "<leader>fb", "<CMD>Telescope buffers<CR>", noremap = true, desc = "Find buffers" },
   { mode = "n", "<leader>fd", "<CMD>Telescope diagnostics<CR>", noremap = true, desc = "Find diagnostic" },
   { mode = "n", "<leader>fw", "<CMD>Telescope live_grep<CR>", noremap = true, desc = "Find word" },
-  { mode = "n", "<leader>fc", "<CMD>Telescope colorscheme enable_preview=true<CR>", noremap = true, desc = "Colorscheme" },
+  {
+    mode = "n",
+    "<leader>fc",
+    "<CMD>Telescope colorscheme enable_preview=true<CR>",
+    noremap = true,
+    desc = "Colorscheme",
+  },
   { mode = "n", "<leader>ff", "<CMD>Telescope find_files<CR>", noremap = true, desc = "Find files" },
   { mode = "n", "<leader>fk", "<CMD>Telescope keymaps<CR>", noremap = true, desc = "Find keymaps" },
 }
@@ -206,7 +224,7 @@ M.yazi = {
 M.gitsigns = {
   {
     mode = "n",
-    "<leader>gn",
+    "gn",
     function()
       if vim.wo.diff then
         vim.cmd.normal({ "]c", bang = true })
@@ -219,7 +237,7 @@ M.gitsigns = {
   },
   {
     mode = "n",
-    "<leader>gp",
+    "gp",
     function()
       if vim.wo.diff then
         vim.cmd.normal({ "[c", bang = true })
@@ -230,16 +248,36 @@ M.gitsigns = {
     noremap = true,
     desc = "Go to prev hunk",
   },
-  { mode = "n", "<leader>gd", "<CMD>Gitsigns diffthis HEAD vertical=true<CR>", desc = "Diff HEAD" },
-  { mode = "n", "<leader>gh", "<CMD>Gitsigns preview_hunk<CR>", desc = "Show diff of current hunk" },
   { mode = "n", "<leader>gb", "<CMD>Gitsigns blame_line<CR>", desc = "Show blame of current line" },
+  { mode = "n", "<leader>gd", "<CMD>Gitsigns diffthis HEAD vertical=true<CR>", desc = "Diff HEAD" },
+  { mode = "n", "<leader>gp", "<CMD>Gitsigns preview_hunk<CR>", desc = "Show diff of current hunk" },
   { mode = "n", "<leader>grb", "<CMD>Gitsigns reset_buffer<CR>", desc = "Reset buffer to HEAD" },
   { mode = "n", "<leader>grh", "<CMD>Gitsigns reset_hunk<CR>", desc = "Reset hunk to HEAD" },
+  { mode = "n", "<leader>gtb", "<CMD>Gitsigns toggle_current_line_blame<CR>", desc = "Toggle current line blame" },
+  { mode = "n", "<leader>gtd", "<CMD>Gitsigns toggle_deleted<CR>", desc = "Toggle deleted" },
+  { mode = "n", "<leader>gtl", "<CMD>Gitsigns toggle_linehl<CR>", desc = "Toggle line highlight" },
+  { mode = "n", "<leader>gtn", "<CMD>Gitsigns toggle_numhl<CR>", desc = "Toggle number highlight" },
+  { mode = "n", "<leader>gts", "<CMD>Gitsigns toggle_signs<CR>", desc = "Toggle signs" },
+  { mode = "n", "<leader>gtw", "<CMD>Gitsigns toggle_word_diff<CR>", desc = "Toggle word diff" },
 }
 
 M.luasnip = {
-  { mode = "i", "<TAB>", function() require("luasnip").jump(1) end, silent = true },
-  { mode = "i", "<s-TAB>", function() require("luasnip").jump(-1) end, silent = true },
+  {
+    mode = "i",
+    "<TAB>",
+    function()
+      require("luasnip").jump(1)
+    end,
+    silent = true,
+  },
+  {
+    mode = "i",
+    "<s-TAB>",
+    function()
+      require("luasnip").jump(-1)
+    end,
+    silent = true,
+  },
 }
 
 M["grug-far"] = {
@@ -268,14 +306,14 @@ M.debug_mode = {
 }
 
 M.dap = {
-  { mode = "n", "<leader>df", "<CMD>ToggleDebugKeymap<CR>", desc = "Toggle debug keymap" },
-  { mode = "n", "<leader>db", "<CMD>DapToggleBreakpoint<CR>" },
-  { mode = "n", "<leader>dc", "<CMD>DapContinue<CR>" },
-  { mode = "n", "<leader>dt", "<CMD>DapTerminate<CR>" },
-  { mode = "n", "<leader>di", "<CMD>DapStepInto<CR>" },
-  { mode = "n", "<leader>do", "<CMD>DapStepOut<CR>" },
-  { mode = "n", "<leader>dv", "<CMD>DapStepOver<CR>" },
-  { mode = "n", "<leader>ds", "<CMD>DapShowLog<CR>" },
+  { mode = "n", "df", "<CMD>ToggleDebugKeymap<CR>", desc = "Toggle debug keymap" },
+  { mode = "n", "db", "<CMD>DapToggleBreakpoint<CR>" },
+  { mode = "n", "dc", "<CMD>DapContinue<CR>" },
+  { mode = "n", "dt", "<CMD>DapTerminate<CR>" },
+  { mode = "n", "di", "<CMD>DapStepInto<CR>" },
+  { mode = "n", "do", "<CMD>DapStepOut<CR>" },
+  { mode = "n", "dv", "<CMD>DapStepOver<CR>" },
+  { mode = "n", "ds", "<CMD>DapShowLog<CR>" },
 }
 
 M.fastdap = {

@@ -1,10 +1,9 @@
 local M = {}
-local utils = require("core.utils")
 
 M.enabled_servers = {
   "nil_ls",
   "nixd",
-  "emmylua_ls",
+  -- "emmylua_ls",
   "lua_ls",
   "pyright",
   -- "basedpyright",
@@ -31,7 +30,6 @@ M.kind_icons = {
   ["Llama.cpp"] = "󰳆",
   Deepseek = "",
   supermaven = "",
-
 }
 
 M.kind_menus = {

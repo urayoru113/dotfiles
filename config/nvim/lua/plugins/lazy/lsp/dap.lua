@@ -1,6 +1,5 @@
-local utils = require("core.utils")
-local autocmds = require("core.autocmds")
 local dap_config = require("plugins.config.dap")
+local utils = require("core.utils")
 
 local specs = {
   {
@@ -29,27 +28,45 @@ local specs = {
     },
     version = "1.*",
     lazy = true,
-    init = function()
-      utils.load_autocmds("DapView", autocmds["dap-view"])
-    end,
+    --- @type dapview.Config
     opts = {
       follow_tab = true,
       windows = {
         size = 0.2,
         position = "below",
+        terminal = {
+          hide = true,
+        },
       },
     },
   },
   {
-    enabled = false,
+    enabled = true,
+    ft = "python",
     "mfussenegger/nvim-dap-python",
     dependencies = {
       "mfussenegger/nvim-dap",
     },
     config = function()
       local dap_python = require("dap-python")
-      dap_python.setup(utils.get_project_python_path())
+      dap_python.setup("uv")
       dap_python.test_runner = "pytest"
+      local dap = require("dap")
+      table.insert(
+        dap.configurations.python,
+        --- @type dap.Configuration
+        {
+          pythonPath = function()
+            return "./.venv/bin/python"
+          end,
+          type = "python",
+          request = "launch",
+          name = "isort: Debug Bug #2124",
+          module = "isort",
+          args = { "--profile", "black", "--diff", "temp.py" },
+          console = "integratedTerminal",
+        }
+      )
     end,
   },
 }

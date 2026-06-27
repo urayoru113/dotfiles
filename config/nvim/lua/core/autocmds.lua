@@ -46,6 +46,26 @@ M.general = {
       end,
     },
   },
+  {
+    { "BufEnter" },
+    {
+      callback = function()
+        if vim.bo.buftype == "" then
+          vim.opt_local.modifiable = vim.g.file_editable
+        end
+      end,
+    },
+  },
+  {
+    { "BufLeave" },
+    {
+      callback = function()
+        if vim.bo.buftype == "" then
+          vim.opt_local.modifiable = true
+        end
+      end,
+    },
+  },
 }
 
 M["nvim-tree"] = {
@@ -110,31 +130,12 @@ M["neo-tree"] = {
   },
 }
 
-M["dap-view"] = {
-  {
-    "BufEnter",
-    {
-      callback = function()
-        local dap = require("plugins.config.dap")
-        if dap.is_debug_mode then
-          local dapview = require("dap-view")
-          local util = require("dap-view.util")
-          local state = require("dap-view.state")
-          if not util.is_win_valid(state.winnr) then
-            dapview.open()
-          end
-        end
-      end,
-    },
-  },
-}
-
 M["nvim-lint"] = {
   {
-    "TextChanged",
+    { "TextChanged", "InsertLeave" },
     {
       callback = function()
-        require("lint").try_lint()
+        require("lint").try_lint(nil, { ignore_errors = true })
       end,
     },
   },
@@ -142,16 +143,8 @@ M["nvim-lint"] = {
     "Filetype",
     {
       pattern = "*",
-      callback = function(e)
-        local lint = require("lint")
-        local cached_linters_loaded_ft = require("core.cache").cached_linters_loaded_ft
-        if not cached_linters_loaded_ft[e.match] and lint.linters_by_ft[e.match] then
-          cached_linters_loaded_ft[e.match] = true
-          lint.linters_by_ft[e.match] = vim.tbl_filter(function(linter)
-            return vim.fn.executable(linter) == 1
-          end, lint.linters_by_ft[e.match])
-          lint.try_lint()
-        end
+      callback = function()
+        require("lint").try_lint(nil, { ignore_errors = true })
       end,
     },
   },

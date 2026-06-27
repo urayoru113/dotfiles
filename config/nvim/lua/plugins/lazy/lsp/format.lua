@@ -10,6 +10,7 @@ return {
       }))
     end
   end,
+  ---@type conform.setupOpts
   opts = {
     default_format_opts = {
       lsp_format = "fallback",
@@ -18,7 +19,7 @@ return {
       lua = { "stylua" },
       go = { "goimports", "gofmt" },
       rust = { "rustfmt" },
-      nix = { "nixfmt" },
+      nix = { "alejandra" },
       typescript = { "biome" },
       python = function(bufnr)
         if require("conform").get_formatter_info("ruff_format", bufnr).available then
@@ -40,6 +41,9 @@ return {
     formatters = {
       biome = {
         append_args = { "--line-width=120", "--format-with-errors=true" },
+      },
+      stylua = {
+        append_args = { "--indent-type", "Spaces", "--indent-width", "2" },
       },
     },
     notify_no_formatters = false,

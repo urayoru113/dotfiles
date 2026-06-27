@@ -8,6 +8,9 @@ local spec = {
     "nvim-lua/plenary.nvim",
     "saghen/blink.cmp",
   },
+  init = function()
+    table.insert(require("plugins.config.blink").default_sources, "minuet")
+  end,
   event = { "InsertEnter" },
   opts = {
     provider = "gemini",
@@ -41,7 +44,6 @@ local spec = {
           },
         },
       },
-
     },
     cmp = {
       enable_auto_complete = false,
