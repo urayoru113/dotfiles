@@ -111,7 +111,7 @@ M.load_highlights = function(name)
   end
   local set_hl = vim.api.nvim_set_hl
   for _, hl in pairs(highlights[name]) do
-    set_hl(unpack(hl))
+    set_hl(hl[1], hl[2], hl[3])
   end
 end
 
@@ -138,6 +138,7 @@ M.alpha_icon_table = function(icon_name)
   return icon_table
 end
 
+--- @param orig table original table
 M.tbl_deepcopy = function(orig)
   local orig_type = type(orig)
   local copy
@@ -155,6 +156,9 @@ end
 
 -- Merge two tables.
 -- If key in target is number, target[key] will insert into orig
+--- @param keep boolean if true, keep the original table
+--- @param orig table original table
+--- @param target table target table
 M.tbl_deep_merge = function(keep, orig, target)
   if type(keep) ~= "boolean" then
     error('invaild type "keep" ' .. type(target))

@@ -1,0 +1,38 @@
+{
+  "display": {
+    "separator": " ▓▒░ ",
+    "color": {
+      "keys": "magenta",
+      "output": "white"
+    },
+    "size": {
+      "ndigits": 0,
+      "maxPrefix": "MB"
+    }
+  },
+  "modules": [
+    "title",
+    "separator",
+
+    { "type": "os", "key": "╭─ 󰣇 OS      ", "keyColor": "blue" },
+    { "type": "kernel", "key": "├─  Kernel  ", "keyColor": "blue" },
+    { "type": "packages", "key": "╰─ 󰏖 Packages", "keyColor": "blue" },
+    "break",
+
+    { "type": "wm", "key": "╭─  WM      ", "keyColor": "cyan" },
+    { "type": "shell", "key": "├─  Shell   ", "keyColor": "cyan" },
+    { "type": "terminal", "key": "╰─  Terminal", "keyColor": "cyan" },
+    "break",
+
+    { "type": "cpu", "key": "╭─  CPU     ", "keyColor": "green" },
+    { "type": "memory", "key": "├─  Memory  ", "keyColor": "green" },
+    { "type": "disk", "key": "├─ 󰋊 Disk    ", "keyColor": "green" },
+    { "type": "localip", "key": "╰─ 󰩠 Local IP", "keyColor": "green" },
+    "break",
+
+    {
+      "type": "colors",
+      "symbol": "block"
+    }
+  ]
+}

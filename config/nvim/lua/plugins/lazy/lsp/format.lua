@@ -43,7 +43,14 @@ return {
         append_args = { "--line-width=120", "--format-with-errors=true" },
       },
       stylua = {
-        append_args = { "--indent-type", "Spaces", "--indent-width", "2" },
+        append_args = {
+          "--indent-type",
+          "Spaces",
+          "--indent-width",
+          "2",
+          "--column-width",
+          "120",
+        },
       },
     },
     notify_no_formatters = false,

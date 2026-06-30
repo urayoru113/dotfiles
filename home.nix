@@ -7,10 +7,10 @@
 }: let
   shellAliases = {
     # Modern tool replacements
-    ls = "eza";
-    ll = "eza -la";
-    la = "eza -a";
-    lt = "eza --tree";
+    ls = "eza --icons";
+    ll = "eza -la --icons";
+    la = "eza -a --icons";
+    lt = "eza --tree --icons";
     cat = "bat";
     du = "dust";
     df = "duf";
@@ -31,6 +31,11 @@
   shellInit = ''
     ns() {
       nix shell "''${@/#/nixpkgs#}"
+    }
+    nr() {
+        local pkg="$1"
+        shift
+        nix run "nixpkgs#$pkg" -- "$@"
     }
   '';
 in {
@@ -70,6 +75,7 @@ in {
     yazi # File explorer
     wezterm # Terminal
     less # Pager
+    fastfetch # System info
 
     # Modern alternatives
     eza # Better ls
@@ -328,6 +334,7 @@ in {
       '';
       initContent = ''
         ${shellInit}
+        source ~/.dotfiles/home/.zshrc
       '';
 
       inherit shellAliases;
@@ -340,10 +347,18 @@ in {
     };
   };
 
-  xdg.enable = true;
-  xdg.configFile."nvim" = {
-    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/nvim";
-    force = true;
+  xdg = {
+    enable = true;
+    configFile = {
+      "nvim" = {
+        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/nvim";
+        force = true;
+      };
+      "fastfetch/config.jsonc" = {
+        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/fastfetch/config.jsonc";
+        force = true;
+      };
+    };
   };
 
   # allow unfree packages

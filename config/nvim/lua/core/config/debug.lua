@@ -1,3 +1,4 @@
+-- Debug config interface
 local M = {}
 
 M.is_debug_mode = false

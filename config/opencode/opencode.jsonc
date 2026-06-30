@@ -2,7 +2,8 @@
   "$schema": "https://opencode.ai/config.json",
   "instructions": [
     "~/.dotfiles/ai/rules/AGENTS.md",
-    "~/.dotfiles/ai/rules/MEMORY.md"
+    "~/.dotfiles/ai/rules/MEMORY.md",
+    "~/.dotfiles/ai/rules/HEADROOM.md"
   ],
   "plugin": [
     "@tarquinen/opencode-dcp@latest",
@@ -25,6 +26,20 @@
         "uvx",
         "mcp-server-git",
       ]
+    },
+    "headroom":{
+     "type": "local",
+     "command": [
+       "uvx",
+       "--from",
+       "headroom-ai[proxy,ml]",
+       "--with",
+       "mcp",
+       "headroom",
+       "mcp",
+       "serve"
+     ],
+     "enabled":true
     },
     "you_search": {
       "type": "local",

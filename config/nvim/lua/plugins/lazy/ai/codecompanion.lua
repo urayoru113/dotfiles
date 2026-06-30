@@ -1,7 +1,5 @@
 local prompt_config = require("core.config.prompt")
 
-local default_provider = "gemini"
-
 local spec = {
   --https://github.com/olimorris/codecompanion.nvim/blob/main/lua/codecompanion/config.lua
   enabled = true,
@@ -174,6 +172,42 @@ local spec = {
             },
           })
         end,
+        opencode_zen = function()
+          return require("codecompanion.adapters").extend("openai_compatible", {
+            url = "https://opencode.ai/zen/v1/chat/completions",
+            env = {
+              api_key = "OPENCODE_API_KEY",
+            },
+            schema = {
+              model = {
+                default = "deepseek-v4-flash-free",
+                choices = function()
+                  local models = {}
+                  local handle = io.popen("curl -s https://opencode.ai/zen/v1/models/")
+                  if handle then
+                    local json_data = handle:read("*a")
+                    handle:close()
+
+                    for id in string.gmatch(json_data, '"id"%s*:%s*"([^"]+)"') do
+                      local exists = false
+                      for _, m in ipairs(models) do
+                        if m == id then
+                          exists = true
+                          break
+                        end
+                      end
+                      if not exists then
+                        table.insert(models, id)
+                      end
+                    end
+                  end
+
+                  return models
+                end,
+              },
+            },
+          })
+        end,
         opts = {
           show_model_choices = true,
           show_presets = true, -- Show preset adapters
@@ -231,7 +265,7 @@ local spec = {
     },
     interactions = {
       chat = {
-        adapter = default_provider,
+        adapter = "gemini",
         keymaps = {
           send = {
             modes = {
@@ -279,10 +313,10 @@ local spec = {
         },
       },
       inline = {
-        adapter = default_provider,
+        adapter = "opencode_zen",
       },
       cmd = {
-        adapter = default_provider,
+        adapter = "opencode_zen",
       },
     },
     prompt_library = {

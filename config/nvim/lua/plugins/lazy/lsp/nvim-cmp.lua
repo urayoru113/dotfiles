@@ -68,7 +68,7 @@ local options = function()
       priority_weight = 2,
       comparators = {
         require("copilot_cmp.comparators").prioritize,
-        -- Below is the default comparitor list and order for nvim-cmp
+        -- Below is the default comparator list and order for nvim-cmp
         cmp.config.compare.offset,
         -- cmp.config.compare.scopes, --this is commented in nvim-cmp too
         cmp.config.compare.exact,
@@ -122,7 +122,7 @@ local ft_options = {
 }
 
 local spec = {
-  cond = false,
+  enabled = false,
   "hrsh7th/nvim-cmp",
   tag = "v0.0.*",
   dependencies = {

@@ -1,7 +1,7 @@
 setlocal 
 
 FOR /F "tokens=4 delims=/ " %%i IN ('wsl ip -4 -o addr show eth0') DO set wsl2_eth0=%%i
-FOR /F "tokens=4 delims=/ " %%i IN ('wsl ip -4 -o addr show docker0') DO set wsl2_docker0=%%i
+REM FOR /F "tokens=4 delims=/ " %%i IN ('wsl ip -4 -o addr show docker0') DO set wsl2_docker0=%%i
 
 netsh interface portproxy delete v4tov4 8000 0.0.0.0
 netsh interface portproxy delete v4tov4 8080 0.0.0.0

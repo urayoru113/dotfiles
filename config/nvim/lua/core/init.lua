@@ -63,10 +63,7 @@ local function setup_lsp()
     local success, err = pcall(vim.lsp.enable, server)
 
     if not success then
-      vim.notify(
-        string.format("LSP server [%s] failed to start, error:%s", server, err),
-        vim.log.levels.WARN
-      )
+      vim.notify(string.format("LSP server [%s] failed to start, error:%s", server, err), vim.log.levels.WARN)
     end
   end
 end

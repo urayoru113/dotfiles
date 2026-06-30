@@ -247,7 +247,7 @@ local spec = {
                 end, items)
               end,
               enabled = function()
-                return vim.api.nvim_buf_get_name(0):find("oil://", 1, true) ~= 1
+                return vim.api.nvim_buf_get_name(0):match("://") == nil
               end,
             },
             nvim_lua = {
@@ -257,7 +257,6 @@ local spec = {
             lazydev = {
               name = "LazyDev",
               module = "lazydev.integrations.blink",
-              -- make lazydev completions top priority (see `:h blink.cmp`)
               score_offset = 100,
             },
           },
