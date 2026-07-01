@@ -51,20 +51,11 @@ end
 local function setup_lsp()
   local diagnostic_config = require("core.config.diagnostic")
   local dap_config = require("core.config.dapconf")
-  local lsp_config = require("core.config.lsp")
 
   vim.diagnostic.config(diagnostic_config.config)
 
   for _, sign in ipairs(dap_config.signs) do
     vim.fn.sign_define(sign.name, { texthl = sign.texthl, text = sign.text, numhl = "" })
-  end
-
-  for _, server in ipairs(lsp_config.enabled_servers) do
-    local success, err = pcall(vim.lsp.enable, server)
-
-    if not success then
-      vim.notify(string.format("LSP server [%s] failed to start, error:%s", server, err), vim.log.levels.WARN)
-    end
   end
 end
 

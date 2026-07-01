@@ -1,5 +1,5 @@
 local dap_config = require("plugins.config.dap")
-local utils = require("core.utils")
+local keymaps = require("core.keymaps")
 
 local specs = {
   {
@@ -41,32 +41,47 @@ local specs = {
     },
   },
   {
-    enabled = true,
-    ft = "python",
-    "mfussenegger/nvim-dap-python",
+    "jay-babu/mason-nvim-dap.nvim",
     dependencies = {
+      "williamboman/mason.nvim",
       "mfussenegger/nvim-dap",
     },
-    config = function()
-      local dap_python = require("dap-python")
-      dap_python.setup("uv")
-      dap_python.test_runner = "pytest"
-      local dap = require("dap")
-      table.insert(
-        dap.configurations.python,
-        --- @type dap.Configuration
-        {
-          pythonPath = function()
-            return "./.venv/bin/python"
+    keys = keymaps["debug_mode"],
+    init = function()
+      require("plugins.config.dap").setup()
+    end,
+    opts = function()
+      return {
+        handlers = {
+          function(config)
+            -- all sources with no handler get passed here
+
+            -- Keep original functionality
+            require("mason-nvim-dap").default_setup(config)
           end,
-          type = "python",
-          request = "launch",
-          name = "isort: Debug Bug #2124",
-          module = "isort",
-          args = { "--profile", "black", "--diff", "temp.py" },
-          console = "integratedTerminal",
-        }
-      )
+          python = function(config)
+            config.configurations = {
+              {
+                pythonPath = function()
+                  return "./.venv/bin/python"
+                end,
+                type = "python",
+                request = "launch",
+                name = "isort: Debug Bug #2124",
+                module = "isort",
+                args = { "--profile", "black", "--diff", "temp.py" },
+                console = "integratedTerminal",
+              },
+            }
+            require("mason-nvim-dap").default_setup(config)
+            --local dap = require('dap')
+            --dap.defaults.fallback.external_terminal = {
+            --  command = "tmux",
+            --  args = { "split-window", "-h", "-d", "-p", "35" }
+            --}
+          end,
+        },
+      }
     end,
   },
 }

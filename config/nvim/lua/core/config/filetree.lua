@@ -19,6 +19,7 @@ M.project_markers = {
   "bun.lockb",
   "deno.json",
   "Cargo.toml",
+  "flake.nix",
   "go.mod",
   "go.work",
   "pyproject.toml",

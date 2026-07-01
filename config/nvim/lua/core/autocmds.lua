@@ -167,4 +167,18 @@ M["codecompanion"] = {
   },
 }
 
+M["lspconfig"] = {
+  {
+    "Filetype",
+    {
+      pattern = { "nix" },
+      callback = function()
+        if vim.lsp.config["nixd"] ~= nil then
+          vim.lsp.enable("nixd")
+        end
+      end,
+    },
+  },
+}
+
 return M

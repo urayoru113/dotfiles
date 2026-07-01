@@ -399,10 +399,22 @@ local spec = {
           "AGENT.md",
           "AGENTS.md",
           "~/.dotfiles/ai/rules/AGENTS.md",
+          "~/.dotfiles/ai/rules/MEMORY.md",
+          "~/.dotfiles/ai/rules/MCP-TOOL.md",
           { path = "CLAUDE.md", parser = "claude" },
           { path = "CLAUDE.local.md", parser = "claude" },
           { path = "~/.claude/CLAUDE.md", parser = "claude" },
         },
+      },
+    },
+    mcp = {
+      servers = {
+        ["lazy-mcp"] = {
+          cmd = { "bunx", "lazy-mcp@latest", "--config", vim.fn.expand("~/.dotfiles/ai/servers.json") },
+        },
+      },
+      opts = {
+        default_servers = { "lazy-mcp" },
       },
     },
   },

@@ -244,4 +244,13 @@ M.unlock_local_file = function()
   end
 end
 
+M.get_project_path = function()
+  return vim.fs.root(vim.fn.getcwd(), require("core.config.filetree").project_markers)
+end
+
+M.get_os_target = function()
+  local os_name = vim.loop.os_uname()
+  return os_name.machine:lower() .. "-" .. os_name.sysname:lower()
+end
+
 return M

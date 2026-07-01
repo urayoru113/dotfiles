@@ -4,6 +4,7 @@ AGENTS.md
 token-optimizer
 config/opencode/skills
 
+!home/.*
 !.env.example
 !.gitignore
 !.wezterm.lua

@@ -58,13 +58,13 @@ config.keys = {
   { key = "Enter", mods = "SHIFT", action = wezterm.action.SendString("\x0a") },
   { key = "v", mods = "CTRL|SHIFT", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
   { key = "s", mods = "CTRL|SHIFT", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
-  { key = "h", mods = "CTRL|ALT", action = act.MoveTabRelative(-1) },
-  { key = "l", mods = "CTRL|ALT", action = act.MoveTabRelative(1) },
+  { key = "LeftArrow", mods = "CTRL|ALT", action = act.MoveTabRelative(-1) },
+  { key = "RightArrow", mods = "CTRL|ALT", action = act.MoveTabRelative(1) },
   --- switch pane
-  { key = "h", mods = "ALT", action = act.ActivatePaneDirection("Left") },
-  { key = "l", mods = "ALT", action = act.ActivatePaneDirection("Right") },
-  { key = "k", mods = "ALT", action = act.ActivatePaneDirection("Up") },
-  { key = "j", mods = "ALT", action = act.ActivatePaneDirection("Down") },
+  { key = "h", mods = "CTRL|ALT", action = act.ActivatePaneDirection("Left") },
+  { key = "l", mods = "CTRL|ALT", action = act.ActivatePaneDirection("Right") },
+  { key = "k", mods = "CTRL|ALT", action = act.ActivatePaneDirection("Up") },
+  { key = "j", mods = "CTRL|ALT", action = act.ActivatePaneDirection("Down") },
 }
 
 config.font = wezterm.font_with_fallback({

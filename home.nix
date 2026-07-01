@@ -6,7 +6,7 @@
   ...
 }: let
   shellAliases = {
-    # Modern tool replacements
+    # Tool replacements
     ls = "eza --icons";
     ll = "eza -la --icons";
     la = "eza -a --icons";
@@ -16,10 +16,9 @@
     df = "duf";
     sed = "sd";
 
-    fonts = "fc-list : family";
-
-    # Docker alias
     docker = "podman";
+
+    fonts = "fc-list : family";
 
     # Navigation
     "-" = "cd -";
@@ -37,6 +36,22 @@
         shift
         nix run "nixpkgs#$pkg" -- "$@"
     }
+    nix-init() {
+      nix flake init -t "path:$HOME/.dotfiles#default" && nix flake lock
+    }
+    nix-new() {
+      nix flake new -t "path:$HOME/.dotfiles#default" "$1" && cd "$1" && nix flake lock
+    }
+    hm-switch() {
+      local sys
+      case "$(uname -s)-$(uname -m)" in
+        Linux-x86_64)  sys=x86_64-linux ;;
+        Linux-aarch64) sys=aarch64-linux ;;
+        Darwin-arm64)  sys=aarch64-darwin ;;
+        *) echo "Unsupported: $(uname -s)-$(uname -m)"; return 1 ;;
+      esac
+      nix run home-manager -- switch --flake ".#urayoru@''${sys}" "$@"
+    }
   '';
 in {
   services = {
@@ -45,98 +60,99 @@ in {
 
   fonts.fontconfig.enable = true; # Enable GUI font rendering
 
-  home.username = "urayoru";
-  home.homeDirectory = "/home/urayoru";
-  home.stateVersion = "26.05";
-  home.sessionVariables = {
-    ZELLIJ_CONFIG_DIR = "$HOME/.dotfiles/config/zellij";
-    OPENCODE_CONFIG_DIR = "$HOME/.dotfiles/config/opencode";
-    YAZI_CONFIG_HOME = "$HOME/.dotfiles/config/yazi";
-    OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS = 1;
+  home = {
+    username = "urayoru";
+    homeDirectory = "/home/urayoru";
+    stateVersion = "26.05";
+    sessionVariables = {
+      ZELLIJ_CONFIG_DIR = "$HOME/.dotfiles/config/zellij";
+      OPENCODE_CONFIG_DIR = "$HOME/.dotfiles/config/opencode";
+      YAZI_CONFIG_HOME = "$HOME/.dotfiles/config/yazi";
+      OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS = 1;
+    };
+    sessionPath = [
+      "$HOME/.local/bin"
+    ];
+    packages = with pkgs; [
+      # System tools
+      gnumake
+
+      # Terminal utilities
+      bottom # System monitor(Rust)
+      btop # System monitor (C++)
+      htop # Backup monitor
+      ripgrep # Fast search
+      fd # Fast file finder
+      fzf # Fuzzy finder
+      tmux # Terminal multiplexer
+      zellij # Terminal multiplexer
+      yazi # File explorer
+      wezterm # Terminal
+      less # Pager
+      fastfetch # System info
+
+      # Modern alternatives
+      eza # Better ls
+      bat # Better cat
+      zoxide # Smarter cd
+      dust # Better du
+      duf # Better df
+      sd # Better sed
+      procs # Better ps
+
+      # Git related
+      lazygit # Git TUI
+      gh # GitHub CLI
+      git-lfs # Git large file support
+      delta # Git diff improvement
+      difftastic # Git diff improvement
+
+      # Development tools
+      # Note: Language environments go in devShells, not here!
+
+      # File processing
+      jq # JSON processor
+      yq # YAML processor
+
+      # Network tools
+      httpie # HTTP client
+      socat # Bidirectional data transfer
+      rsync # Sync remote file
+
+      # Other utilities
+      tree # Directory tree
+      unzip # Decompression
+      zip # Compression
+      lua55Packages.tree-sitter-cli # Tree sitter
+      podman-compose # Compose podman containers
+      pods # Podman desktop alternative
+
+      # Project Manager & runner & builder
+      gcc
+      uv
+      bun
+      luajit
+      python314
+      cargo
+      nodejs_24
+
+      # ai
+      # opencode Currently broken, wait for nixpkgs 26.11 release
+      vectorcode # AI assist
+      (custom.hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
+        extraDependencyGroups = ["messaging"];
+      })
+
+      # LSP servers
+      ast-grep
+      nixd
+      pyright
+      typescript-language-server
+      nil
+      alejandra
+      yaml-language-server
+    ];
   };
-
-  home.sessionPath = [
-    "$HOME/.local/bin"
-  ];
-
-  home.packages = with pkgs; [
-    #System tools
-    gnumake
-
-    # Terminal utilities
-    bottom # System monitor(Rust)
-    btop # System monitor (C++)
-    htop # Backup monitor
-    ripgrep # Fast search
-    fd # Fast file finder
-    fzf # Fuzzy finder
-    tmux # Terminal multiplexer
-    zellij # Terminal multiplexer
-    yazi # File explorer
-    wezterm # Terminal
-    less # Pager
-    fastfetch # System info
-
-    # Modern alternatives
-    eza # Better ls
-    bat # Better cat
-    zoxide # Smarter cd
-    dust # Better du
-    duf # Better df
-    sd # Better sed
-    procs # Better ps
-
-    # Git related
-    lazygit # Git TUI
-    gh # GitHub CLI
-    git-lfs # Git large file support
-    delta # Git diff improvement
-    difftastic # Git diff improvement
-
-    # Development tools
-    # Note: Language environments go in devShells, not here!
-
-    # File processing
-    jq # JSON processor
-    yq # YAML processor
-
-    # Network tools
-    httpie # HTTP client
-    socat # Bidirectional data transfer
-    rsync # Sync remote file
-
-    # Other utilities
-    tree # Directory tree
-    unzip # Decompression
-    zip # Compression
-    lua55Packages.tree-sitter-cli # Tree sitter
-    podman-compose # Compose podman containers
-    podman-desktop # Podman desktop
-    pods # Podman desktop alternative
-
-    # Project Manager & runner & builder
-    gcc
-    uv
-    bun
-    luajit
-    python314
-    cargo
-    nodejs_24
-
-    # ai
-    # opencode Currently broken, wait for nixpkgs 26.11 release
-    vectorcode # AI assist
-    (custom.hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default.override {extraDependencyGroups = ["messaging"];})
-
-    # LSP servers
-    ast-grep
-    nixd
-    pyright
-    typescript-language-server
-    nil
-    alejandra
-    yaml-language-server
-  ];
 
   programs = {
     neovim = {

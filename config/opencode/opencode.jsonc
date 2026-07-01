@@ -3,73 +3,23 @@
   "instructions": [
     "~/.dotfiles/ai/rules/AGENTS.md",
     "~/.dotfiles/ai/rules/MEMORY.md",
-    "~/.dotfiles/ai/rules/HEADROOM.md"
+    "~/.dotfiles/ai/rules/MCP-TOOL.md"
   ],
   "plugin": [
     "@tarquinen/opencode-dcp@latest",
     "oh-my-opencode-slim@latest",
     "token-optimizer-opencode",
+    "@codemem/opencode-plugin",
     // "oh-my-openagent@latest",
   ],
   "mcp": {
-    "ddg_search": {
-      "type": "local",
-      "command": [
-        "uvx",
-        "duckduckgo-mcp-server"
-      ],
-      "enabled": false
-    },
-    "git": {
-      "type": "local",
-      "command": [
-        "uvx",
-        "mcp-server-git",
-      ]
-    },
-    "headroom":{
-     "type": "local",
-     "command": [
-       "uvx",
-       "--from",
-       "headroom-ai[proxy,ml]",
-       "--with",
-       "mcp",
-       "headroom",
-       "mcp",
-       "serve"
-     ],
-     "enabled":true
-    },
-    "you_search": {
+    "lazy-mcp": {
       "type": "local",
       "command": [
         "bunx",
-        "-y",
-        "@youdotcom-oss/mcp"
-      ],
-      "enabled": false,
-      "environment": {
-        "YDC_PROFILE": "free"
-      }
-    },
-    "fetch": {
-      "type": "local",
-      "command": [
-        "uvx",
-        "mcp-server-fetch"
-      ],
-      "environment": {
-        "PYTHONIOENCODING": "utf-8"
-      },
-      "enabled": false,
-    },
-    "codemem": {
-      "type": "local",
-      "command": [
-        "bunx",
-        "codemem",
-        "mcp"
+        "lazy-mcp@latest",
+        "--config",
+        "~/.dotfiles/ai/servers.json"
       ],
       "enabled": true
     }

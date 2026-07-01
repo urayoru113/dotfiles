@@ -170,6 +170,7 @@ local spec = {
               timeout_ms = 2000, -- How long to wait for the provider to return before showing completions and treating it as asynchronous
               transform_items = function(ctx, items)
                 local item_kind = require("blink.cmp.types").CompletionItemKind
+                --- @param item blink.cmp.CompletionItem
                 return vim.tbl_filter(function(item)
                   local col = item.cursor_column
                   local char_before_cursor = string.sub(ctx.line, col, col)
@@ -184,6 +185,8 @@ local spec = {
                         and kind ~= item_kind.File
                         and kind ~= item_kind.Constant
                         and kind ~= item_kind.Property
+                        and kind ~= item_kind.Enum
+                      or not (kind == item_kind.Constructor and vim.bo.filetype == "nix")
                       or item.label:sub(1, 1) == "_"
                     then
                       return false
@@ -217,6 +220,9 @@ local spec = {
               timeout_ms = 3000,
               score_offset = 50, -- Gives minuet higher priority among suggestions
               max_items = 2,
+              --- @param ctx blink.cmp.Context
+              --- @param items blink.cmp.CompletionItem[]
+              --- @return blink.cmp.CompletionItem[]
               transform_items = function(ctx, items)
                 local col = ctx.cursor[2]
                 local after_cursor = string.sub(ctx.line, col + 1)

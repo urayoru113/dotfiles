@@ -18,6 +18,8 @@ M.general = {
   { mode = "n", "<C-l>", "<C-w>l" },
   { mode = "n", "<tab>", "<CMD>tabnext<CR>" },
   { mode = "n", "<s-tab>", "<CMD>tabprev<CR>" },
+  { mode = "n", "<M-h>", "<CMD>tabmove -1<CR>" },
+  { mode = "n", "<M-l>", "<CMD>tabmove +1<CR>" },
   { mode = "n", "/", "ms/", noremap = true },
   { mode = "n", "?", "ms?", noremap = true },
   { mode = "n", "Q", "<CMD>q<CR>", noremap = true, desc = "Quit" },

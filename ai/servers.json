@@ -1,0 +1,66 @@
+{
+  "embedServerSummaries": {
+    "enabled": true,
+    "maxServers": 10
+  },
+  "servers": [
+    {
+      "name": "git",
+      "description": "Git repository operations via mcp-server-git",
+      "command": [
+        "uvx",
+        "mcp-server-git"
+      ]
+    },
+    {
+      "name": "headroom",
+      "description": "Context compression and retrieval via headroom-ai",
+      "command": [
+        "uvx",
+        "--from",
+        "headroom-ai[proxy,ml]",
+        "--with",
+        "mcp",
+        "headroom",
+        "mcp",
+        "serve"
+      ]
+    },
+    {
+      "name": "codemem",
+      "description": "Memory storage and search via codemem",
+      "command": [
+        "bunx",
+        "codemem",
+        "mcp"
+      ]
+    },
+    {
+      "name": "ddg_search",
+      "description": "DuckDuckGo web search",
+      "command": [
+        "uvx",
+        "duckduckgo-mcp-server"
+      ]
+    },
+    {
+      "name": "fetch",
+      "description": "Fetch and extract webpage content",
+      "command": [
+        "uvx",
+        "mcp-server-fetch"
+      ],
+      "environment": {
+        "PYTHONIOENCODING": "utf-8"
+      }
+    },
+    {
+      "name": "playright",
+      "description": "Headless browser control via Playwright",
+      "command": [
+        "bunx",
+        "@playwright/mcp@latest"
+      ]
+    }
+  ]
+}
