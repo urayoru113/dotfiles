@@ -13,20 +13,6 @@
       ]
     },
     {
-      "name": "headroom",
-      "description": "Context compression and retrieval via headroom-ai",
-      "command": [
-        "uvx",
-        "--from",
-        "headroom-ai[proxy,ml]",
-        "--with",
-        "mcp",
-        "headroom",
-        "mcp",
-        "serve"
-      ]
-    },
-    {
       "name": "codemem",
       "description": "Memory storage and search via codemem",
       "command": [
@@ -55,12 +41,22 @@
       }
     },
     {
+      "name": "selenium",
+      "description": "Headless browser control via Selenium",
+      "command": [
+        "bunx",
+        "-y",
+        "@angiejones/mcp-selenium@latest"
+      ]
+    },
+    {
       "name": "playright",
       "description": "Headless browser control via Playwright",
       "command": [
         "bunx",
         "@playwright/mcp@latest"
-      ]
+      ],
+      "enabled": false
     }
   ]
 }

@@ -2,7 +2,9 @@
   "$schema": "https://opencode.ai/tui.json",
   "keybinds": {
     "input_delete_line": "ctrl+d",
-    "input_delete": "delete,shift+delete"
+    "input_delete": "delete,shift+delete",
+    "input_line_home": "home",
+    "input_line_end": "end",
   },
   "plugin": [
     "oh-my-openagent/tui",

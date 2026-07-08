@@ -4,13 +4,15 @@
   # lib,
   custom,
   ...
-}: let
+}:
+let
   shellAliases = {
     # Tool replacements
     ls = "eza --icons";
     ll = "eza -la --icons";
     la = "eza -a --icons";
     lt = "eza --tree --icons";
+    tree = "eza --tree --icons";
     cat = "bat";
     du = "dust";
     df = "duf";
@@ -53,7 +55,8 @@
       nix run home-manager -- switch --flake ".#urayoru@''${sys}" "$@"
     }
   '';
-in {
+in
+{
   services = {
     podman.enable = true;
   };
@@ -75,7 +78,8 @@ in {
     ];
     packages = with pkgs; [
       # System tools
-      gnumake
+      gnumake # Build tool
+      openssh # SSH
 
       # Terminal utilities
       bottom # System monitor(Rust)
@@ -84,14 +88,9 @@ in {
       ripgrep # Fast search
       fd # Fast file finder
       fzf # Fuzzy finder
-      tmux # Terminal multiplexer
-      zellij # Terminal multiplexer
       yazi # File explorer
-      wezterm # Terminal
       less # Pager
       fastfetch # System info
-
-      # Modern alternatives
       eza # Better ls
       bat # Better cat
       zoxide # Smarter cd
@@ -100,12 +99,17 @@ in {
       sd # Better sed
       procs # Better ps
 
+      # Terminal multiplexer
+      tmux
+      zellij
+
       # Git related
       lazygit # Git TUI
       gh # GitHub CLI
       git-lfs # Git large file support
       delta # Git diff improvement
       difftastic # Git diff improvement
+      opencommit # Generate commit messages
 
       # Development tools
       # Note: Language environments go in devShells, not here!
@@ -120,12 +124,15 @@ in {
       rsync # Sync remote file
 
       # Other utilities
-      tree # Directory tree
       unzip # Decompression
       zip # Compression
       lua55Packages.tree-sitter-cli # Tree sitter
       podman-compose # Compose podman containers
       pods # Podman desktop alternative
+      wezterm # Terminal
+
+      # Gui tools
+      google-chrome # Web browser
 
       # Project Manager & runner & builder
       gcc
@@ -137,11 +144,12 @@ in {
       nodejs_24
 
       # ai
-      # opencode Currently broken, wait for nixpkgs 26.11 release
+      # opencode Currently broken at nixpkgs 26.05
       vectorcode # AI assist
       (custom.hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
-        extraDependencyGroups = ["messaging"];
+        extraDependencyGroups = [ "messaging" ];
       })
+      rtk # Rust token killer
 
       # LSP servers
       ast-grep
@@ -285,7 +293,8 @@ in {
         fi
 
         if [[ $- == *i* ]] && [ -z "$ZSH_VERSION" ] && command -v zsh &> /dev/null; then
-          exec zsh -l
+          export SHELL="${pkgs.zsh}/bin/zsh"
+          exec "$SHELL" -l
         fi
       '';
       inherit shellAliases;
@@ -301,6 +310,7 @@ in {
         path = "${config.xdg.dataHome}/zsh/history";
         ignoreDups = true;
         ignoreSpace = true;
+        expireDuplicatesFirst = true;
         share = true;
         extended = true;
       };
@@ -338,6 +348,14 @@ in {
         }
       ];
 
+      envExtra = ''
+        if [[ -o interactive && "$NIX_ZSH_LOADED" != "1" ]]; then
+          export NIX_ZSH_LOADED=1
+          export SHELL="$HOME/.nix-profile/bin/zsh"
+          exec "$SHELL" -l
+        fi
+      '';
+
       profileExtra = ''
         # On non-NixOS systems, source Nix environment manually
         # (Home Manager doesn't add this automatically)
@@ -358,7 +376,6 @@ in {
 
     starship = {
       enable = true;
-      # settings = builtins.fromTOML (builtins.readFile config/starship.toml);
       configPath = "$HOME/.dotfiles/config/starship.toml";
     };
   };
@@ -390,7 +407,7 @@ in {
       SocketMode = "0600";
     };
     Install = {
-      WantedBy = ["sockets.target"];
+      WantedBy = [ "sockets.target" ];
     };
   };
 }

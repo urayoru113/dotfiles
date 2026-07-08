@@ -8,7 +8,8 @@ local spec = {
   },
   keys = {
     {
-      "<leader>?",
+      mode = { "", "!" },
+      "<C-\\>",
       function()
         require("which-key").show({ global = false })
       end,

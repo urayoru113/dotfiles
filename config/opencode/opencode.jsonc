@@ -3,13 +3,14 @@
   "instructions": [
     "~/.dotfiles/ai/rules/AGENTS.md",
     "~/.dotfiles/ai/rules/MEMORY.md",
-    "~/.dotfiles/ai/rules/MCP-TOOL.md"
+    "~/.dotfiles/ai/rules/RTK.md"
   ],
   "plugin": [
     "@tarquinen/opencode-dcp@latest",
     "oh-my-opencode-slim@latest",
     "token-optimizer-opencode",
     "@codemem/opencode-plugin",
+    "openrtk",
     // "oh-my-openagent@latest",
   ],
   "mcp": {
@@ -19,7 +20,7 @@
         "bunx",
         "lazy-mcp@latest",
         "--config",
-        "~/.dotfiles/ai/servers.json"
+        "~/.dotfiles/ai/servers.jsonc"
       ],
       "enabled": true
     }

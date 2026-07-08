@@ -170,6 +170,9 @@ local spec = {
               timeout_ms = 2000, -- How long to wait for the provider to return before showing completions and treating it as asynchronous
               transform_items = function(ctx, items)
                 local item_kind = require("blink.cmp.types").CompletionItemKind
+                if true then
+                  return items
+                end
                 --- @param item blink.cmp.CompletionItem
                 return vim.tbl_filter(function(item)
                   local col = item.cursor_column
@@ -186,7 +189,7 @@ local spec = {
                         and kind ~= item_kind.Constant
                         and kind ~= item_kind.Property
                         and kind ~= item_kind.Enum
-                      or not (kind == item_kind.Constructor and vim.bo.filetype == "nix")
+                        and not (kind == item_kind.Constructor and vim.bo.filetype == "nix")
                       or item.label:sub(1, 1) == "_"
                     then
                       return false

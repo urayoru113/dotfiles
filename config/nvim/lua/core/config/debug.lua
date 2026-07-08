@@ -30,8 +30,4 @@ M.setup = function(opts)
   M.off = opts.off or M.off
 end
 
-M.__set_up_cmd = function()
-  vim.api.nvim_create_user_command("ToggleDebugMode", M.toggle_debug, {})
-end
-
 return M

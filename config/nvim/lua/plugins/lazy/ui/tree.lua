@@ -129,12 +129,12 @@ local neotree_opts = function()
         mappings = {
           ["/"] = "noop",
           ["<C-_>"] = "fuzzy_finder", -- <CTRL-/>
-          ["<C-o>"] = "system_open",
+          ["<C-s>"] = "system_open",
         },
         fuzzy_finder_mappings = {
           ["<ESC>"] = "noop",
           ["<CR>"] = "close_keep_filter",
-          ["<C-CR>"] = "close_clear_filter",
+          ["<C-c>"] = "close_clear_filter",
         },
       },
       filtered_items = {

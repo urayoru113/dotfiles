@@ -15,7 +15,7 @@ local specs = {
   },
   {
     "theHamsta/nvim-dap-virtual-text",
-    lazy = true,
+    keys = "<F6>",
     opts = {
       only_first_definition = false,
     },
@@ -28,12 +28,13 @@ local specs = {
     },
     version = "1.*",
     lazy = true,
+    --- @module "dap-view"
     --- @type dapview.Config
     opts = {
       follow_tab = true,
       windows = {
-        size = 0.2,
-        position = "below",
+        size = 0.3,
+        position = "right",
         terminal = {
           hide = true,
         },
@@ -41,14 +42,16 @@ local specs = {
     },
   },
   {
+    -- https://codeberg.org/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation
     "jay-babu/mason-nvim-dap.nvim",
     dependencies = {
       "williamboman/mason.nvim",
       "mfussenegger/nvim-dap",
     },
-    keys = keymaps["debug_mode"],
+    keys = keymaps.debug_mode,
     init = function()
-      require("plugins.config.dap").setup()
+      local debug_config = require("core.config.debug")
+      vim.api.nvim_create_user_command("ToggleDebugMode", debug_config.toggle_debug, {})
     end,
     opts = function()
       return {
@@ -59,29 +62,12 @@ local specs = {
             -- Keep original functionality
             require("mason-nvim-dap").default_setup(config)
           end,
-          python = function(config)
-            config.configurations = {
-              {
-                pythonPath = function()
-                  return "./.venv/bin/python"
-                end,
-                type = "python",
-                request = "launch",
-                name = "isort: Debug Bug #2124",
-                module = "isort",
-                args = { "--profile", "black", "--diff", "temp.py" },
-                console = "integratedTerminal",
-              },
-            }
-            require("mason-nvim-dap").default_setup(config)
-            --local dap = require('dap')
-            --dap.defaults.fallback.external_terminal = {
-            --  command = "tmux",
-            --  args = { "split-window", "-h", "-d", "-p", "35" }
-            --}
-          end,
         },
       }
+    end,
+    config = function(_, opts)
+      require("plugins.config.dap").setup()
+      require("mason-nvim-dap").setup(opts)
     end,
   },
 }

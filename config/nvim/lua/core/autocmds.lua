@@ -8,7 +8,7 @@ M.general = {
   {
     "Filetype",
     {
-      pattern = { "python", "c", "cpp", "sh", "lua" },
+      pattern = { "python", "c", "cpp", "sh", "lua", "javascript", "typescript" },
       callback = function(e)
         utils.load_mappings(keymaps[e.match])
       end,

@@ -18,7 +18,7 @@
     "presets": {
       "default": {
         "alpha": {
-          "model": "openrouter/openai/gpt-5.4-nano"
+          "model": "opencode/deepseek-v4-pro"
         },
         "beta": {
           "model": "airforce/gemini-3.1-pro"
@@ -80,7 +80,7 @@
     },
     "opencode-go": {
       "orchestrator": {
-        "model": "opencode-go/glm-5.1",
+        "model": "opencode-go/glm-5.2",
         "skills": [
           "*"
         ],
@@ -184,7 +184,7 @@
     },
     "my-preset": {
       "orchestrator": {
-        "model": "opencode-go/glm-5.1",
+        "model": "opencode-go/glm-5.2",
         "skills": [
           "*"
         ],
@@ -202,7 +202,7 @@
         "mcps": []
       },
       "council": {
-        "model": "opencode-go/deepseek-v4-pro",
+        "model": "airforce/gpt-5.4",
         "variant": "high",
         "skills": [],
         "mcps": []
@@ -217,7 +217,7 @@
         ]
       },
       "explorer": {
-        "model": "opencode-go/minimax-m2.7",
+        "model": "opencode-go/minimax-m3",
         "skills": [],
         "mcps": []
       },
@@ -228,7 +228,7 @@
         "mcps": []
       },
       "fixer": {
-        "model": "opencode/deepseek-v4-flash-free",
+        "model": "opencode/gpt-5.1-codex-mini",
         "variant": "high",
         "skills": [],
         "mcps": []

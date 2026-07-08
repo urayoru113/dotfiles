@@ -305,9 +305,18 @@ local spec = {
               require_approval_before = false,
             },
           },
-          agents = {
+          ["run_command"] = {
             opts = {
-              require_confirmation_after = false,
+              allowed_in_yolo_mode = false,
+              require_approval_before = false,
+              require_cmd_approval = true,
+            },
+          },
+          agent = {
+            opts = {
+              collapse_tools = true,
+              ignore_system_prompt = true,
+              ignore_tool_system_prompt = true,
             },
           },
         },
@@ -326,8 +335,9 @@ local spec = {
         prompts = {
           {
             role = "system",
+            --- @param context CodeCompanion.BufferContext
             content = function(context)
-              return prompt_config.code_review_prompt .. "\n```\n" .. context.code .. "\n```\n"
+              return prompt_config.code_review_prompt .. "\n```\n" .. context.code or "" .. "\n```\n"
             end,
             opts = {
               ignore_system_prompt = true,
@@ -336,7 +346,6 @@ local spec = {
         },
       },
     },
-
     extensions = {
       history = {
         enabled = true,
@@ -406,11 +415,17 @@ local spec = {
           { path = "~/.claude/CLAUDE.md", parser = "claude" },
         },
       },
+      opts = {
+        chat = {
+          autoload = "default",
+          enabled = true,
+        },
+      },
     },
     mcp = {
       servers = {
         ["lazy-mcp"] = {
-          cmd = { "bunx", "lazy-mcp@latest", "--config", vim.fn.expand("~/.dotfiles/ai/servers.json") },
+          cmd = { "bunx", "lazy-mcp@latest", "--config", vim.fn.expand("~/.dotfiles/ai/servers.jsonc") },
         },
       },
       opts = {

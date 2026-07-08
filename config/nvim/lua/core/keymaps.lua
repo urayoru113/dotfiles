@@ -12,10 +12,6 @@ M.general = {
     expr = true,
     desc = "Format and save file",
   },
-  { mode = "n", "<C-h>", "<C-w>h" },
-  { mode = "n", "<C-j>", "<C-w>j" },
-  { mode = "n", "<C-k>", "<C-w>k" },
-  { mode = "n", "<C-l>", "<C-w>l" },
   { mode = "n", "<tab>", "<CMD>tabnext<CR>" },
   { mode = "n", "<s-tab>", "<CMD>tabprev<CR>" },
   { mode = "n", "<M-h>", "<CMD>tabmove -1<CR>" },
@@ -25,7 +21,7 @@ M.general = {
   { mode = "n", "Q", "<CMD>q<CR>", noremap = true, desc = "Quit" },
   {
     mode = "n",
-    "<C-q>",
+    "<M-q>",
     function()
       if vim.fn.tabpagenr("$") > 1 then
         return "<CMD>tabclose<CR>"
@@ -37,6 +33,7 @@ M.general = {
     expr = true,
     desc = "Close tab",
   },
+  { mode = "n", "<C-q>", "<CMD>qall<CR>", noremap = true, desc = "Close all tabs" },
   {
     mode = "n",
     "<C-t>",
@@ -57,11 +54,10 @@ M.general = {
     end,
     expr = true,
   },
-  { mode = "!", "<C-l>", "<Delete>" },
-  { mode = "t", "<C-h>", "<C-w>h" },
-  { mode = "t", "<C-j>", "<C-w>j" },
-  { mode = "t", "<C-k>", "<C-w>k" },
-  { mode = "t", "<C-l>", "<C-w>l" },
+  { mode = { "t", "n" }, "<C-h>", "<C-w>h" },
+  { mode = { "t", "n" }, "<C-j>", "<C-w>j" },
+  { mode = { "t", "n" }, "<C-k>", "<C-w>k" },
+  { mode = { "t", "n" }, "<C-l>", "<C-w>l" },
 }
 
 M["nvim-tree"] = {
@@ -73,7 +69,7 @@ M.aerial = {
 }
 
 M.lspsaga = {
-  { mode = "n", "K", "<CMD>Lspsaga hover_doc<CR>" },
+  { mode = "n", "K", vim.lsp.buf.hover },
   { mode = "n", "grd", "m'<CMD>Lspsaga goto_definition<CR>" },
   { mode = "n", "grf", "<CMD>Lspsaga finder<CR>" },
   {
@@ -354,6 +350,14 @@ M.sh = {
 
 M.markview = {
   { mode = "n", "<F9>", "<CMD>Markview splitToggle<CR>", noremap = true, silent = true, ft = { "markdown", "rst" } },
+}
+
+M.javascript = {
+  { mode = "n", "<F9>", "<CMD>!node %<CR>", noremap = true, silent = true, ft = "javascript" },
+}
+
+M.typescript = {
+  { mode = "n", "<F9>", "<CMD>!bun %<CR>", noremap = true, silent = true, ft = "javascript" },
 }
 
 return M

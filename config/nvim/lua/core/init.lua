@@ -3,7 +3,6 @@ local function setup_basic()
 end
 
 local function setup_debug()
-  require("core.config.debug").__set_up_cmd()
   -- legacy
   -- vim.cmd([[
   -- " Get current cursor bypassing unicode"
@@ -67,3 +66,5 @@ setup_basic()
 setup_debug()
 setup_lsp()
 setup_treesitter()
+
+require("core.options")
