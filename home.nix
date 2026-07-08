@@ -3,9 +3,9 @@
   pkgs,
   # lib,
   custom,
+  user,
   ...
-}:
-let
+}: let
   shellAliases = {
     # Tool replacements
     ls = "eza --icons";
@@ -52,11 +52,10 @@ let
         Darwin-arm64)  sys=aarch64-darwin ;;
         *) echo "Unsupported: $(uname -s)-$(uname -m)"; return 1 ;;
       esac
-      nix run home-manager -- switch --flake ".#urayoru@''${sys}" "$@"
+      nix run home-manager -- switch --flake ".#${user}@''${sys}" "$@"
     }
   '';
-in
-{
+in {
   services = {
     podman.enable = true;
   };
@@ -64,8 +63,8 @@ in
   fonts.fontconfig.enable = true; # Enable GUI font rendering
 
   home = {
-    username = "urayoru";
-    homeDirectory = "/home/urayoru";
+    username = user;
+    homeDirectory = "/home/${user}";
     stateVersion = "26.05";
     sessionVariables = {
       ZELLIJ_CONFIG_DIR = "$HOME/.dotfiles/config/zellij";
@@ -147,7 +146,7 @@ in
       # opencode Currently broken at nixpkgs 26.05
       vectorcode # AI assist
       (custom.hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
-        extraDependencyGroups = [ "messaging" ];
+        extraDependencyGroups = ["messaging"];
       })
       rtk # Rust token killer
 
@@ -177,7 +176,7 @@ in
       enable = true;
       settings = {
         user = {
-          name = "urayoru";
+          name = user;
           email = ""; # Remember to change!
         };
       };
@@ -188,7 +187,7 @@ in
 
       settings = {
         user = {
-          name = "urayoru";
+          name = user;
           email = ""; # Remember to change!
         };
 
@@ -288,8 +287,8 @@ in
       initExtra = ''
         # On non-NixOS systems, source Nix environment manually
         # (Home Manager doesn't add this automatically)
-        if [ -e /home/urayoru/.nix-profile/etc/profile.d/nix.sh ]; then
-          . /home/urayoru/.nix-profile/etc/profile.d/nix.sh;
+        if [ -e /home/${user}/.nix-profile/etc/profile.d/nix.sh ]; then
+          . /home/${user}/.nix-profile/etc/profile.d/nix.sh;
         fi
 
         if [[ $- == *i* ]] && [ -z "$ZSH_VERSION" ] && command -v zsh &> /dev/null; then
@@ -359,8 +358,8 @@ in
       profileExtra = ''
         # On non-NixOS systems, source Nix environment manually
         # (Home Manager doesn't add this automatically)
-        if [ -e /home/urayoru/.nix-profile/etc/profile.d/nix.sh ]; then
-          . /home/urayoru/.nix-profile/etc/profile.d/nix.sh;
+        if [ -e /home/${user}/.nix-profile/etc/profile.d/nix.sh ]; then
+          . /home/${user}/.nix-profile/etc/profile.d/nix.sh;
         fi
 
         # Load environment variables (API keys, etc.)
@@ -407,7 +406,7 @@ in
       SocketMode = "0600";
     };
     Install = {
-      WantedBy = [ "sockets.target" ];
+      WantedBy = ["sockets.target"];
     };
   };
 }

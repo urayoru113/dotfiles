@@ -27,7 +27,10 @@
             value = inputs.home-manager.lib.homeManagerConfiguration {
               pkgs = inputs.nixpkgs.legacyPackages.${system};
               modules = [./home.nix];
-              extraSpecialArgs = {custom = inputs;};
+              extraSpecialArgs = {
+                custom = inputs;
+                user = "urayoru";
+              };
             };
           })
           config.systems);
