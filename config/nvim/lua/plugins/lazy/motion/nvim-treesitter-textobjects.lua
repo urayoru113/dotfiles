@@ -10,158 +10,144 @@ return {
         require("nvim-treesitter-textobjects.select").select_textobject(query, group)
       end
     end
+
     local move_textobject = function(func_name, query, group)
       return function()
         local func = require("nvim-treesitter-textobjects.move")[func_name]
-        func(query, group)
+        if func then
+          func(query, group)
+        end
       end
     end
 
-    return {
-      -- ==========================================================
-      -- 🎯 Select (Textobjects - Core selections)
-      -- ==========================================================
-      { "ic", select_textobject("@class.inner", "textobjects"), mode = { "o", "x" }, desc = "inner class body" },
-      { "ac", select_textobject("@class.outer", "textobjects"), mode = { "o", "x" }, desc = "around class definition" },
-      { "if", select_textobject("@function.inner", "textobjects"), mode = { "o", "x" }, desc = "inner function body" },
-      { "af", select_textobject("@function.outer", "textobjects"), mode = { "o", "x" }, desc = "around function definition" },
-      { "ib", select_textobject("@block.inner", "textobjects"), mode = { "o", "x" }, desc = "inner block body" },
-      { "ab", select_textobject("@block.outer", "textobjects"), mode = { "o", "x" }, desc = "around block/scope" },
-      { "as", select_textobject("@statement.outer", "textobjects"), mode = { "o", "x" }, desc = "around statement" },
-      { "id", select_textobject("@conditional.inner", "textobjects"), mode = { "o", "x" }, desc = "inner conditional logic" },
-      { "ad", select_textobject("@conditional.outer", "textobjects"), mode = { "o", "x" }, desc = "around conditional (if/else)" },
-      { "il", select_textobject("@loop.inner", "textobjects"), mode = { "o", "x" }, desc = "inner loop body" },
-      { "al", select_textobject("@loop.outer", "textobjects"), mode = { "o", "x" }, desc = "around loop (for/while)" },
-      { "ip", select_textobject("@parameter.inner", "textobjects"), mode = { "o", "x" }, desc = "inner parameters/args" },
-      { "ap", select_textobject("@parameter.outer", "textobjects"), mode = { "o", "x" }, desc = "around parameter list" },
-      { "ir", select_textobject("@return.inner", "textobjects"), mode = { "o", "x" }, desc = "inner return value" },
-      { "ar", select_textobject("@return.outer", "textobjects"), mode = { "o", "x" }, desc = "around return statement" },
-      { "ia", select_textobject("@attribute.inner", "textobjects"), mode = { "o", "x" }, desc = "inner attribute value" },
-      { "aa", select_textobject("@attribute.outer", "textobjects"), mode = { "o", "x" }, desc = "around attribute/annotation" },
-      { "ix", select_textobject("@regex.inner", "textobjects"), mode = { "o", "x" }, desc = "inner regex pattern" },
-      { "ax", select_textobject("@regex.outer", "textobjects"), mode = { "o", "x" }, desc = "around regex pattern" },
-      { "iC", select_textobject("@call.inner", "textobjects"), mode = { "o", "x" }, desc = "inner function call arguments" },
-      { "aC", select_textobject("@call.outer", "textobjects"), mode = { "o", "x" }, desc = "around function call" },
-      { "im", select_textobject("@comment.inner", "textobjects"), mode = { "o", "x" }, desc = "inner comment content" },
-      { "am", select_textobject("@comment.outer", "textobjects"), mode = { "o", "x" }, desc = "around comment block" },
-      { "iF", select_textobject("@frame.inner", "textobjects"), mode = { "o", "x" }, desc = "inner frame body" },
-      { "aF", select_textobject("@frame.outer", "textobjects"), mode = { "o", "x" }, desc = "around frame definition" },
-      { "iA", select_textobject("@assignment.inner", "textobjects"), mode = { "o", "x" }, desc = "inner assignment expression" },
-      { "aA", select_textobject("@assignment.outer", "textobjects"), mode = { "o", "x" }, desc = "around assignment" },
-      { "L", select_textobject("@assignment.lhs", "textobjects"), mode = { "o", "x" }, desc = "assignment lhs" },
-      { "R", select_textobject("@assignment.rhs", "textobjects"), mode = { "o", "x" }, desc = "assignment rhs" },
-      { "in", select_textobject("@number.inner", "textobjects"), mode = { "o", "x" }, desc = "inner number" },
-      { "iS", select_textobject("@scopename.inner", "textobjects"), mode = { "o", "x" }, desc = "inner scope name" },
+    local keys = {}
 
-      -- ==========================================================
-      -- 🚀 Move Start (Jump to the beginning: Using [ and ])
-      -- ==========================================================
-      { "]c", move_textobject("goto_next_start", "@class.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next class start" },
-      { "[c", move_textobject("goto_previous_start", "@class.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous class start" },
-      { "]f", move_textobject("goto_next_start", "@function.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next function start" },
-      { "[f", move_textobject("goto_previous_start", "@function.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous function start" },
-      { "]b", move_textobject("goto_next_start", "@block.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next block start" },
-      { "[b", move_textobject("goto_previous_start", "@block.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous block start" },
-      { "]s", move_textobject("goto_next_start", "@statement.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next statement start" },
-      { "[s", move_textobject("goto_previous_start", "@statement.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous statement start" },
-      { "]d", move_textobject("goto_next_start", "@conditional.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next conditional start" },
-      { "[d", move_textobject("goto_previous_start", "@conditional.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous conditional start" },
-      { "]l", move_textobject("goto_next_start", "@loop.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next loop start" },
-      { "[l", move_textobject("goto_previous_start", "@loop.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous loop start" },
-      { "]p", move_textobject("goto_next_start", "@parameter.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next parameter start" },
-      { "[p", move_textobject("goto_previous_start", "@parameter.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous parameter start" },
-      { "]r", move_textobject("goto_next_start", "@return.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next return start" },
-      { "[r", move_textobject("goto_previous_start", "@return.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous return start" },
-      { "]a", move_textobject("goto_next_start", "@attribute.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next attribute start" },
-      { "[a", move_textobject("goto_previous_start", "@attribute.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous attribute start" },
-      { "]x", move_textobject("goto_next_start", "@regex.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next regex start" },
-      { "[x", move_textobject("goto_previous_start", "@regex.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous regex start" },
-      { "]C", move_textobject("goto_next_start", "@call.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next call start" },
-      { "[C", move_textobject("goto_previous_start", "@call.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous call start" },
-      { "]m", move_textobject("goto_next_start", "@comment.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next comment start" },
-      { "[m", move_textobject("goto_previous_start", "@comment.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous comment start" },
-      { "]F", move_textobject("goto_next_start", "@frame.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next frame start" },
-      { "[F", move_textobject("goto_previous_start", "@frame.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous frame start" },
-      { "]A", move_textobject("goto_next_start", "@assignment.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next assignment start" },
-      { "[A", move_textobject("goto_previous_start", "@assignment.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous assignment start" },
-      { "]L", move_textobject("goto_next_start", "@assignment.lhs", "textobjects"), mode = { "n", "o", "x" }, desc = "next assignment lhs start" },
-      { "[L", move_textobject("goto_previous_start", "@assignment.lhs", "textobjects"), mode = { "n", "o", "x" }, desc = "previous assignment lhs start" },
-      { "]R", move_textobject("goto_next_start", "@assignment.rhs", "textobjects"), mode = { "n", "o", "x" }, desc = "next assignment rhs start" },
-      { "[R", move_textobject("goto_previous_start", "@assignment.rhs", "textobjects"), mode = { "n", "o", "x" }, desc = "previous assignment rhs start" },
-      { "]z", move_textobject("goto_next_start", "@fold", "folds"), mode = { "n", "o", "x" }, desc = "next fold start" },
-      { "[z", move_textobject("goto_previous_start", "@fold", "folds"), mode = { "n", "o", "x" }, desc = "previous fold start" },
-      { "]S", move_textobject("goto_next_start", "@local.scope", "locals"), mode = { "n", "o", "x" }, desc = "next local scope start" },
-      { "[S", move_textobject("goto_previous_start", "@local.scope", "locals"), mode = { "n", "o", "x" }, desc = "previous local scope start" },
-      { "]n", move_textobject("goto_next_start", "@number.inner", "textobjects"), mode = { "n", "o", "x" }, desc = "next number start" },
-      { "[n", move_textobject("goto_previous_start", "@number.inner", "textobjects"), mode = { "n", "o", "x" }, desc = "previous number start" },
-
-      -- -- ==========================================================
-      -- -- ⚓ Move End (Jump to the end: Using { and })
-      -- -- ==========================================================
-      -- { "}c", move_textobject("goto_next_end", "@class.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next class end" },
-      -- { "{c", move_textobject("goto_previous_end", "@class.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous class end" },
-      -- { "}f", move_textobject("goto_next_end", "@function.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next function end" },
-      -- { "{f", move_textobject("goto_previous_end", "@function.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous function end" },
-      -- { "}b", move_textobject("goto_next_end", "@block.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next block end" },
-      -- { "{b", move_textobject("goto_previous_end", "@block.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous block end" },
-      -- { "}s", move_textobject("goto_next_end", "@statement.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next statement end" },
-      -- { "{s", move_textobject("goto_previous_end", "@statement.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous statement end" },
-      -- { "}d", move_textobject("goto_next_end", "@conditional.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next conditional end" },
-      -- { "{d", move_textobject("goto_previous_end", "@conditional.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous conditional end" },
-      -- { "}l", move_textobject("goto_next_end", "@loop.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next loop end" },
-      -- { "{l", move_textobject("goto_previous_end", "@loop.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous loop end" },
-      -- { "}p", move_textobject("goto_next_end", "@parameter.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next parameter end" },
-      -- { "{p", move_textobject("goto_previous_end", "@parameter.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous parameter end" },
-      -- { "}r", move_textobject("goto_next_end", "@return.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next return end" },
-      -- { "{r", move_textobject("goto_previous_end", "@return.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous return end" },
-      -- { "}a", move_textobject("goto_next_end", "@attribute.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next attribute end" },
-      -- { "{a", move_textobject("goto_previous_end", "@attribute.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous attribute end" },
-      -- { "}x", move_textobject("goto_next_end", "@regex.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next regex end" },
-      -- { "{x", move_textobject("goto_previous_end", "@regex.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous regex end" },
-      -- { "}C", move_textobject("goto_next_end", "@call.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next call end" },
-      -- { "{C", move_textobject("goto_previous_end", "@call.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous call end" },
-      -- { "}m", move_textobject("goto_next_end", "@comment.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next comment end" },
-      -- { "{m", move_textobject("goto_previous_end", "@comment.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous comment end" },
-      -- { "}F", move_textobject("goto_next_end", "@frame.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next frame end" },
-      -- { "{F", move_textobject("goto_previous_end", "@frame.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous frame end" },
-      -- { "}A", move_textobject("goto_next_end", "@assignment.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "next assignment end" },
-      -- { "{A", move_textobject("goto_previous_end", "@assignment.outer", "textobjects"), mode = { "n", "o", "x" }, desc = "previous assignment end" },
-      -- { "}L", move_textobject("goto_next_end", "@assignment.lhs", "textobjects"), mode = { "n", "o", "x" }, desc = "next assignment lhs end" },
-      -- { "{L", move_textobject("goto_previous_end", "@assignment.lhs", "textobjects"), mode = { "n", "o", "x" }, desc = "previous assignment lhs end" },
-      -- { "}R", move_textobject("goto_next_end", "@assignment.rhs", "textobjects"), mode = { "n", "o", "x" }, desc = "next assignment rhs end" },
-      -- { "{R", move_textobject("goto_previous_end", "@assignment.rhs", "textobjects"), mode = { "n", "o", "x" }, desc = "previous assignment rhs end" },
-      -- { "}z", move_textobject("goto_next_end", "@fold", "folds"), mode = { "n", "o", "x" }, desc = "next fold end" },
-      -- { "{z", move_textobject("goto_previous_end", "@fold", "folds"), mode = { "n", "o", "x" }, desc = "previous fold end" },
-      -- { "}n", move_textobject("goto_next_end", "@number.inner", "textobjects"), mode = { "n", "o", "x" }, desc = "next number end" },
-      -- { "{n", move_textobject("goto_previous_end", "@number.inner", "textobjects"), mode = { "n", "o", "x" }, desc = "previous number end" },
-      -- { "}}", "}", mode = { "n" }, desc = "next space" },
-      -- { "{{", "{", mode = { "n" }, desc = "previous space" },
-
-      -- ==========================================================
-      -- 🔄 Repeat (Repeat the last Treesitter jump)
-      -- ==========================================================
-      {
-        ";",
-        function()
-          return require("nvim-treesitter-textobjects.repeatable_move").repeat_last_move_next()
-        end,
-        mode = { "n", "x", "o" },
-        desc = "ts repeat forward",
-      },
-      {
-        ",",
-        function()
-          return require("nvim-treesitter-textobjects.repeatable_move").repeat_last_move_previous()
-        end,
-        mode = { "n", "x", "o" },
-        desc = "ts repeat backward",
-      },
+    -- ==========================================================
+    -- 🎯 1. Select Textobjects Configuration
+    -- ==========================================================
+    local select_configs = {
+      { key = "c", query = "@class", desc = "class" },
+      { key = "f", query = "@function", desc = "function" },
+      { key = "b", query = "@block", desc = "block" },
+      { key = "s", query = "@statement", desc = "statement", no_inner = true },
+      { key = "d", query = "@conditional", desc = "conditional logic" },
+      { key = "l", query = "@loop", desc = "loop" },
+      { key = "p", query = "@parameter", desc = "parameter" },
+      { key = "r", query = "@return", desc = "return" },
+      { key = "a", query = "@attribute", desc = "attribute" },
+      { key = "x", query = "@regex", desc = "regex pattern" },
+      { key = "C", query = "@call", desc = "function call" },
+      { key = "m", query = "@comment", desc = "comment" },
+      { key = "F", query = "@frame", desc = "frame" },
+      { key = "A", query = "@assignment", desc = "assignment" },
+      { key = "L", exact = true, query = "@assignment.lhs", desc = "assignment lhs" },
+      { key = "R", exact = true, query = "@assignment.rhs", desc = "assignment rhs" },
+      { key = "n", query = "@number", desc = "number", no_outer = true },
+      { key = "S", query = "@scopename", desc = "scope name", no_outer = true },
     }
+
+    for _, def in ipairs(select_configs) do
+      if def.exact then
+        table.insert(
+          keys,
+          { def.key, select_textobject(def.query, "textobjects"), mode = { "o", "x" }, desc = def.desc }
+        )
+      else
+        if not def.no_outer then
+          table.insert(keys, {
+            "a" .. def.key,
+            select_textobject(def.query .. ".outer", "textobjects"),
+            mode = { "o", "x" },
+            desc = "around " .. def.desc,
+          })
+        end
+        if not def.no_inner then
+          table.insert(keys, {
+            "i" .. def.key,
+            select_textobject(def.query .. ".inner", "textobjects"),
+            mode = { "o", "x" },
+            desc = "inner " .. def.desc,
+          })
+        end
+      end
+    end
+
+    -- ==========================================================
+    -- 🚀 2. Move Textobjects Configuration
+    -- ==========================================================
+    local move_configs = {
+      { key = "c", query = "@class.outer", desc = "class" },
+      { key = "f", query = "@function.outer", desc = "function" },
+      { key = "b", query = "@block.outer", desc = "block" },
+      { key = "s", query = "@statement.outer", desc = "statement" },
+      { key = "d", query = "@conditional.outer", desc = "conditional" },
+      { key = "l", query = "@loop.outer", desc = "loop" },
+      { key = "p", query = "@parameter.outer", desc = "parameter" },
+      { key = "r", query = "@return.outer", desc = "return" },
+      { key = "a", query = "@attribute.outer", desc = "attribute" },
+      { key = "x", query = "@regex.outer", desc = "regex" },
+      { key = "C", query = "@call.outer", desc = "call" },
+      { key = "m", query = "@comment.outer", desc = "comment" },
+      { key = "F", query = "@frame.outer", desc = "frame" },
+      { key = "A", query = "@assignment.outer", desc = "assignment" },
+      { key = "L", query = "@assignment.lhs", desc = "assignment lhs" },
+      { key = "R", query = "@assignment.rhs", desc = "assignment rhs" },
+      { key = "n", query = "@number.inner", desc = "number" },
+      { key = "z", query = "@fold", desc = "fold", group = "folds" },
+      { key = "S", query = "@local.scope", desc = "local scope", group = "locals" },
+    }
+
+    local move_directions = {
+      { prefix = "]", func = "goto_next_start", desc = "next %s start" },
+      { prefix = "[", func = "goto_previous_start", desc = "prev %s start" },
+      { prefix = "}", func = "goto_next_end", desc = "next %s end" },
+      { prefix = "{", func = "goto_previous_end", desc = "prev %s end" },
+    }
+
+    for _, def in ipairs(move_configs) do
+      local group = def.group or "textobjects"
+      for _, dir in ipairs(move_directions) do
+        table.insert(keys, {
+          dir.prefix .. def.key,
+          move_textobject(dir.func, def.query, group),
+          mode = { "n", "o", "x" },
+          desc = string.format(dir.desc, def.desc),
+        })
+      end
+    end
+
+    -- ==========================================================
+    -- ⚓ 3. Vim Native Fallbacks & Repeat
+    -- ==========================================================
+    -- Maintain native paragraph jumping mapped to double braces
+    table.insert(keys, { "}}", "}", mode = { "n", "x", "o" }, desc = "next paragraph (native)" })
+    table.insert(keys, { "{{", "{", mode = { "n", "x", "o" }, desc = "previous paragraph (native)" })
+
+    -- Repeat last move
+    table.insert(keys, {
+      ";",
+      function()
+        return require("nvim-treesitter-textobjects.repeatable_move").repeat_last_move_next()
+      end,
+      mode = { "n", "x", "o" },
+      desc = "ts repeat forward",
+    })
+    table.insert(keys, {
+      ",",
+      function()
+        return require("nvim-treesitter-textobjects.repeatable_move").repeat_last_move_previous()
+      end,
+      mode = { "n", "x", "o" },
+      desc = "ts repeat backward",
+    })
+
+    return keys
   end,
+  --- @type TSTextObjects.Config
   opts = {
     select = {
       lookahead = true,
-      include_surrounding_whitespace = true,
+      include_surrounding_whitespace = false,
     },
   },
 }

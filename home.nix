@@ -140,6 +140,7 @@ in {
       luajit
       python314
       cargo
+      go
       nodejs_24
 
       # ai

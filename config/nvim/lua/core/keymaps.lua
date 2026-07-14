@@ -14,8 +14,30 @@ M.general = {
   },
   { mode = "n", "<tab>", "<CMD>tabnext<CR>" },
   { mode = "n", "<s-tab>", "<CMD>tabprev<CR>" },
-  { mode = "n", "<M-h>", "<CMD>tabmove -1<CR>" },
-  { mode = "n", "<M-l>", "<CMD>tabmove +1<CR>" },
+  {
+    mode = "n",
+    "<M-h>",
+    function()
+      if vim.fn.tabpagenr() == 1 then
+        return "<CMD>tabmove " .. vim.fn.tabpagenr("$") .. "<CR>"
+      else
+        return "<CMD>tabmove -1<CR>"
+      end
+    end,
+    expr = true,
+  },
+  {
+    mode = "n",
+    "<M-l>",
+    function()
+      if vim.fn.tabpagenr() == vim.fn.tabpagenr("$") then
+        return "<CMD>tabmove 0<CR>"
+      else
+        return "<CMD>tabmove +1<CR>"
+      end
+    end,
+    expr = true,
+  },
   { mode = "n", "/", "ms/", noremap = true },
   { mode = "n", "?", "ms?", noremap = true },
   { mode = "n", "Q", "<CMD>q<CR>", noremap = true, desc = "Quit" },

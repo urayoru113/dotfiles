@@ -21,3 +21,5 @@ alias -g WE=' 2>/tmp/shell-error.log' # Write error
 alias -g NUL=' >/dev/null 2>&1' # No output
 
 bindkey ' ' magic-space
+
+export PATH="/home/urayoru/.cache/.bun/bin:$PATH"

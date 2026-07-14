@@ -18,7 +18,11 @@ return {
     use_icons = true, -- Use web devicons
     view = {
       -- Default layout is side-by-side horizontal split
-      default = { layout = "diff2_horizontal" },
+      default = { layout = "diff2_horizontal" }, -- Simplify conflict resolution to a clean 3-way layout (Local, Remote, Merged)
+      merge_tool = {
+        layout = "diff3_mixed",
+        disable_diagnostics = true, -- Turn off LSP diagnostics in diff buffers for a cleaner view
+      },
     },
     file_panel = {
       listing_style = "tree", -- Display file list as a tree structure

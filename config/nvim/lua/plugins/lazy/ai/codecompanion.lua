@@ -12,7 +12,6 @@ local spec = {
   },
   keys = {
     { "<F5>", mode = { "n", "v" }, "<CMD>CodeCompanionChat Toggle<CR>", noremap = true },
-    { "<leader>a", mode = { "n", "v" }, "<CMD>CodeCompanionActions<CR>", noremap = true },
   },
   cmd = {
     "CodeCompanion",
