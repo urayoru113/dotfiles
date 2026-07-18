@@ -105,6 +105,7 @@ in {
       # Git related
       lazygit # Git TUI
       gh # GitHub CLI
+      tea # Forgejo CLI
       git-lfs # Git large file support
       delta # Git diff improvement
       difftastic # Git diff improvement
