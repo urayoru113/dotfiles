@@ -30,5 +30,11 @@ return {
         flatten_dirs = true, -- Automatically flatten empty directories
       },
     },
+    file_history_panel = {
+      win_config = {
+        position = "left",
+        width = 30,
+      },
+    },
   },
 }

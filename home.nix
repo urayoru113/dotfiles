@@ -285,19 +285,6 @@ in {
     bash = {
       enable = true;
 
-      # ===== For LOGIN shells (after nix environment loaded) =====
-      initExtra = ''
-        # On non-NixOS systems, source Nix environment manually
-        # (Home Manager doesn't add this automatically)
-        if [ -e /home/${user}/.nix-profile/etc/profile.d/nix.sh ]; then
-          . /home/${user}/.nix-profile/etc/profile.d/nix.sh;
-        fi
-
-        if [[ $- == *i* ]] && [ -z "$ZSH_VERSION" ] && command -v zsh &> /dev/null; then
-          export SHELL="${pkgs.zsh}/bin/zsh"
-          exec "$SHELL" -l
-        fi
-      '';
       inherit shellAliases;
     };
 
@@ -348,14 +335,6 @@ in {
           src = zsh-you-should-use;
         }
       ];
-
-      envExtra = ''
-        if [[ -o interactive && "$NIX_ZSH_LOADED" != "1" ]]; then
-          export NIX_ZSH_LOADED=1
-          export SHELL="$HOME/.nix-profile/bin/zsh"
-          exec "$SHELL" -l
-        fi
-      '';
 
       profileExtra = ''
         # On non-NixOS systems, source Nix environment manually

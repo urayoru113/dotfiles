@@ -281,6 +281,55 @@ M.gitsigns = {
   { mode = "n", "<leader>gtw", "<CMD>Gitsigns toggle_word_diff<CR>", desc = "Toggle word diff" },
 }
 
+M.multicursor = function()
+  local mc = require("multicursor-nvim")
+
+  return {
+    {
+      mode = { "n", "v" },
+      "<C-n>",
+      function()
+        mc.matchAddCursor(1)
+      end,
+      desc = "Add next match",
+    },
+    {
+      mode = { "n", "v" },
+      "<C-p>",
+      function()
+        mc.matchSkipCursor(1)
+      end,
+      desc = "Skip next match",
+    },
+    {
+      mode = "n",
+      "<leader><leader>n",
+      mc.matchAllAddCursors,
+      desc = "Add all matches",
+    },
+    {
+      mode = "n",
+      "<leader>n",
+      function()
+        mc.lineAddCursor(1)
+      end,
+      desc = "Add cursor below",
+    },
+    {
+      mode = "n",
+      "<ESC>",
+      mc.clearCursors,
+      desc = "Clear cursors",
+    },
+    {
+      mode = "x",
+      "<C-s>",
+      mc.splitCursors,
+      desc = "Split cursors",
+    },
+  }
+end
+
 M.luasnip = {
   {
     mode = "i",
